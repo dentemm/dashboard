@@ -17,7 +17,7 @@ except ImportError:
 
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
-DATABASES['default'] =  dj_database_url.parse(default='postgres://aysszcrjtglpno:cFm8Ufnl2klOV1o92rnDW-pV8s@ec2-54-247-185-241.eu-west-1.compute.amazonaws.com:5432/d7d26hc0g6p94k')
+DATABASES['default'] =  dj_database_url.parse()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
