@@ -5,4 +5,5 @@
 /static/
 /media/
 .env
-dev.py
+#dev.py
+local.py
