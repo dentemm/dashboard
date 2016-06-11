@@ -14,7 +14,6 @@ import os
 from django.core.wsgi import get_wsgi_application
 from whitenoise.django import DjangoWhiteNoise
 
-#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dashboard.settings.dev")
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dashboard.settings.production')
 
 application = get_wsgi_application()
