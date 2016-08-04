@@ -1,0 +1,15 @@
+*.pyc
+.DS_Store
+*.swp
+/venv/
+/static/
+/media/
+#.env
+#dev.py
+# settings/
+#migrations/
+local.py
+
+# python-social-auth
+#_config.py 
+#config.py
