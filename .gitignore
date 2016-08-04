@@ -4,7 +4,7 @@
 /venv/
 /static/
 /media/
-.env
+#.env
 dev.py
 # settings/
 #migrations/
