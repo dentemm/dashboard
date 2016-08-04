@@ -5,5 +5,10 @@
 /static/
 /media/
 .env
-#dev.py
-local.py
+dev.py
+# settings/
+#migrations/
+
+# python-social-auth
+#_config.py 
+#config.py
