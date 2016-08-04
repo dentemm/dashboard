@@ -5,7 +5,7 @@
 /static/
 /media/
 .env
-#dev.py
+dev.py
 # settings/
 #migrations/
 local.py
