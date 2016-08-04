@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # custom apps
+    'utilities',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -98,7 +101,7 @@ WSGI_APPLICATION = 'dashboard.wsgi.application'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'CET'
 
 USE_I18N = True
 
