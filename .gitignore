@@ -8,6 +8,7 @@
 #dev.py
 # settings/
 #migrations/
+local.py
 
 # python-social-auth
 #_config.py 
