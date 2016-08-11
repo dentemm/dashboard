@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	{% if self.seo_title %}
+		{{ self.seo_title }}
+	{% else %}
+		ToolBoard: {{ self.title }}
+	{% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<!-- FONT AWESOME: Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+<!-- DRAGULA: Drag&Drop-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.1/dragula.min.css">
+{% endblock %}
+
+{% block content %}
+   <div class="row">
+      <div class="col-sm-12 content">
+        <div class="dashhead">
+          <div class="dashhead-titles">
+            <h1 class="dashhead-title">{{ page.name }}</h1>
+            <h4 class="dashhead-subtitle">Toolboard</h4>
+          </div>
+          <div class="btn-group m-l-lg m-t-xs">
+            <button type="button" class="btn btn-primary-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <span class="icon icon-pencil"></span> 
+              New 
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#" data-toggle="modal" data-target="#taskmodal">Small task</a></li>
+              <li><a href="#">Maintenance</a></li>
+              <li><a href="#">Escalation</a></li>
+              <li><a href="#">VWV</a></li>
+            </ul>
+          </div>
+        </div>
+	  </div>
+    </div>
+    <hr class="m-y-xs">
+    <div class="dashhead">
+      <div class="dashhead-titles">
+    	<h2 class="dashhead-title">Algemene informatie
+    		<a data-toggle="collapse" data-target="#collapse-info" class="collapsor">
+    		</a>
+    	</h2>
+      </div>
+    </div>
+    <div class="row collapse in" id="collapse-info">
+      <div class="col-md-6">
+      	test
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-4">
+          	
+          </div>
+          <div class="col-md-4">
+            <h4><span class="icon icon-tools"></span> Hardware</h4>
+            <ul>
+            	{% for hw in page.hw_responsibles.all %}
+            	<li>{{ hw }}</li>
+            	{% endfor %}
+            </ul>
+
+          </div>
+          <div class="col-md-4">
+            <h4><span class="icon icon-gauge"></span> Process</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="m-y-xs">
+    <div class="dashhead">
+      <div class="dashhead-titles">
+    	<h2 class="dashhead-title">Action list
+    		<a data-toggle="collapse" data-target="#collapse-time" class="collapsor">
+    		</a>
+    	</h2>
+      </div>
+    </div>
+    <div class="row collapse in" id="collapse-time">
+      <div class="col-md-3 p-a-0">
+        <h3 class="text-center">Proposed</h3>
+        <div id="secnd" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+          <div class="alert alert-warning m-a-xs" role="alert">
+          <h4 class="m-a-xs">Well done mate! You successfully read this important alert message. met extra info ...</h4>
+      </div>
+      <div class="alert alert-success m-a-xs" role="alert">
+        <h4 class="m-a-xs">Well done! You successfully read this important alert message.</h4>
+      </div>
+      <div class="alert alert-info m-a-xs" role="alert">
+        <h4 class="m-a-xs">Well done! You successfully read this important alert message.</h4>
+      </div>
+    </div>
+      </div>
+    	<div class="col-md-3 p-a-0">
+        <h3 class="text-center">Rejected</h3>
+    		<div id="second" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+				    <div class="alert alert-success m-a-xs" role="alert">
+				    <h4 class="m-a-xs">Well done mate! You successfully read this important alert message. met extra info ...</h4>
+          <hr>
+				</div>
+				<div class="alert alert-danger m-a-xs" role="alert">
+				  <h4 class="m-a-xs">Well done! You successfully read this important alert message.</h4>
+        <hr>
+				</div>
+				<div class="alert alert-primary m-a-xs" role="alert">
+				  <h4 class="m-a-xs">Well done! You successfully read this important alert message.</h4>
+        <hr>
+				</div>
+			</div>
+    	</div>
+    	<div class="col-md-3 p-a-0">
+        <h3 class="text-center">Accepted</h3>
+    		<div id="third" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+				<div class="alert alert-info m-a-xs" role="alert">
+				  <h4 class="m-a-xs">Well done! You successfully read this important alert message.</h4>
+        <hr>
+				</div>
+				<div class="alert alert-warning m-a-xs" role="alert">
+				  <h4 class="m-a-xs">Well done! You successfully read this important alert message.</h4>
+        <hr>
+				</div>	
+    		</div>
+    	</div>
+    	<div class="col-md-3 p-a-0">
+        <h3 class="text-center">Planned</h3>
+        	<div id="fourth" class="p-a-xs m-a-xs equal-height" style="min-height:100px; background-color: #434857;">
+				<div class="alert alert-warning m-a-xs" role="alert">
+				  <h4>This task has been planned, but is not completed yet!</h4>
+        <hr>
+        <h4><span class="icon icon-user"></span> Top hardware engineer</h4>
+        <h4><span class="icon icon-calendar"></span> 18-10-2015</h4>
+        <button class="btn btn-dark">More</button>
+				</div>
+				<div class="alert alert-success m-a-xs" role="alert">
+        <h4>This task has been planned, and also has been completed. Completed tasks will stay in this list for 2 more weeks</h4>
+        <hr>
+        <h4><span class="icon icon-user"></span> Top hardware engineer</h4>
+        <h4><span class="icon icon-calendar"></span> 18-10-2015</h4>
+        <h4><span class="icon icon-check"> Done!</span></h4>
+				</div>
+    		</div>
+    	</div>
+    </div>
+
+{% endblock content %}
+
+{% block extra_js %}
+    {# Override this in templates to add extra javascript #}
+
+      <!-- DRAGULA: Drag&Drop-->
+	  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.1/dragula.min.js"></script>
+	  <script type="text/javascript">
+
+	    options = {
+	      revertOnSpill: true
+	    }
+	  	// initieer Dragula 
+	  	drake = dragula([second, third, fourth], options);
+	  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
+	  	drake.on('drop', function(el, target, source, sibling) {
+	  		$('.equal-height').matchHeight();
+	  		console.log('drop');
+	  	});
+	  	drake.on('dragend', function(el, target, source, sibling) {
+	  		console.log('drag end');
+	  	});
+
+	  </script>
+
+    	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.0/jquery.matchHeight-min.js"></script>
+		<script type="text/javascript">
+			$(function() {
+			    $('.equal-height').matchHeight();
+			});
+		</script>
+{% endblock %}

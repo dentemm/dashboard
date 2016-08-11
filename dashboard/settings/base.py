@@ -51,8 +51,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Third party
+    'compressor',
+
     # custom apps
-    'utilities',
+    #'utilities',
 ]
 
 MIDDLEWARE_CLASSES = [

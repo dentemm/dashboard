@@ -1,4 +1,101 @@
-/* BOOTSTRAP DASHBOARD THEME OVERRIDES */
+a.collapsor.collapsed:after {
+	/*content: "\f128";*/
+	content: "\f0d8";
+}
+
+a.collapsor:after {
+	font-family: "FontAwesome";
+	content: "\f0d7";
+}
+
+a.collapsor:hover, a.collapsor:focus{
+	text-decoration: none;
+}
+/*
+*
+* BOOTSTRAP DASHBOARD THEME OVERRIDES
+*
+*/
+
+
+/* General */
+.alert h4 {
+	font-weight: 400;
+}
+
+/* Alert */
+.alert-primary {
+    background-color: #1ca8dd;
+    border-color: #1ca8dd;
+    color: #fff;
+}
+
+.alert-warning {
+    background-color: #FF9017;
+    border-color: #FF9017;
+    color: #fff;
+}
+
+/* Statcard */
+.statcard-warning {
+    background-color: #FF9017;
+}
+
+/* Panel */
+.panel-warning {
+	border-color: #FF9017;
+}
+.panel-warning > .panel-heading {
+	background-color: #FF9017;
+	border-color: #FF9017;
+}
+
+/* Button */
+.btn-warning {
+    color: #fff;
+    background-color: #FF9017;
+    border-color: #FF9017;
+}
+
+.btn-warning.active, .btn-warning:active, .btn-warning:hover, .open>.dropdown-toggle.btn-warning {
+    color: #fff;
+    background-color: #D26D00;
+    border-color: #D26D00;
+}
+
+.btn-dark {
+    color: #fff;
+    background-color: #434857;
+    border-color: #434857;
+}
+
+.btn-dark.active, .btn-dark:active, .btn-dark:hover, .open>.dropdown-toggle.btn-dark {
+    color: #fff;
+    background-color: #252830;
+    border-color: #252830;
+}
+
+.btn-warning-outline.active, .btn-warning-outline.focus, .btn-warning-outline:active, .btn-warning-outline:focus, .btn-warning-outline:hover, .open > .dropdown-toggle.btn-warning-outline {
+    color: #fff;
+    background-color: #FF9017;
+    box-shadow: none;
+}
+
+.btn-warning-outline {
+    color: #FF9017;
+    background-color: transparent;
+}
+
+.btn-warning-outline, .btn-warning-outline.disabled, .btn-warning-outline.disabled.active, .btn-warning-outline.disabled.focus, .btn-warning-outline.disabled:active, 
+.btn-warning-outline.disabled:focus, .btn-warning-outline.disabled:hover, .btn-warning-outline[disabled], .btn-warning-outline.active[disabled], .btn-warning-outline.focus[disabled], 
+.btn-warning-outline[disabled]:active, .btn-warning-outline[disabled]:focus, .btn-warning-outline[disabled]:hover, fieldset[disabled] .btn-warning-outline, fieldset[disabled] 
+.btn-warning-outline.active, fieldset[disabled] .btn-warning-outline.focus, fieldset[disabled] .btn-warning-outline:active, fieldset[disabled] .btn-warning-outline:focus, 
+fieldset[disabled] .btn-warning-outline:hover {
+    border-color: #FF9017;
+}
+
+
+/* Margin & Padding */
 .m-a-sm {
 	margin: 10px !important;
 }

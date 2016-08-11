@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+{{ loose_tasks }}
+</div>
+<hr>
+<div class="container">
+{% for task in loose_tasks %}
+	{{ task }} --<br>
+{% endfor %}
+</div>
+{% endblock content %}
