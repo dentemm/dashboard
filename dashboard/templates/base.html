@@ -34,6 +34,7 @@
     {% block content %}{% endblock %}
     </div>
 
+    {% block modals %}{% endblock %}
 
     {# Global javascript #}
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -46,5 +47,6 @@
     {% block extra_js %}
         {# Override this in templates to add extra javascript #}
     {% endblock %}
+
 </body>
 </html>

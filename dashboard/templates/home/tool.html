@@ -50,24 +50,33 @@
     </div>
     <div class="row collapse in" id="collapse-info">
       <div class="col-md-6">
-      	test
+
       </div>
       <div class="col-md-6">
         <div class="row">
-          <div class="col-md-4">
-          	
+          <div class="col-xs-4">
+          	<h4><span class="icon icon-flow-tree"></span> {{ page.name }} Modules</h4>
+	        <ul id="module-list">
+	        	{% for module in page.submodules %}
+	        	<li>{{ module }}</li>
+	        	{% endfor %}
+	        </ul>      	
           </div>
-          <div class="col-md-4">
+          <div class="col-xs-4">
             <h4><span class="icon icon-tools"></span> Hardware</h4>
             <ul>
-            	{% for hw in page.hw_responsibles.all %}
-            	<li>{{ hw }}</li>
+            	{% for person in page.hw_responsibles.all %}
+            	<li>{{ person|capfirst }}</li>
             	{% endfor %}
             </ul>
-
           </div>
-          <div class="col-md-4">
+          <div class="col-xs-4">
             <h4><span class="icon icon-gauge"></span> Process</h4>
+            <ul>
+            	{% for person in page.process_responsibles.all %}
+            	<li>{{ person|capfirst }}</li>
+            	{% endfor %}
+            </ul>
           </div>
         </div>
       </div>
@@ -99,18 +108,12 @@
     	<div class="col-md-3 p-a-0">
         <h3 class="text-center">Rejected</h3>
     		<div id="second" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
-				    <div class="alert alert-success m-a-xs" role="alert">
-				    <h4 class="m-a-xs">Well done mate! You successfully read this important alert message. met extra info ...</h4>
-          <hr>
-				</div>
-				<div class="alert alert-danger m-a-xs" role="alert">
-				  <h4 class="m-a-xs">Well done! You successfully read this important alert message.</h4>
-        <hr>
-				</div>
-				<div class="alert alert-primary m-a-xs" role="alert">
-				  <h4 class="m-a-xs">Well done! You successfully read this important alert message.</h4>
-        <hr>
-				</div>
+    		    {% for task in page.loose_tasks %}
+				<div class="alert alert-success m-a-xs" role="alert">
+				    <h4 class="m-a-xs">{{ task }} <a data-toggle="modal" data-target="#taskmodal" data-taskid="{{ task.id }}" class="info"><i class="fa fa-info-circle"></i></a></h4>
+          			<hr>
+				</div>		    	
+        		{% endfor %}
 			</div>
     	</div>
     	<div class="col-md-3 p-a-0">
@@ -149,26 +152,31 @@
 
 {% endblock content %}
 
+{% block modals %}
+	<div id="taskmodal" class="modal fade">
+  	</div>
+{% endblock %}
+
 {% block extra_js %}
     {# Override this in templates to add extra javascript #}
 
-      <!-- DRAGULA: Drag&Drop-->
-	  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.1/dragula.min.js"></script>
-	  <script type="text/javascript">
+      	<!-- DRAGULA: Drag&Drop-->
+	  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.1/dragula.min.js"></script>
+	  	<script type="text/javascript">
 
-	    options = {
-	      revertOnSpill: true
-	    }
-	  	// initieer Dragula 
-	  	drake = dragula([second, third, fourth], options);
-	  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
-	  	drake.on('drop', function(el, target, source, sibling) {
-	  		$('.equal-height').matchHeight();
-	  		console.log('drop');
-	  	});
-	  	drake.on('dragend', function(el, target, source, sibling) {
-	  		console.log('drag end');
-	  	});
+		    options = {
+		      revertOnSpill: true
+		    }
+		  	// initieer Dragula 
+		  	drake = dragula([second, third, fourth], options);
+		  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
+		  	drake.on('drop', function(el, target, source, sibling) {
+		  		$('.equal-height').matchHeight();
+		  		console.log('drop');
+		  	});
+		  	drake.on('dragend', function(el, target, source, sibling) {
+		  		console.log('drag end');
+		  	});
 
 	  </script>
 
@@ -177,5 +185,30 @@
 			$(function() {
 			    $('.equal-height').matchHeight();
 			});
+		</script>
+		<script type="text/javascript">
+			$('#taskmodal').on('show.bs.modal', function(e){
+
+				var id = $(e.relatedTarget).data("taskid")
+
+				//var test = e.data("test");
+				console.log(id);
+
+				$.ajax({
+					url:"/tasks/" + id,
+					type: "GET",
+
+					success: task_handler,
+
+					error: function(xhr, ajaxOptions, thrownError) {
+						console.log(xhr.status);
+						alert(thrownError);
+					}
+				});
+
+				function task_handler(data) {
+					$('#taskmodal').html(data);
+				};
+			})
 		</script>
 {% endblock %}

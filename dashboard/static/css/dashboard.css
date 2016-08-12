@@ -11,6 +11,16 @@ a.collapsor:after {
 a.collapsor:hover, a.collapsor:focus{
 	text-decoration: none;
 }
+
+a.info {
+	color: white;
+}
+
+a.info:hover, a.info:focus {
+	color: #666;
+	cursor: pointer;
+	cursor: hand;
+}
 /*
 *
 * BOOTSTRAP DASHBOARD THEME OVERRIDES
@@ -21,6 +31,17 @@ a.collapsor:hover, a.collapsor:focus{
 /* General */
 .alert h4 {
 	font-weight: 400;
+}
+
+ul#module-list li{
+	display: block;
+}
+
+ul#module-list li:before {
+	font-family: "FontAwesome";
+	content: "\f0da";
+	float: left;
+	margin-left: -15px;
 }
 
 /* Alert */

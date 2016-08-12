@@ -178,8 +178,8 @@ class Task(djangomodels.Model):
 	due_datetime = djangomodels.DateTimeField(blank=False, null=True)
 	completed = djangomodels.BooleanField(default=False)
 
-	owner = djangomodels.ForeignKey(settings.AUTH_USER_MODEL)
-
+	owner = djangomodels.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+	event = djangomodels.ForeignKey('home.Event', blank=True, null=True)
 	module = djangomodels.ForeignKey('home.ToolModule', related_name='tasks', null=True, blank=True)
 
 
@@ -269,9 +269,6 @@ class ToolPage(RoutablePageMixin, models.Page):
 		Deze methode werd overschreven om de title en slug attributes van een Page model in te stellen.
 		Title en slug wordt gemaakt op basis van de name van een Tool
 		'''
-
-		print('save tool')
-
 		# -- PAGE TITLE AND PAGE SLUG FUNCTIONALITY -- #
 		if self.slug == "" and self.title == "":
 			self.title = self.name
@@ -279,22 +276,16 @@ class ToolPage(RoutablePageMixin, models.Page):
 
 		return super(ToolPage, self).save(*args, **kwargs)
 
-	def save_revision(self, user=None, submitted_for_moderation=False, approve_go_live_at=None, changed=True):
+	@property
+	def submodules(self):
 
-
-		print('save revision')
-
-		# -- PAGE TITLE AND PAGE SLUG FUNCTIONALITY -- #
-		if self.slug == "" and self.title == "":
-			self.title = self.name
-			self.slug = slugify(self.name)
-
-		return super(ToolPage, self).save_revision(user, submitted_for_moderation, approve_go_live_at, changed)
+		return self.modules.all().exclude(is_main=True)
+	
 
 	@property
 	def loose_tasks(self):
 
-	    loose_tasks = Task.objects.all()
+	    loose_tasks = Task.objects.all().filter(module__tool=self)
 	    return loose_tasks
 	
 
@@ -346,6 +337,9 @@ class ToolModule(djangomodels.Model):
 	tool = ParentalKey('home.ToolPage', related_name='modules', null=True, blank=True)
 	name = djangomodels.CharField(max_length=50)
 	is_main = djangomodels.BooleanField(default=False)
+
+	class Meta:
+		ordering = ['name', ]
 
 	def __str__(self):
 
