@@ -179,7 +179,7 @@ class Task(djangomodels.Model):
 	completed = djangomodels.BooleanField(default=False)
 
 	owner = djangomodels.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
-	event = djangomodels.ForeignKey('home.Event', blank=True, null=True)
+	event = ParentalKey('home.EventPage', related_name='tasks', blank=True, null=True)
 	module = djangomodels.ForeignKey('home.ToolModule', related_name='tasks', null=True, blank=True)
 
 
@@ -193,7 +193,6 @@ class Task(djangomodels.Model):
 	def __str__(self):
 		return self.title
 
-
 Task.panels = [
 	
 	FieldPanel('title'),
@@ -202,19 +201,18 @@ Task.panels = [
 	FieldPanel('owner')
 ]
 
-@register_snippet
-class Event(models.Page):
+class EventPage(models.Page):
 	'''
 	Een event kan een groot onderhoud, escalatie, installatie, VWV of andere zijn. 
 	Een event wordt opgebouwd uit taken, en is gelinkt aan een module (dus Main module in geval van tool)
 	'''
 	name = djangomodels.CharField('title', max_length=63)
-	description = djangomodels.CharField(max_length=510)
+	description = djangomodels.CharField(max_length=510, blank=True, null=True)
 
-	start_date = djangomodels.DateTimeField(blank=False, null=True)
-	end_date = djangomodels.DateTimeField(blank=False, null=True)
+	start_date = djangomodels.DateTimeField(blank=True, null=True)
+	end_date = djangomodels.DateTimeField(blank=True, null=True)
 
-	responsible = djangomodels.ForeignKey(settings.AUTH_USER_MODEL, related_name='events')
+	responsible = djangomodels.ForeignKey(settings.AUTH_USER_MODEL, related_name='events', blank=True, null=True)
 
 	class Meta:
 		pass 
@@ -233,8 +231,24 @@ class Event(models.Page):
 			self.title = self.name
 			self.slug = slugify(self.name)
 
-		return super(ToolPage, self).save(*args, **kwargs)
+		return super(EventPage, self).save(*args, **kwargs)
 
+# Panel definitions for ToolPage
+EventPage.content_panels =  [
+
+	MultiFieldPanel([
+			FieldRowPanel([
+					FieldPanel('name', classname='col6'),
+				]
+			),
+		],
+		heading='Event information'
+	),
+	InlinePanel('tasks', label='tasks', help_text='Every event needs at least 1 task to be functional'),
+]
+
+EventPage.promote_panels = [
+]
 
 
 class ToolPageForm(WagtailAdminPageForm):
@@ -285,7 +299,7 @@ class ToolPage(RoutablePageMixin, models.Page):
 	@property
 	def loose_tasks(self):
 
-	    loose_tasks = Task.objects.all().filter(module__tool=self)
+	    loose_tasks = Task.objects.all().filter(module__tool=self).filter(event=None)
 	    return loose_tasks
 	
 
