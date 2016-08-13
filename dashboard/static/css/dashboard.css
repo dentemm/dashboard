@@ -30,7 +30,8 @@ a.info:hover, a.info:focus {
 
 /* General */
 .alert h4 {
-	font-weight: 400;
+	font-weight: 300;
+	font-size: 15px;
 }
 
 ul#module-list li{
