@@ -5,6 +5,8 @@ Willow==0.3.1
 beautifulsoup4==4.5.1
 dj-database-url==0.4.1
 dj-static==0.0.6
+django-appconf==1.0.2
+django-compressor==2.0
 django-modelcluster==2.0
 django-taggit==0.18.3
 django-toolbelt==0.0.1
@@ -14,6 +16,8 @@ gunicorn==19.6.0
 html5lib==0.999999
 psycopg2==2.6.1
 pytz==2016.6.1
+rcssmin==1.0.6
+rjsmin==1.0.12
 six==1.10.0
 static3==0.7.0
 wagtail==1.5.3
