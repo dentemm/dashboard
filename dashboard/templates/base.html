@@ -1,6 +1,6 @@
 {% load static wagtailuserbar %}
 
-{% load compress %}
+{- load compress -}
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -15,10 +15,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     {# Global stylesheets #}
-    {% compress css %}
+    {- compress css -}
     <link rel="stylesheet" type="text/css" href="{% static 'plugins/bootstrap_dashboard/css/toolkit-inverse.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
-    {% endcompress %}
+    {- endcompress -}
 
     {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
@@ -38,11 +38,11 @@
 
     {# Global javascript #}
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    {% compress js %}
+    {- compress js -}
     <script type="text/javascript" src="{% static 'js/dashboard.js' %}"></script>
     <script type="text/javascript" src="{% static 'plugins/bootstrap_dashboard/js/toolkit.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'plugins/bootstrap_dashboard/js/stage.js' %}"></script>
-    {% endcompress %}
+    {- endcompress -}
 
     {% block extra_js %}
         {# Override this in templates to add extra javascript #}
