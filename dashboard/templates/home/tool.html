@@ -1,18 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'layout.html' %}
 
 {% block title %}
-	{% if self.seo_title %}
-		{{ self.seo_title }}
-	{% else %}
-		ToolBoard: {{ self.title }}
-	{% endif %}
+	ToolBoard: {{ self.title }}
 {% endblock %}
 
 {% block extra_css %}
-<!-- FONT AWESOME: Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-<!-- DRAGULA: Drag&Drop-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.1/dragula.min.css">
+	<!-- DRAGULA: Drag&Drop-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.1/dragula.min.css">
 {% endblock %}
 
 {% block content %}
@@ -142,11 +136,8 @@
 
 {% block extra_js %}
     {# Override this in templates to add extra javascript #}
-
-      	<!-- DRAGULA: Drag&Drop-->
-	  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.1/dragula.min.js"></script>
-	  	<script type="text/javascript">
-
+    {{ block.super }}
+    	<script type="text/javascript">
 		    options = {
 		      revertOnSpill: true
 		    }
@@ -161,9 +152,7 @@
 		  		console.log('drag end');
 		  	});
 
-	  </script>
-
-    	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.0/jquery.matchHeight-min.js"></script>
+	  	</script>
 		<script type="text/javascript">
 			$(function() {
 			    $('.equal-height').matchHeight();

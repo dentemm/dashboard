@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'wagtail.wagtailadmin',
     'wagtail.wagtailcore',
 
+    # Wagtail API
+    'wagtail.contrib.wagtailapi',
+    'rest_framework',
+
     'modelcluster',
     'taggit',
 

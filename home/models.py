@@ -173,7 +173,7 @@ class Task(djangomodels.Model):
 	Een task wordt steeds gelinkt aan een module (dus Main module in geval van tool)
 	'''
 
-	title = djangomodels.CharField(max_length=63)
+	title = djangomodels.CharField(max_length=90)
 	description = djangomodels.CharField(max_length=510)
 	due_datetime = djangomodels.DateTimeField(blank=False, null=True)
 	completed = djangomodels.BooleanField(default=False)
@@ -207,12 +207,14 @@ class EventPage(models.Page):
 	Een event wordt opgebouwd uit taken, en is gelinkt aan een module (dus Main module in geval van tool)
 	'''
 	name = djangomodels.CharField('title', max_length=63)
-	description = djangomodels.CharField(max_length=510, blank=True, null=True)
+	description = djangomodels.TextField(max_length=510, blank=True, null=True)
 
 	start_date = djangomodels.DateTimeField(blank=True, null=True)
 	end_date = djangomodels.DateTimeField(blank=True, null=True)
 
 	responsible = djangomodels.ForeignKey(settings.AUTH_USER_MODEL, related_name='events', blank=True, null=True)
+
+	module = djangomodels.ForeignKey('home.ToolModule', related_name='events', null=True, blank=True)
 
 	class Meta:
 		pass 
@@ -239,6 +241,11 @@ EventPage.content_panels =  [
 	MultiFieldPanel([
 			FieldRowPanel([
 					FieldPanel('name', classname='col6'),
+					FieldPanel('module', classname='col6')
+				]
+			),
+			FieldRowPanel([
+					FieldPanel('description', classname='col12'),
 				]
 			),
 		],

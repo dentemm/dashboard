@@ -1,2 +1,14 @@
 {% extends 'base.html' %}
 
+{% block extra_css %}
+    {# Override this in templates to add extra stylesheets #}
+
+{% endblock %}
+
+{% block extra_js %}
+    {# Override this in templates to add extra javascript #}
+      	<!-- DRAGULA: Drag&Drop-->
+	  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.1/dragula.min.js"></script>
+	  	<!-- JQUERY MATCHHEIGTH: Equal container elements -->
+    	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.0/jquery.matchHeight-min.js"></script>
+{% endblock %}

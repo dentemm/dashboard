@@ -1,5 +1,5 @@
-Django==1.9.9
-Pillow==3.3.0
+Django==1.10
+Pillow==3.3.1
 Unidecode==0.04.19
 Willow==0.3.1
 beautifulsoup4==4.5.1
@@ -10,7 +10,7 @@ django-modelcluster==2.0
 django-taggit==0.18.3
 django-toolbelt==0.0.1
 django-treebeard==4.0.1
-djangorestframework==3.4.1
+djangorestframework==3.4.5
 gunicorn==19.6.0
 html5lib==0.999999
 psycopg2==2.6.1
@@ -19,5 +19,5 @@ rcssmin==1.0.6
 rjsmin==1.0.12
 six==1.10.0
 static3==0.7.0
-wagtail==1.5.3
+wagtail==1.6
 whitenoise==3.2

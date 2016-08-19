@@ -1,7 +1,3 @@
-/* text
---------------------------------------------------------------------------------------------------*/
-
-
 /* Tim customization
 --------------------------------------------------------------------------------------------------*/
 
@@ -16,6 +12,10 @@ http://stackoverflow.com/questions/28279665/full-calendar-jquery-event-color-is-
 */
 #calendar .fc-timeline-event .fc-bg {
     background: none;
+}
+
+#calendar h2 {
+    font-size: 20px;
 }
 
 body,
@@ -51,5 +51,10 @@ div > .fc-state-default {
     color: #cfd2da;
     text-shadow: none;
     box-shadow: none;
+}
+
+div.fc-cell-content {
+    padding-top: 0.2em !important;
+    padding-bottom: 0.2em !important;
 }
 

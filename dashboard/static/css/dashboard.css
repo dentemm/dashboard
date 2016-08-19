@@ -1,11 +1,11 @@
 a.collapsor.collapsed:after {
 	/*content: "\f128";*/
-	content: "\f0d8";
+	content: "\f0d7";
 }
 
 a.collapsor:after {
 	font-family: "FontAwesome";
-	content: "\f0d7";
+	content: "\f0d8";
 }
 
 a.collapsor:hover, a.collapsor:focus{
@@ -27,6 +27,15 @@ a.info:hover, a.info:focus {
 *
 */
 
+h1 {
+	font-weight: 300;
+	font-size: 36px;
+}
+
+h2 {
+	font-weight: 200;
+	font-size: 28px;
+}
 
 /* General */
 .alert h4 {
