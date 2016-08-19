@@ -2,6 +2,6 @@ from django.conf.urls import *
 
 from . import views
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', views.OverviewView.as_view(), name='overview'),
-)
+]
