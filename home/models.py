@@ -257,7 +257,6 @@ EventPage.content_panels =  [
 EventPage.promote_panels = [
 ]
 
-
 class ToolPageForm(WagtailAdminPageForm):
 	'''
 	Custom WagtailAdminPageForm subklasse. Deze wordt gebruikt om extra field validation te integreren

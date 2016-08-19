@@ -14,7 +14,7 @@ from home import views as home_views
 
 urlpatterns = [
     url(r'^django-admin/', include(admin.site.urls)),
-    url(r'^api/', include(wagtailapi_urls)),
+    url(r'^api/', include('home.urls')),
 
     # Facility urls
     url(r'^facilities/', include('utilities.urls')),
