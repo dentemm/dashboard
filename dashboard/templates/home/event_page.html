@@ -18,7 +18,7 @@
       <div class="col-sm-12 content">
         <div class="dashhead">
           <div class="dashhead-titles">
-            <h1 class="dashhead-title">{{ page.name }}</h1> -- {{ page.task_count }} --
+            <h1 class="dashhead-title">{{ page.name }}</h1>
             <h4 class="dashhead-subtitle">{{ page.module.tool }}</h4>
           </div>
           <div class="btn-group m-l-lg m-t-xs">
@@ -94,6 +94,11 @@
     </div>
 {% endblock %}
 
+{% block modals %}
+	<div id="calendartaskmodal" class="modal fade">
+  	</div>
+{% endblock %}
+
 {% block extra_js %}
 	{{ block.super }}
 	<!-- MOMENT: Datetime representations-->
@@ -112,7 +117,7 @@
 	        defaultDate: moment().startOf('day'),	// Today in Moment.js
 	        editable: true,
 	        //aspectRatio: 4.35,
-	        contentHeight: 30 * {{ page.task_count_distinct_owner }} + 28,  /* iets zoals {{ page.tasks.count }}, maar dan voor het aantal resources*/
+	        contentHeight: 30 * {{ page.task_count_distinct_owner }} + 28,  /* aantal resources bepaalt hoogte van kalender */
 	        eventOverlap: false,
 	        scrollTime: '00:00',
 	        header: {
@@ -146,13 +151,50 @@
 	        resourceLabelText: 'Owner',
 	        resources: '/api/resources/event/9',
 	        events: '/api/tasks/event/9/', /* events list afkomstig van url */
-	        eventClick: function(event) {
+	        //eventClick: function(event) {
+	        	/* This callback gets executed when an event is being clicked by a user */
 
-	          $('#calendartaskmodal').modal();
-	            $('#calendartasktitle').text(event.resourceId);
+	          //$('#calendartaskmodal').modal();
 	 
-	          }
+	       // },
+	        eventAfterRender: function(event, element, view) {
+	        	/* This callback get executed when an event is added to the calendar */
+
+	        	//console.log(element);
+	        	$(element).attr('data-taskid', event.id);
+	        	$(element).attr('data-target', '#calendartaskmodal');
+	        	$(element).attr('data-toggle', 'modal');
+	        	//$(element).data('target', '#calendartaskmodal');
+	        	//$(element).data('toggle', 'modal');
+
+	        	//console.log($(element).data('toggle'));
+
+	        }
 	      });
 	    });
   	</script>
+	<script type="text/javascript">
+		$('#calendartaskmodal').on('show.bs.modal', function(e){
+
+			//console.log(e.relatedTarget);
+			var id = $(e.relatedTarget).data("taskid");
+
+			$.ajax({
+				url:"/tasks/" + id,
+				type: "GET",
+
+				success: task_handler,
+
+				error: function(xhr, ajaxOptions, thrownError) {
+					console.log(xhr.status);
+					alert(thrownError);
+				}
+			});
+
+			function task_handler(data) {
+				console.log('success');
+				$('#calendartaskmodal').html(data);
+			};
+		})
+	</script>
 {% endblock %}

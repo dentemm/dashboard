@@ -163,9 +163,6 @@
 
 				var id = $(e.relatedTarget).data("taskid")
 
-				//var test = e.data("test");
-				console.log(id);
-
 				$.ajax({
 					url:"/tasks/" + id,
 					type: "GET",

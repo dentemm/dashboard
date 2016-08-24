@@ -20,7 +20,7 @@ class TaskModalView(TemplateView):
 
 		task_id = self.kwargs['id']
 
-		#print('task: %s' % task_id)
+		print('task: %s' % task_id)
 
 		ctx['task'] = Task.objects.get(id=task_id)
 
