@@ -18,7 +18,7 @@
       <div class="col-sm-12 content">
         <div class="dashhead">
           <div class="dashhead-titles">
-            <h1 class="dashhead-title">{{ page.name }}</h1>
+            <h1 class="dashhead-title">{{ page.name }}</h1> -- {{ page.task_count }} --
             <h4 class="dashhead-subtitle">{{ page.module.tool }}</h4>
           </div>
           <div class="btn-group m-l-lg m-t-xs">
@@ -112,7 +112,7 @@
 	        defaultDate: moment().startOf('day'),	// Today in Moment.js
 	        editable: true,
 	        //aspectRatio: 4.35,
-	        contentHeight: 30*2 + 30,  /* iets zoals {{ page.tasks.count }}, maar dan voor het aantal resources*/
+	        contentHeight: 30 * {{ page.task_count_distinct_owner }} + 28,  /* iets zoals {{ page.tasks.count }}, maar dan voor het aantal resources*/
 	        eventOverlap: false,
 	        scrollTime: '00:00',
 	        header: {

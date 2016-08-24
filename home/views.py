@@ -24,8 +24,6 @@ class TaskModalView(TemplateView):
 
 		ctx['task'] = Task.objects.get(id=task_id)
 
-		#print('jeej %s' % Task.objects.get(id=task_id))
-
 		return ctx
 
 
@@ -51,8 +49,32 @@ class TasksForEventApiView(APIView):
 		events = []
 
 		for task in tasks:
+
+			color = ''
+
+			if task.completed == True:
+				color = '#1bc98e'
+
+			else:
+
+				if task.priority == 1:
+					color = '#e64759'
+
+				elif task.priority == 2:
+					color = '#FF9017'
+
+				elif task.priority == 3:
+					color = '#1ca8dd'
+
+				else:
+					color = '#9f86ff'
+
+				print('kleur: %s' % task.priority )
+
+
+
 			events.append({
-				'id': task.pk, 'resourceId': task.owner.pk, 'start': task.start_datetime, 'end': '2016-08-30T07:00:00', 'title': task.title, 'color': '#1bc98e'
+				'id': task.pk, 'resourceId': task.owner.pk, 'start': task.start_datetime, 'end': task.due_datetime, 'title': task.title, 'color': color
 			})
 
 		'''events = [

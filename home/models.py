@@ -220,10 +220,6 @@ Task.panels = [
 			FieldPanel('start_datetime'),
 			FieldPanel('due_datetime')
 			]
-		), 
-		FieldRowPanel([
-			FieldPanel('priority', classname='col6'),
-			]
 		)], heading='Task information'
 	),
 ]
@@ -262,6 +258,12 @@ class EventPage(models.Page):
 
 		return super(EventPage, self).save(*args, **kwargs)
 
+	@property
+	def task_count_distinct_owner(self):
+
+		return Task.objects.all().filter(event=self).values('owner').distinct().count()
+
+	
 # Panel definitions for ToolPage
 EventPage.content_panels =  [
 
