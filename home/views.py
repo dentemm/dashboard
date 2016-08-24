@@ -45,19 +45,32 @@ class TasksForEventApiView(APIView):
 	def get(self, request, format=None):
 
 		# FullCalandar verwacht een events JSON list 
-		#events = []
+		
 
 		tasks = Task.objects.filter(event__pk=self.event_id)
 
+		events = []
+
+		for task in tasks:
+			events.append({
+				'id': task.pk, 'resourceId': task.pk, 'start': task.start_datetime, 'end': '2016-08-30T07:00:00', 'title': task.title, 'color': '#1bc98e'
+			})
+
+			print('task start time: %s' % task.start_datetime)
+
+		print('event test: %s' % events)
+
+
+
 		print('tasks for event: %s' % tasks)
 
-		events = [
+		'''events = [
 	          { 'id': '1', 'resourceId': 'b', 'start': '2016-08-07T04:00:00', 'end': '2016-08-08T07:00:00', 'title': 'Owner name', 'color': '#1bc98e'},
 	          { 'id': '2', 'resourceId': 'c', 'start': '2016-08-09T05:00:00', 'end': '2016-08-12T22:00:00', 'title': 'event 2', 'color': '#FF9017'  },
 	          { 'id': '3', 'resourceId': 'h', 'start': '2016-08-08T05:00:00', 'end': '2016-08-15T22:00:00', 'title': 'event 3', 'color': '#1ca8dd' },
 	          { 'id': '4', 'resourceId': 'e', 'start': '2016-08-10T03:00:00', 'end': '2016-08-11T08:00:00', 'title': 'event 4', 'color': '#e64759' },
 	          { 'id': '5', 'resourceId': 'f', 'start': '2016-08-08T00:30:00', 'end': '2016-08-08T06:30:00', 'title': 'event 5', 'color': '#9f86ff' }
-		]
+		]'''
 
 		return Response(events)
 		
@@ -76,14 +89,14 @@ class ResourcesForEventApiView(APIView):
 	def get(self, request, format=None):
 
 		resources = [
-          	{ 'id': 'a', 'title': 'Wim' },
-          	{ 'id': 'b', 'title': 'Tim' },
-          	{ 'id': 'c', 'title': 'Damiaan' },
-          	{ 'id': 'e', 'title': 'Pedro' },
-          	{ 'id': 'f', 'title': 'Ko' },
-          	{ 'id': 'g', 'title': 'Teblick' },
-          	{ 'id': 'h', 'title': 'Hookup' },
-          	{ 'id': 'i', 'title': 'Top ingenieur' },
+          	{ 'id': '1', 'title': 'Wim' },
+          	{ 'id': '2', 'title': 'Tim' },
+          	{ 'id': '3', 'title': 'Damiaan' },
+          	{ 'id': '4', 'title': 'Pedro' },
+          	{ 'id': '4', 'title': 'Ko' },
+          	{ 'id': '6', 'title': 'Teblick' },
+          	{ 'id': '7', 'title': 'Hookup' },
+          	{ 'id': '8', 'title': 'Top ingenieur' },
 		]
 
 		return Response(resources)

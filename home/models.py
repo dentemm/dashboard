@@ -175,7 +175,8 @@ class Task(djangomodels.Model):
 
 	title = djangomodels.CharField(max_length=90)
 	description = djangomodels.CharField(max_length=510)
-	due_datetime = djangomodels.DateTimeField(blank=False, null=True)
+	start_datetime = djangomodels.DateTimeField(blank=True, null=True)
+	due_datetime = djangomodels.DateTimeField(blank=True, null=True)
 	completed = djangomodels.BooleanField(default=False)
 
 	owner = djangomodels.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
@@ -198,7 +199,9 @@ Task.panels = [
 	FieldPanel('title'),
 	FieldPanel('description'),
 	FieldPanel('module'),
-	FieldPanel('owner')
+	FieldPanel('owner'),
+	FieldPanel('start_datetime'),
+	FieldPanel('due_datetime')
 ]
 
 class EventPage(models.Page):

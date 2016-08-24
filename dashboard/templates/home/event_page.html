@@ -29,13 +29,10 @@
           </div>
         </div>
         <hr class="m-b-0 m-t-xs">
-	    <div class="dashhead pull-right">
-	      <div class="dashhead-titles">
-	    	<h2 class="dashhead-title m-t-0">
-	    		<a data-toggle="collapse" data-target="#collapse-info" class="collapsor">
-	    		</a>
-	    	</h2>
-	      </div>
+        <div class="pull-right">
+        	<h2 class="m-t-0">
+        		<a data-toggle="collapse" data-target="#collapse-info" class="collapsor"></a>
+        	</h2>
 	    </div>
         <div class="row collapse in" id="collapse-info">
           <div class="col-md-4">
@@ -112,9 +109,10 @@
 	        schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
 	        resourceAreaWidth: 140,
 	        defaultDate: '2016-08-08',
+	        defaultDate: moment().startOf('day'),	// Today in Moment.js
 	        editable: true,
 	        //aspectRatio: 4.35,
-	        contentHeight: 32*8, 
+	        contentHeight: 32*8,  /* iets zoals {{ page.tasks.count }}, maar dan voor het aantal resources*/
 	        eventOverlap: false,
 	        scrollTime: '00:00',
 	        header: {
