@@ -45,7 +45,6 @@ class TasksForEventApiView(APIView):
 	def get(self, request, format=None):
 
 		# FullCalandar verwacht een events JSON list 
-		
 
 		tasks = Task.objects.filter(event__pk=self.event_id)
 
@@ -53,16 +52,8 @@ class TasksForEventApiView(APIView):
 
 		for task in tasks:
 			events.append({
-				'id': task.pk, 'resourceId': task.pk, 'start': task.start_datetime, 'end': '2016-08-30T07:00:00', 'title': task.title, 'color': '#1bc98e'
+				'id': task.pk, 'resourceId': task.owner.pk, 'start': task.start_datetime, 'end': '2016-08-30T07:00:00', 'title': task.title, 'color': '#1bc98e'
 			})
-
-			print('task start time: %s' % task.start_datetime)
-
-		print('event test: %s' % events)
-
-
-
-		print('tasks for event: %s' % tasks)
 
 		'''events = [
 	          { 'id': '1', 'resourceId': 'b', 'start': '2016-08-07T04:00:00', 'end': '2016-08-08T07:00:00', 'title': 'Owner name', 'color': '#1bc98e'},
@@ -88,7 +79,17 @@ class ResourcesForEventApiView(APIView):
 
 	def get(self, request, format=None):
 
-		resources = [
+		tasks = Task.objects.filter(event__pk=self.event_id)
+
+		resources = []
+
+		for task in tasks:
+			resources.append({
+				'id': task.owner.id, 'title': task.owner.username
+			})
+
+		'''resources = [
+          	{ 'id': '1', 'title': 'Wim' },
           	{ 'id': '1', 'title': 'Wim' },
           	{ 'id': '2', 'title': 'Tim' },
           	{ 'id': '3', 'title': 'Damiaan' },
@@ -97,6 +98,7 @@ class ResourcesForEventApiView(APIView):
           	{ 'id': '6', 'title': 'Teblick' },
           	{ 'id': '7', 'title': 'Hookup' },
           	{ 'id': '8', 'title': 'Top ingenieur' },
-		]
+          	{ 'id': '8', 'title': 'Top ingenieur' },
+		]'''
 
 		return Response(resources)
