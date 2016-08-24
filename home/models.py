@@ -23,6 +23,13 @@ ROLE_CHOICES = (
 	(2, 'Process')
 )
 
+PRIORITY_CHOICES = (
+	(0, 'None'),
+	(1, 'HIGH'),
+	(2, 'MEDIUM'),
+	(3, 'LOW')
+)
+
 @register_snippet
 class DashboardUser(djangomodels.Model):
 
@@ -183,6 +190,8 @@ class Task(djangomodels.Model):
 	event = ParentalKey('home.EventPage', related_name='tasks', blank=True, null=True)
 	module = djangomodels.ForeignKey('home.ToolModule', related_name='tasks', null=True, blank=True)
 
+	priority = djangomodels.IntegerField(choices=PRIORITY_CHOICES, null=True, default=0)
+
 
 	# Managers
 	objects = djangomodels.Manager()
@@ -195,13 +204,28 @@ class Task(djangomodels.Model):
 		return self.title
 
 Task.panels = [
-	
-	FieldPanel('title'),
-	FieldPanel('description'),
-	FieldPanel('module'),
-	FieldPanel('owner'),
-	FieldPanel('start_datetime'),
-	FieldPanel('due_datetime')
+	MultiFieldPanel([
+		FieldRowPanel([
+			FieldPanel('title', classname='col8'),
+			FieldPanel('priority', classname='col4'),
+			FieldPanel('description',classname='col12'),
+			]
+		),
+		FieldRowPanel([
+			FieldPanel('module', classname='col6'),
+			FieldPanel('owner', classname='col6')
+			]
+		), 
+		FieldRowPanel([
+			FieldPanel('start_datetime'),
+			FieldPanel('due_datetime')
+			]
+		), 
+		FieldRowPanel([
+			FieldPanel('priority', classname='col6'),
+			]
+		)], heading='Task information'
+	),
 ]
 
 class EventPage(models.Page):

@@ -1,0 +1,29 @@
+@media screen and (min-width: 90em) {
+	.wrapper{
+		width: 100%
+	}
+	footer {
+		width: 100%
+	}
+}
+
+@media screen and (min-width: 50em) {
+	.object fieldset {
+		width: 100% !important;
+		max-width: 1200px !important;
+	}
+}
+
+ul.multiple > li {
+	padding-right: 64px !important;
+}
+
+@media screen and (min-width: 50em) {
+  .field-col.col4 label {
+    width: 40%;
+	}
+
+   .field-col.col4 .field-content {
+   	width: 60%;
+   }
+}
