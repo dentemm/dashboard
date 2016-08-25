@@ -50,13 +50,14 @@ class TasksForEventApiView(APIView):
 
 		for task in tasks:
 
+			print('tijdstip: %s' % task.start_datetime)
+
 			color = ''
 
-			if task.completed == True:
+			if task.status == 2:
 				color = '#1bc98e'
 
 			else:
-
 				if task.priority == 1:
 					color = '#e64759'
 

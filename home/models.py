@@ -217,7 +217,7 @@ class Task(djangomodels.Model):
 			return 'success'
 		else:
 			if self.priority == 0:
-				return 'primary'
+				return 'info'
 			elif self.priority == 1:
 				return 'danger'
 			elif self.priority == 2:

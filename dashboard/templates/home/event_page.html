@@ -98,10 +98,10 @@
         	</div>
         </div>
         {% endif %}
-<!-- Action list -->
+<!-- Task list -->
         <div class="dashhead m-t">
           <div class="dashhead-titles">
-	    	<h2 class="dashhead-title">Action List
+	    	<h2 class="dashhead-title">Task List
 	    		<a data-toggle="collapse" data-target="#collapse-actionlist" class="collapsor">
 	    		</a>
 	    	</h2>
@@ -117,6 +117,8 @@
 						<h4 class="m-a-xs">{{ task.title }}</h4>
 				  		<h5 class="m-a-xs">{{ task.description }}</h5>
 				  		<hr>
+				        <h5><span class="icon icon-user"></span> {{ task.owner }}</h5>
+				        <h5><span class="icon icon-calendar"></span> {{ task.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ task.due_datetime|date:'j M: G' }}h</h5>
 					</div>
         		{% endfor %}
     			</div>
@@ -129,6 +131,8 @@
 						<h4 class="m-a-xs">{{ task.title }}</h4>
 				  		<h5 class="m-a-xs">{{ task.description }}</h5>
 				  		<hr>
+				        <h5><span class="icon icon-user"></span> {{ task.owner }}</h5>
+				        <h5><span class="icon icon-calendar"></span> {{ task.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ task.due_datetime|date:'j M: G' }}h</h5>
 					</div>
         		{% endfor %}
     			</div>
@@ -141,21 +145,18 @@
 						<h4 class="m-a-xs">{{ task.title }}</h4>
 				  		<h5 class="m-a-xs">{{ task.description }}</h5>
 				  		<hr>
+				        <h5><span class="icon icon-user"></span> {{ task.owner }}</h5>
+				        <h5><span class="icon icon-calendar"></span> {{ task.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ task.due_datetime|date:'j M: G' }}h</h5>
+				  		<h5><span class="icon icon-check"> Done!</span></h5>
 					</div>
         		{% endfor %}
     			</div>
         	</div>
-          <div class="col-md-9 col-md-offset-3 p-l-0 p-t-sm">
-            <button type="button" class="btn btn-warning-outline pull-riht m-l-xs">Undo Changes</button>
-            <button type="button" class="btn btn-success-outline pull-riht">Save Changes</button>
-          </div>
-
-
-
-
-
-
-      </div>
+          	<div class="col-md-9 col-md-offset-3 p-l-0 p-t-sm">
+            	<a href="#" class="btn btn-warning-outline pull-riht m-l-xs">Undo Changes</a>
+            	<a class="btn btn-success-outline pull-riht">Save Changes</a>
+          	</div>
+      	</div>
     </div>
 {% endblock %}
 
@@ -252,7 +253,6 @@
 			$.ajax({
 				url:"/tasks/" + id,
 				type: "GET",
-
 				success: task_handler,
 
 				error: function(xhr, ajaxOptions, thrownError) {
@@ -260,7 +260,6 @@
 					alert(thrownError);
 				}
 			});
-
 			function task_handler(data) {
 				console.log('success');
 				$('#calendartaskmodal').html(data);
