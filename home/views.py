@@ -11,6 +11,9 @@ class TaskView(TemplateView):
 	template_name = 'task/tasks.html'
 
 class TaskModalView(TemplateView):
+	'''
+	Dit view wordt gebruikt om een modal window te tonen waar je de details van een Task object kan raadplegen
+	'''
 
 	template_name = 'task/modals/taskmodal.html'
 
@@ -30,7 +33,7 @@ class AddTaskModalView(CreateView):
 
 	template_name = 'task/modals/addtaskmodal.html'
 	model = Task
-	fields = ['title', 'description', 'start_datetime', 'due_datetime', 'owner', 'priority']
+	fields = ['title', 'description', 'start_datetime', 'due_datetime', 'owner', 'priority', ]
 
 class TasksForEventApiView(APIView):
 	'''

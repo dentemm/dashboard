@@ -23,7 +23,7 @@
             <h4 class="dashhead-subtitle">{{ page.module.tool }}</h4>
           </div>
           <div class="btn-group m-l-lg m-t-xs">
-            <button type="button" class="btn btn-primary-outline" data-toggle="modal" data-target="#addtaskmodal">
+            <button type="button" class="btn btn-primary-outline" data-toggle="modal" data-target="#addtaskmodal" data-eventid="{{ page.pk }}">
               <span class="icon icon-pencil"></span> 
               Add Task 
             </button>
@@ -272,8 +272,12 @@
 	<script type="text/javascript">
 		$('#addtaskmodal').on('show.bs.modal', function(e){
 
+			var id = $(e.relatedTarget).data("eventid");
+
+			console.log(id);
+
 			$.ajax({
-				url:"/tasks/new/",
+				url:"/tasks/new/" + id,
 				type: "GET",
 				success: task_handler,
 

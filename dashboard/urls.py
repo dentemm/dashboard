@@ -22,7 +22,7 @@ urlpatterns = [
     # Home views
     #url(r'^tasks/', home_views.LooseTasksView.as_view(), name='tasks')
 
-    url(r'tasks/new/$', home_views.AddTaskModalView.as_view(), name='add-task-modal'),
+    url(r'tasks/new/(?P<id>\d)$', home_views.AddTaskModalView.as_view(), name='add-task-modal'),
     url(r'tasks/(?P<id>\d+)/$', home_views.TaskModalView.as_view(), name='task-modal'),
 
 

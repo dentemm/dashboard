@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 
     # Third party
     #'compressor',
+    'widget_tweaks',
 
     # custom apps
     #'utilities',
