@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, CreateView
 
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
@@ -26,6 +26,11 @@ class TaskModalView(TemplateView):
 
 		return ctx
 
+class AddTaskModalView(CreateView):
+
+	template_name = 'task/modals/addtaskmodal.html'
+	model = Task
+	fields = ['title', 'description', 'start_datetime', 'due_datetime', 'owner', 'priority']
 
 class TasksForEventApiView(APIView):
 	'''
@@ -99,18 +104,5 @@ class ResourcesForEventApiView(APIView):
 			resources.append({
 				'id': task.owner.id, 'title': task.owner.username
 			})
-
-		'''resources = [
-          	{ 'id': '1', 'title': 'Wim' },
-          	{ 'id': '1', 'title': 'Wim' },
-          	{ 'id': '2', 'title': 'Tim' },
-          	{ 'id': '3', 'title': 'Damiaan' },
-          	{ 'id': '4', 'title': 'Pedro' },
-          	{ 'id': '4', 'title': 'Ko' },
-          	{ 'id': '6', 'title': 'Teblick' },
-          	{ 'id': '7', 'title': 'Hookup' },
-          	{ 'id': '8', 'title': 'Top ingenieur' },
-          	{ 'id': '8', 'title': 'Top ingenieur' },
-		]'''
 
 		return Response(resources)

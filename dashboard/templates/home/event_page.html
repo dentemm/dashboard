@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'layout.html' %}
 
 {% load static %}
 
@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block extra_css %}
+	{{ block.super }}
 	<!-- FULLCALENDAR: Calendar and scheduler -->
 	<link rel="stylesheet" href="{% static 'plugins/fullcalendar/custom_calendar.css' %}"/>
   	<link rel="stylesheet" href="{% static 'plugins/fullcalendar/fullcalendar.min.css' %}"/>
@@ -22,7 +23,7 @@
             <h4 class="dashhead-subtitle">{{ page.module.tool }}</h4>
           </div>
           <div class="btn-group m-l-lg m-t-xs">
-            <button type="button" class="btn btn-primary-outline" data-toggle="modal" data-target="#taskmodal">
+            <button type="button" class="btn btn-primary-outline" data-toggle="modal" data-target="#addtaskmodal">
               <span class="icon icon-pencil"></span> 
               Add Task 
             </button>
@@ -163,6 +164,8 @@
 {% block modals %}
 	<div id="calendartaskmodal" class="modal fade">
   	</div>
+	<div id="addtaskmodal" class="modal fade">
+  	</div>
 {% endblock %}
 
 {% block extra_js %}
@@ -172,11 +175,10 @@
 	<!-- FULLCALENDAR: Calendar and scheduler -->
 	<script type="text/javascript" src="{% static 'plugins/fullcalendar/fullcalendar.min.js' %}"></script>
   	<script type="text/javascript" src="{% static 'plugins/fullcalendar/scheduler.min.js' %}"></script>
-  	<!-- MATCHHEIGHT: Equal height columns-->
-  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.0/jquery.matchHeight-min.js"></script>
   	<!-- MATCHHEIGHT: Init-->
   	<script type="text/javascript">
 	  	$(function() {
+	  		$.fn.matchHeight._maintainScroll = true;
 	    	$('.equal-height').matchHeight();
 	  	});
   	</script>
@@ -266,4 +268,40 @@
 			};
 		})
 	</script>
+  	<!-- Add task modal -->
+	<script type="text/javascript">
+		$('#addtaskmodal').on('show.bs.modal', function(e){
+
+			$.ajax({
+				url:"/tasks/new/",
+				type: "GET",
+				success: task_handler,
+
+				error: function(xhr, ajaxOptions, thrownError) {
+					console.log(xhr.status);
+					alert(thrownError);
+				}
+			});
+			function task_handler(data) {
+				console.log('success');
+				$('#addtaskmodal').html(data);
+			};
+		})
+	</script>
+	<script type="text/javascript">
+	    options = {
+	      revertOnSpill: true
+	    }
+	  	// initieer Dragula 
+	  	drake = dragula([todo, inprogress, done], options);
+	  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
+	  	drake.on('drop', function(el, target, source, sibling) {
+	  		$('.equal-height').matchHeight();
+	  		//console.log('drop');
+	  	});
+	  	drake.on('dragend', function(el, target, source, sibling) {
+	  		//console.log('drag end');
+	  	});
+
+  	</script>
 {% endblock %}
