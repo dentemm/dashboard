@@ -75,6 +75,7 @@
             </div>
           </div>
         </div>
+<!-- Timeline -->
         <div class="dashhead m-t">
           <div class="dashhead-titles">
 	    	<h2 class="dashhead-title">Timeline
@@ -83,13 +84,77 @@
 	    	</h2>
           </div>
         </div>
-
         <hr class="m-t-0 m-b-sm">
-        <div class="row collapse in" id="collapse-timeline">
+        {% if page.tasks %}
+        <div class="row collapse in p-b-md" id="collapse-timeline">
         	<div class="col-xs-12">
         		<div id="calendar"></div>
         	</div>
         </div>
+        {% else %}
+        <div class="row">
+        	<div class="col-xs-12">
+        		<p>No tasks available ... </p>
+        	</div>
+        </div>
+        {% endif %}
+<!-- Action list -->
+        <div class="dashhead m-t">
+          <div class="dashhead-titles">
+	    	<h2 class="dashhead-title">Action List
+	    		<a data-toggle="collapse" data-target="#collapse-actionlist" class="collapsor">
+	    		</a>
+	    	</h2>
+          </div>
+        </div>
+        <hr class="m-t-0 m-b-sm">
+        <div class="row collapse in" id="collapse-actionlist">
+        	<div class="col-md-4 p-a-0">
+        		<h3 class="text-center">To Do</h3>
+    			<div id="todo" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+        		{% for task in page.todo_tasks %}
+        			<div class="alert alert-{{task.bs_color}} m-a-xs" role="alert">
+						<h4 class="m-a-xs">{{ task.title }}</h4>
+				  		<h5 class="m-a-xs">{{ task.description }}</h5>
+				  		<hr>
+					</div>
+        		{% endfor %}
+    			</div>
+    		</div>
+    		<div class="col-md-4 p-a-0">
+    			<h3 class="text-center">In progress</h3>
+    			<div id="inprogress" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+        		{% for task in page.inprogress_tasks %}
+        			<div class="alert alert-{{task.bs_color}} m-a-xs" role="alert">
+						<h4 class="m-a-xs">{{ task.title }}</h4>
+				  		<h5 class="m-a-xs">{{ task.description }}</h5>
+				  		<hr>
+					</div>
+        		{% endfor %}
+    			</div>
+    		</div>
+    		<div class="col-md-4 p-a-0">
+    			<h3 class="text-center">Done</h3>
+    			<div id="done" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+        		{% for task in page.done_tasks %}
+        			<div class="alert alert-{{task.bs_color}} m-a-xs" role="alert">
+						<h4 class="m-a-xs">{{ task.title }}</h4>
+				  		<h5 class="m-a-xs">{{ task.description }}</h5>
+				  		<hr>
+					</div>
+        		{% endfor %}
+    			</div>
+        	</div>
+          <div class="col-md-9 col-md-offset-3 p-l-0 p-t-sm">
+            <button type="button" class="btn btn-warning-outline pull-riht m-l-xs">Undo Changes</button>
+            <button type="button" class="btn btn-success-outline pull-riht">Save Changes</button>
+          </div>
+
+
+
+
+
+
       </div>
     </div>
 {% endblock %}
@@ -106,8 +171,15 @@
 	<!-- FULLCALENDAR: Calendar and scheduler -->
 	<script type="text/javascript" src="{% static 'plugins/fullcalendar/fullcalendar.min.js' %}"></script>
   	<script type="text/javascript" src="{% static 'plugins/fullcalendar/scheduler.min.js' %}"></script>
-
-
+  	<!-- MATCHHEIGHT: Equal height columns-->
+  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.0/jquery.matchHeight-min.js"></script>
+  	<!-- MATCHHEIGHT: Init-->
+  	<script type="text/javascript">
+	  	$(function() {
+	    	$('.equal-height').matchHeight();
+	  	});
+  	</script>
+  	<!-- FULLCALENDAR: Init-->
 	<script>
    		$(function() { // dom ready
 	      $('#calendar').fullCalendar({
@@ -119,10 +191,12 @@
 	        //aspectRatio: 4.35,
 	        contentHeight: 30 * {{ page.task_count_distinct_owner }} + 28,  /* aantal resources bepaalt hoogte van kalender */
 	        eventOverlap: false,
-	        scrollTime: '00:00',
+	        //scrollTime: '00:00',
+	        minTime: '05:00',
+	        maxTime: '23:00',
 	        header: {
 	          left: 'promptResource today prev,next',
-	          left: null,
+	          //left: null,
 	          center: 'title',
 	          //right: 'timelineDay,timelineThreeDays,timelineTenDays,month',
 	          //right: null 
@@ -160,19 +234,15 @@
 	        eventAfterRender: function(event, element, view) {
 	        	/* This callback get executed when an event is added to the calendar */
 
-	        	//console.log(element);
+	        	// Add Bootstrap modal data attributes
 	        	$(element).attr('data-taskid', event.id);
 	        	$(element).attr('data-target', '#calendartaskmodal');
 	        	$(element).attr('data-toggle', 'modal');
-	        	//$(element).data('target', '#calendartaskmodal');
-	        	//$(element).data('toggle', 'modal');
-
-	        	//console.log($(element).data('toggle'));
-
 	        }
 	      });
 	    });
   	</script>
+  	<!-- Fetch data for task modal through ajax call -->
 	<script type="text/javascript">
 		$('#calendartaskmodal').on('show.bs.modal', function(e){
 

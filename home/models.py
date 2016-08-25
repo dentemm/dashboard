@@ -18,16 +18,22 @@ from wagtail.wagtailcore.models import PageManager
 
 from modelcluster.fields import ParentalKey
 
-ROLE_CHOICES = (
+USER_ROLE_CHOICES = (
 	(1, 'HW'),
 	(2, 'Process')
 )
 
-PRIORITY_CHOICES = (
+TASK_PRIORITY_CHOICES = (
 	(0, 'None'),
 	(1, 'HIGH'),
 	(2, 'MEDIUM'),
 	(3, 'LOW')
+)
+
+TASK_STATUS_CHOICES = (
+	(0, 'To Do'),
+	(1, 'In Progress'),
+	(2, 'Done'),
 )
 
 @register_snippet
@@ -36,7 +42,7 @@ class DashboardUser(djangomodels.Model):
 	user = djangomodels.OneToOneField(settings.AUTH_USER_MODEL)
 	group = djangomodels.CharField(max_length=63, null=True)
 	company = djangomodels.CharField(max_length=63, null=True)
-	role = djangomodels.IntegerField(default=1, choices=ROLE_CHOICES)
+	role = djangomodels.IntegerField(default=1, choices=USER_ROLE_CHOICES)
 
 	def __str__(self):
 
@@ -190,7 +196,8 @@ class Task(djangomodels.Model):
 	event = ParentalKey('home.EventPage', related_name='tasks', blank=True, null=True)
 	module = djangomodels.ForeignKey('home.ToolModule', related_name='tasks', null=True, blank=True)
 
-	priority = djangomodels.IntegerField(choices=PRIORITY_CHOICES, null=True, default=0)
+	priority = djangomodels.IntegerField(choices=TASK_PRIORITY_CHOICES, null=True, default=0)
+	status = djangomodels.IntegerField(choices=TASK_STATUS_CHOICES, null=False, default=0)
 
 
 	# Managers
@@ -202,6 +209,21 @@ class Task(djangomodels.Model):
 
 	def __str__(self):
 		return self.title
+
+	@property
+	def bs_color(self):
+		# case: Done
+		if self.status == 2:
+			return 'success'
+		else:
+			if self.priority == 0:
+				return 'primary'
+			elif self.priority == 1:
+				return 'danger'
+			elif self.priority == 2:
+				return 'warning'
+			elif self.priority == 3:
+				return 'primary'
 
 Task.panels = [
 	MultiFieldPanel([
@@ -262,6 +284,19 @@ class EventPage(models.Page):
 	def task_count_distinct_owner(self):
 
 		return Task.objects.all().filter(event=self).values('owner').distinct().count()
+
+	@property
+	def todo_tasks(self):
+		return Task.objects.all().filter(event=self).filter(status=0)
+
+	@property
+	def inprogress_tasks(self):
+		return Task.objects.all().filter(event=self).filter(status=1)
+
+	@property
+	def done_tasks(self):
+		return Task.objects.all().filter(event=self).filter(status=2)
+	
 
 	
 # Panel definitions for ToolPage
