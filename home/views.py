@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
-from .models import Task
+from .models import Task, EventPage
 
 class TaskView(TemplateView):
 
@@ -30,10 +30,51 @@ class TaskModalView(TemplateView):
 		return ctx
 
 class AddTaskModalView(CreateView):
+	'''
+	Dit modal view voegt een extra Task object toe aan een Event
+	'''
 
 	template_name = 'task/modals/addtaskmodal.html'
 	model = Task
-	fields = ['title', 'description', 'start_datetime', 'due_datetime', 'owner', 'priority', ]
+	#fields = ['title', 'description', 'start_datetime', 'due_datetime', 'owner', 'priority', ]
+	event_id = None
+
+	from .forms import TaskForm
+
+	form_class = TaskForm
+
+	def dispatch(self, request, *args, **kwargs):
+
+		return super(AddTaskModalView, self).dispatch(request, *args, **kwargs)
+
+
+	def get(self, request, *args, **kwargs):		
+		return super(AddTaskModalView, self).get(request, *args, **kwargs)
+
+
+	def post(self, request, *args, **kwargs):
+
+		form_class = self.get_form_class()
+		form = self.get_form(form_class)
+
+		self.event_id = int(kwargs['id'])
+		self.success_url = request.META.get('HTTP_REFERER')
+
+
+		return super(AddTaskModalView, self).post(request, *args, **kwargs)
+
+	def get_form(self, form_class=None):
+
+		form = super(AddTaskModalView, self).get_form(form_class)
+
+		#from .forms import TaskForm
+
+		#form = TaskForm()
+
+		if self.event_id != None:
+			form.instance.event = EventPage.objects.get(id=self.event_id)
+
+		return form
 
 class TasksForEventApiView(APIView):
 	'''

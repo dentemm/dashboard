@@ -15,8 +15,9 @@ from wagtail.wagtailsnippets.models import register_snippet
 from wagtail.contrib.wagtailroutablepage.models import RoutablePageMixin, route
 from wagtail.wagtailcore.models import PageManager
 
-
 from modelcluster.fields import ParentalKey
+
+#from .forms import TaskCreationForm
 
 USER_ROLE_CHOICES = (
 	(1, 'HW'),
@@ -185,7 +186,6 @@ class Task(djangomodels.Model):
 	Een task kan een op zich staande taak zijn, ofwel een taak die gerelateerd is aan een event. 
 	Een task wordt steeds gelinkt aan een module (dus Main module in geval van tool)
 	'''
-
 	title = djangomodels.CharField(max_length=90)
 	description = djangomodels.CharField(max_length=510)
 	start_datetime = djangomodels.DateTimeField(blank=True, null=True)
@@ -203,6 +203,9 @@ class Task(djangomodels.Model):
 	# Managers
 	objects = djangomodels.Manager()
 	loose_tasks = LooseTasksManager()
+
+	# Forms
+	#base_form_class = TaskCreationForm
 
 	class Meta:
 		pass
@@ -320,6 +323,7 @@ EventPage.content_panels =  [
 
 EventPage.promote_panels = [
 ]
+
 
 class ToolPageForm(WagtailAdminPageForm):
 	'''
@@ -441,6 +445,7 @@ ToolModule.panels = [
 	FieldPanel('name'),
 	FieldPanel('is_main')
 ]
+
 
 class HomePage(models.Page):
     pass
