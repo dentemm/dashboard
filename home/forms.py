@@ -6,13 +6,10 @@ from .models import Task
 class TaskForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 
-		print 
-
 		super(TaskForm, self).__init__(*args, **kwargs)
 		self.fields['start_datetime'].widget = CustomDateTimeInput()
-
-		print('succes')
+		self.fields['due_datetime'].widget = CustomDateTimeInput()
 
 	class Meta:
 		model = Task
-		fields = '__all__'
+		fields = ['title', 'description', 'start_datetime', 'due_datetime', 'owner', 'priority', ]

@@ -8,23 +8,25 @@
       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <h3 class="modal-title">New Task</h3>
       <h6 class="m-y-0">{{ task.module.tool }}</h6>
-
-      <h1>ERRORS</h1>
       {{ form.errors }}
-      {{ form.media }}
-      
     </div>
     <div class="modal-body">
       <form action="/tasks/new/9/" method="post">
         {% csrf_token %}
-        {% for field in form %}
-          {% render_field field placeholder=field.field.label %}
-        {% endfor %}
+        {{ form.media }}
+
+        <br><br>
+        <div class="input-with-icon dashhead-toolbar-item">
+          {% render_field form.start_datetime class+='form-control' placeholder='dd-mm-YYYY  hh:mm' %}
+          <span class="icon icon-calendar"></span>
+        </div>
+        <br><br>
+
+                  
+        
+
         <input type="submit" class="btn btn-lg btn-success rating-form" value="Submit" id="ratingsubmit">
-
       </form>
-
-
     </div>
     <div class="modal-actions">
       <button type="button" class="btn-link modal-action" data-dismiss="modal">Cancel</button>

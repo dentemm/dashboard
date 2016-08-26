@@ -5,6 +5,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
 from .models import Task, EventPage
+from .forms import TaskForm
 
 class TaskView(TemplateView):
 
@@ -38,8 +39,6 @@ class AddTaskModalView(CreateView):
 	model = Task
 	#fields = ['title', 'description', 'start_datetime', 'due_datetime', 'owner', 'priority', ]
 	event_id = None
-
-	from .forms import TaskForm
 
 	form_class = TaskForm
 
