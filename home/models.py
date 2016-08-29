@@ -44,6 +44,7 @@ class DashboardUser(djangomodels.Model):
 	group = djangomodels.CharField(max_length=63, null=True)
 	company = djangomodels.CharField(max_length=63, null=True)
 	role = djangomodels.IntegerField(default=1, choices=USER_ROLE_CHOICES)
+	dummy = djangomodels.CharField(max_length=2, null=True)
 
 	def __str__(self):
 
