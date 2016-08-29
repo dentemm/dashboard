@@ -15,9 +15,18 @@
         {% csrf_token %}
         {{ form.media }}
 
+        {% render_field form.title placeholder=form.title.field.label %}
+        {% render_field form.description placeholder=form.description.field.label %}
+        {% render_field form.owner placeholder=form.owner.field.label %}
+        {% render_field form.priority placeholder=form.owner.field.priority %}
+
         <br><br>
         <div class="input-with-icon dashhead-toolbar-item">
           {% render_field form.start_datetime class+='form-control' placeholder='dd-mm-YYYY  hh:mm' %}
+          <span class="icon icon-calendar"></span>
+        </div>
+        <div class="input-with-icon dashhead-toolbar-item">
+          {% render_field form.due_datetime class+='form-control' placeholder='dd-mm-YYYY  hh:mm' %}
           <span class="icon icon-calendar"></span>
         </div>
         <br><br>

@@ -10,7 +10,7 @@ class CustomDateTimeInput(widgets.DateTimeInput):
     Custom widget dat gebruikt wordt voor DateTimeFields.
     Dit widget maakt gebruik van de jquery plugin DateTimePicker
     '''
-    def __init__(self, attrs=None, format='%d-%m-%Y %H:%M'):
+    def __init__(self, attrs=None, format='%Y-%m-%d %H:%M'):
 
         super(CustomDateTimeInput, self).__init__(attrs=attrs, format=format)
 
