@@ -35,6 +35,8 @@ TASK_STATUS_CHOICES = (
 	(0, 'To Do'),
 	(1, 'In Progress'),
 	(2, 'Done'),
+	(3, 'Proposed'),
+	(4, 'rejected')
 )
 
 @register_snippet
@@ -44,7 +46,6 @@ class DashboardUser(djangomodels.Model):
 	group = djangomodels.CharField(max_length=63, null=True)
 	company = djangomodels.CharField(max_length=63, null=True)
 	role = djangomodels.IntegerField(default=1, choices=USER_ROLE_CHOICES)
-	dummy = djangomodels.CharField(max_length=2, null=True)
 
 	def __str__(self):
 
@@ -191,14 +192,16 @@ class Task(djangomodels.Model):
 	description = djangomodels.CharField(max_length=510)
 	start_datetime = djangomodels.DateTimeField(blank=True, null=True)
 	due_datetime = djangomodels.DateTimeField(blank=True, null=True)
-	completed = djangomodels.BooleanField(default=False)
 
-	owner = djangomodels.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+	owner = djangomodels.ForeignKey('home.DashboardUser', blank=True, null=True, related_name='tasks')
+	requisitioner = djangomodels.ForeignKey('home.DashboardUser', blank=True, null=True, related_name='requested_tasks')
+
 	event = ParentalKey('home.EventPage', related_name='tasks', blank=True, null=True)
 	module = djangomodels.ForeignKey('home.ToolModule', related_name='tasks', null=True, blank=True)
 
 	priority = djangomodels.IntegerField(choices=TASK_PRIORITY_CHOICES, null=True, default=0)
 	status = djangomodels.IntegerField(choices=TASK_STATUS_CHOICES, null=False, default=0)
+	single = djangomodels.BooleanField(default=True)
 
 
 	# Managers
@@ -428,7 +431,7 @@ class ToolModule(djangomodels.Model):
 	is_main = djangomodels.BooleanField(default=False)
 
 	class Meta:
-		ordering = ['name', ]
+		ordering = ['tool', 'name', ]
 
 	def __str__(self):
 
@@ -436,10 +439,7 @@ class ToolModule(djangomodels.Model):
 
 	def save(self, *args, **kwargs):
 
-		print('saving new module')
-
 		return super(ToolModule, self).save(*args, **kwargs)
-
 
 ToolModule.panels = [
 	

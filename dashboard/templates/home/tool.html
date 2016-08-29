@@ -19,7 +19,7 @@
               <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="#" data-toggle="modal" data-target="#taskmodal">Small task</a></li>
+              <li><a href="#" data-toggle="modal" data-target="#taskmodal" data-tool="{{page.pk}}">Small task</a></li>
               <li><a href="#">Maintenance</a></li>
               <li><a href="#">Escalation</a></li>
               <li><a href="#">VWV</a></li>
@@ -126,6 +126,7 @@
 
 {% block modals %}
 	<div id="taskmodal" class="modal fade">
+
   	</div>
 {% endblock %}
 
@@ -156,10 +157,12 @@
 		<script type="text/javascript">
 			$('#taskmodal').on('show.bs.modal', function(e){
 
-				var id = $(e.relatedTarget).data("taskid")
+				var id = $(e.relatedTarget).data("tool")
+
+				console.log('tool: ' + id)
 
 				$.ajax({
-					url:"/tasks/" + id,
+					url:"/tasks/new/tool/" + id,
 					type: "GET",
 
 					success: task_handler,

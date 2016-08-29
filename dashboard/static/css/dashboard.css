@@ -21,6 +21,10 @@ a.info:hover, a.info:focus {
 	cursor: pointer;
 	cursor: hand;
 }
+
+input#ratingsubmit {
+	font-weight: 800;
+}
 /*
 *
 * BOOTSTRAP DASHBOARD THEME OVERRIDES

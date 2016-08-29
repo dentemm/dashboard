@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
-from .models import Task, EventPage
+from .models import Task, EventPage, ToolModule, ToolPage
 from .forms import TaskForm
 
 class TaskView(TemplateView):
@@ -32,17 +32,27 @@ class TaskModalView(TemplateView):
 
 class AddTaskModalView(CreateView):
 	'''
-	Dit modal view voegt een extra Task object toe aan een Event
+	Dit modal view voegt een extra Task object toe aan een Event, of een losse Task aan een Tool
 	'''
 
 	template_name = 'task/modals/addtaskmodal.html'
 	model = Task
-	#fields = ['title', 'description', 'start_datetime', 'due_datetime', 'owner', 'priority', ]
-	event_id = None
-
 	form_class = TaskForm
 
+	event_id = None
+	tool_id = None
+	
 	def dispatch(self, request, *args, **kwargs):
+
+		# Kijk na of de kwargs een event_id of tool_id bevatten
+		event_id = kwargs.get('event_id', 'empty')
+		tool_id = kwargs.get('tool_id', 'empty')
+
+		if event_id != 'empty':
+			self.event_id = int(event_id)
+
+		if tool_id != 'empty':
+			self.tool_id = int(tool_id)
 
 		return super(AddTaskModalView, self).dispatch(request, *args, **kwargs)
 
@@ -53,12 +63,10 @@ class AddTaskModalView(CreateView):
 
 	def post(self, request, *args, **kwargs):
 
-		form_class = self.get_form_class()
-		form = self.get_form(form_class)
-
-		self.event_id = int(kwargs['id'])
 		self.success_url = request.META.get('HTTP_REFERER')
 
+		#print('event: %s' % event_id)
+		#print('tool: %s' % tool_id)
 
 		return super(AddTaskModalView, self).post(request, *args, **kwargs)
 
@@ -66,14 +74,48 @@ class AddTaskModalView(CreateView):
 
 		form = super(AddTaskModalView, self).get_form(form_class)
 
-		#from .forms import TaskForm
-
-		#form = TaskForm()
-
 		if self.event_id != None:
 			form.instance.event = EventPage.objects.get(id=self.event_id)
+			form.instance.single = False 
+
+		if self.tool_id != None:
+			tool = ToolPage.objects.get(id=self.tool_id)
+			module = ToolModule.objects.get(tool=tool, is_main=True)
+
+			form.instance.module = module
+			form.instance.single = True
 
 		return form
+
+	def get_form_kwargs(self):
+
+		kwargs = super(AddTaskModalView, self).get_form_kwargs()
+
+		print('---form kwargs: %s' % kwargs)
+		print(self.tool_id)
+		print(self.event_id)
+
+		return kwargs
+
+	def get_context_data(self, **kwargs):
+
+		ctx = super(AddTaskModalView, self).get_context_data(**kwargs)
+
+		event_id = self.kwargs.get('event_id', 'empty')
+		tool_id = self.kwargs.get('tool_id', 'empty')
+
+		if event_id != 'empty':
+			ctx['tool'] = EventPage.objects.get(id=event_id)
+			ctx['post_url'] = '/tasks/new/event/%s/' % event_id
+
+		if tool_id != 'empty':
+			ctx['tool'] = ToolPage.objects.get(id=tool_id)
+			ctx['post_url'] = 'tasks/new/tool/%s/' % tool_id
+
+		
+		print(' ----- url: %s' % ctx['post_url']) 
+
+		return ctx
 
 class TasksForEventApiView(APIView):
 	'''
@@ -97,8 +139,6 @@ class TasksForEventApiView(APIView):
 		events = []
 
 		for task in tasks:
-
-			print('tijdstip: %s' % task.start_datetime)
 
 			color = ''
 
