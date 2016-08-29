@@ -185,7 +185,7 @@ class ResourcesForEventApiView(APIView):
 
 		for task in tasks:
 			resources.append({
-				'id': task.owner.id, 'title': task.owner.username
+				'id': task.owner.user.id, 'title': task.owner.user.username
 			})
 
 		return Response(resources)
