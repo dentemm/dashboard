@@ -1,0 +1,10 @@
+<div class="alert alert-{{task.bs_color}} m-a-xs" role="alert">
+	<h4 class="m-a-xs">{{ task.title }}</h4>
+		<h5 class="m-a-xs">{{ task.description }}</h5>
+		<hr>
+    <h5><span class="icon icon-user"></span> {{ task.owner }}</h5>
+    <h5><span class="icon icon-calendar"></span> {{ task.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ task.due_datetime|date:'j M: G' }}h</h5>
+{% if task.status == 2  %}
+	<h5><span class="icon icon-check"> Done!</span></h5>
+{% endif %}
+</div>

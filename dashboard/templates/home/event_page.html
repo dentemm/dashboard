@@ -114,13 +114,7 @@
 	        		<h3 class="text-center">To Do</h3>
 	    			<div id="todo" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
 	        		{% for task in page.todo_tasks %}
-	        			<div class="alert alert-{{task.bs_color}} m-a-xs" role="alert">
-							<h4 class="m-a-xs">{{ task.title }}</h4>
-					  		<h5 class="m-a-xs">{{ task.description }}</h5>
-					  		<hr>
-					        <h5><span class="icon icon-user"></span> {{ task.owner }}</h5>
-					        <h5><span class="icon icon-calendar"></span> {{ task.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ task.due_datetime|date:'j M: G' }}h</h5>
-						</div>
+						{% include 'task/partials/task_alert.html' with task=task %}
 	        		{% endfor %}
 	    			</div>
 	    		</div>
@@ -128,13 +122,7 @@
 	    			<h3 class="text-center">In progress</h3>
 	    			<div id="inprogress" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
 	        		{% for task in page.inprogress_tasks %}
-	        			<div class="alert alert-{{task.bs_color}} m-a-xs" role="alert">
-							<h4 class="m-a-xs">{{ task.title }}</h4>
-					  		<h5 class="m-a-xs">{{ task.description }}</h5>
-					  		<hr>
-					        <h5><span class="icon icon-user"></span> {{ task.owner }}</h5>
-					        <h5><span class="icon icon-calendar"></span> {{ task.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ task.due_datetime|date:'j M: G' }}h</h5>
-						</div>
+						{% include 'task/partials/task_alert.html' with task=task %}
 	        		{% endfor %}
 	    			</div>
 	    		</div>
@@ -142,14 +130,7 @@
 	    			<h3 class="text-center">Done</h3>
 	    			<div id="done" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
 	        		{% for task in page.done_tasks %}
-	        			<div class="alert alert-{{task.bs_color}} m-a-xs" role="alert">
-							<h4 class="m-a-xs">{{ task.title }}</h4>
-					  		<h5 class="m-a-xs">{{ task.description }}</h5>
-					  		<hr>
-					        <h5><span class="icon icon-user"></span> {{ task.owner }}</h5>
-					        <h5><span class="icon icon-calendar"></span> {{ task.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ task.due_datetime|date:'j M: G' }}h</h5>
-					  		<h5><span class="icon icon-check"> Done!</span></h5>
-						</div>
+	        			{% include 'task/partials/task_alert.html' with task=task %}
 	        		{% endfor %}
 	    			</div>
 	        	</div>

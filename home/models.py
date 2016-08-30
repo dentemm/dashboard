@@ -181,11 +181,12 @@ class Request(djangomodels.Model):
 	description = djangomodels.TextField()
 	owner = djangomodels.ForeignKey('home.DashboardUser', null=True, blank=True)
 	due_date = djangomodels.DateField(default=datetime.date.today)
-	requisition_date = djangomodels.DateField(auto_now_add=True)
-	status = djangomodels.ForeignKey('home.RequestStatus')
+	requisition_date = djangomodels.DateField(auto_now_add=True, null=True)
+	status = djangomodels.ForeignKey('home.RequestStatus', default=0)
+	tool = ParentalKey('home.ToolPage', related_name='requests', null=True, blank=True)
 
 	class Meta:
-		ordering = ['owner']
+		ordering = ['tool', 'owner']
 
 	def __str__(self):
 		return self.name
@@ -424,6 +425,24 @@ class ToolPage(RoutablePageMixin, models.Page):
 		context['loose_tasks'] = Task.loose_tasks.all()
 
 		return TemplateResponse(request, template=template, context=context)
+
+
+	@property
+	def requested_requests(self):
+		return Request.objects.all().filter(tool=self).filter(status=0)
+
+	@property
+	def rejected_requests(self):
+		return Request.objects.all().filter(tool=self).filter(status=1)
+
+	@property
+	def accepted_requests(self):
+		return Request.objects.all().filter(tool=self).filter(status=2)
+
+	@property
+	def planned_requests(self):
+		return Request.objects.all().filter(tool=self).filter(status=2)
+
 
 # Panel definitions for ToolPage
 ToolPage.content_panels =  [
