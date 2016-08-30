@@ -5,122 +5,170 @@
 {% endblock %}
 
 {% block content %}
-   <div class="row">
-      <div class="col-sm-12 content">
-        <div class="dashhead">
-          <div class="dashhead-titles">
-            <h1 class="dashhead-title">{{ page.name }}</h1>
-            <h4 class="dashhead-subtitle">Toolboard</h4>
-          </div>
-          <div class="btn-group m-l-lg m-t-xs">
-            <button type="button" class="btn btn-primary-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-              <span class="icon icon-pencil"></span> 
-              New 
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="#" data-toggle="modal" data-target="#taskmodal" data-tool="{{page.pk}}">Small task</a></li>
-              <li><a href="#">Maintenance</a></li>
-              <li><a href="#">Escalation</a></li>
-              <li><a href="#">VWV</a></li>
-            </ul>
-          </div>
-        </div>
-	  </div>
-    </div>
-    <hr class="m-y-xs">
-    <div class="dashhead">
-      <div class="dashhead-titles">
-    	<h2 class="dashhead-title">Algemene informatie
-    		<a data-toggle="collapse" data-target="#collapse-info" class="collapsor">
-    		</a>
-    	</h2>
-      </div>
-    </div>
-    <div class="row collapse in" id="collapse-info">
-      <div class="col-md-6">
 
-      </div>
-      <div class="col-md-6">
-        <div class="row">
-          <div class="col-xs-4">
-          	<h4><span class="icon icon-flow-tree"></span> {{ page.name }} Modules</h4>
-	        <ul id="module-list">
-	        	{% for module in page.submodules %}
-	        	<li>{{ module }}</li>
-	        	{% endfor %}
-	        </ul>      	
-          </div>
-          <div class="col-xs-4">
-            <h4><span class="icon icon-tools"></span> Hardware</h4>
-            <ul>
-            	{% for person in page.hw_responsibles.all %}
-            	<li>{{ person|capfirst }}</li>
-            	{% endfor %}
-            </ul>
-          </div>
-          <div class="col-xs-4">
-            <h4><span class="icon icon-gauge"></span> Process</h4>
-            <ul>
-            	{% for person in page.process_responsibles.all %}
-            	<li>{{ person|capfirst }}</li>
-            	{% endfor %}
-            </ul>
-          </div>
-        </div>
-      </div>
+   <div class="row">
+      	<div class="col-sm-12 content">
+<!-- General info -->
+        	<div class="dashhead">
+          		<div class="dashhead-titles">
+            		<h1 class="dashhead-title">{{ page.name }}</h1>
+            		<h4 class="dashhead-subtitle">Toolboard</h4>
+          		</div>
+          		<div class="btn-group m-l-lg m-t-xs">
+		            <button type="button" class="btn btn-primary-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+		              	<span class="icon icon-pencil"></span> 
+		              	New 
+		              <span class="caret"></span>
+		            </button>
+		            <ul class="dropdown-menu" role="menu">
+			            <li>
+			            	<a href="#" data-toggle="modal" data-target="#taskmodal" data-tool="{{page.pk}}">Small task</a>
+			            </li>
+			            <li>
+			            	<a href="#">Maintenance</a>
+			            </li>
+			            <li>
+			            	<a href="#">Escalation</a>
+			            </li>
+			            <li>
+			            	<a href="#">VWV</a>
+			            </li>
+		            </ul>
+          		</div>
+        	</div>
+		    <hr class="m-y-xs">
+	        <div class="pull-right">
+	        	<h2 class="m-t-0">
+	        		<a data-toggle="collapse" data-target="#collapse-info" class="collapsor"></a>
+	        	</h2>
+		    </div>
+		    <div class="row collapse in" id="collapse-info">
+		      	<div class="col-md-6 col-md-offset-6">
+		        	<div class="row">
+		          		<div class="col-xs-4">
+		          			<h4>
+		          				<span class="icon icon-flow-tree"></span> {{ page.name }} Modules
+		          			</h4>
+					        <ul id="module-list">
+					        	{% for module in page.submodules %}
+					        	<li>{{ module }}</li>
+					        	{% endfor %}
+					        </ul>      	
+		          		</div>
+				        <div class="col-xs-4">
+				            <h4>
+				            	<span class="icon icon-tools"></span> Hardware
+				            </h4>
+				            <ul>
+				            	{% for person in page.hw_responsibles.all %}
+				            	<li>{{ person|capfirst }}</li>
+				            	{% endfor %}
+				            </ul>
+				        </div>
+				        <div class="col-xs-4">
+				            <h4>
+				            	<span class="icon icon-gauge"></span> Process
+				            </h4>
+				            <ul>
+				            	{% for person in page.process_responsibles.all %}
+				            	<li>{{ person|capfirst }}</li>
+				            	{% endfor %}
+				            </ul>
+				        </div>
+		        	</div>
+		      	</div>
+		    </div>
+<!-- Action list -->
+		    <div class="dashhead">
+		      	<div class="dashhead-titles">
+		    		<h2 class="dashhead-title">Action list
+		    			<a data-toggle="collapse" data-target="#collapse-time" class="collapsor">
+		    			</a>
+		    		</h2>
+		      	</div>
+		    </div>
+		    <hr class="m-y-xs">
+		    <div class="row collapse in" id="collapse-time">
+		      	<div class="col-md-3 p-a-0">
+		        	<h3 class="text-center">Proposed</h3>
+		        	<div id="secnd" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+		    		</div>
+		      	</div>
+		    	<div class="col-md-3 p-a-0">
+		        	<h3 class="text-center">Rejected</h3>
+		    		<div id="second" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+		    		    {% for task in page.loose_tasks %}
+						<div class="alert alert-success m-a-xs" role="alert">
+						    <h4 class="m-a-xs">{{ task }} <a data-toggle="modal" data-target="#taskmodal" data-taskid="{{ task.id }}" class="info"><i class="fa fa-info-circle"></i></a></h4>
+		          			<hr>
+						</div>		    	
+		        		{% endfor %}
+					</div>
+		    	</div>
+		    	<div class="col-md-3 p-a-0">
+		        	<h3 class="text-center">Accepted</h3>
+		    		<div id="third" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">	
+		    		</div>
+		    	</div>
+		    	<div class="col-md-3 p-a-0">
+		        	<h3 class="text-center">Planned</h3>
+		        	<div id="fourth" class="p-a-xs m-a-xs equal-height" style="min-height:100px; background-color: #434857;">
+						<div class="alert alert-warning m-a-xs" role="alert">
+						  	<h4>This task has been planned, but is not completed yet!</h4>
+					        <hr>
+					        <h4><span class="icon icon-user"></span> Top hardware engineer</h4>
+					        <h4><span class="icon icon-calendar"></span> 18-10-2015</h4>
+					        <button class="btn btn-dark">More</button>
+						</div>
+						<div class="alert alert-success m-a-xs" role="alert">
+					        <h4>This task has been planned, and also has been completed. Completed tasks will stay in this list for 2 more weeks</h4>
+					        <hr>
+					        <h4><span class="icon icon-user"></span> Top hardware engineer</h4>
+					        <h4><span class="icon icon-calendar"></span> 18-10-2015</h4>
+					        <h4><span class="icon icon-check"> Done!</span></h4>
+						</div>
+		    		</div>
+		    	</div>
+		    </div>
+<!-- Requests -->
+		    <div class="dashhead m-t">
+		      <div class="dashhead-titles">
+		    	<h2 class="dashhead-title">Requests
+		    		<a data-toggle="collapse" data-target="#collapse-request" class="collapsor">
+		    		</a>
+		    	</h2>
+		      </div>
+		    </div>
+		    <hr class="m-y-xs">
+		    <div class="row collapse in" id="collapse-request">
+		      	<div class="col-md-3 p-a-0">
+		        	<h3 class="text-center">Requested</h3>
+		        	<div id="secnd" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+		    		</div>
+		      	</div>
+		      	<div class="col-md-3 p-a-0">
+		        	<h3 class="text-center">Rejected</h3>
+		        	<div id="secnd" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+		    		</div>
+		      	</div>
+		      	<div class="col-md-3 p-a-0">
+		        	<h3 class="text-center">Accepted</h3>
+		        	<div id="secnd" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+		    		</div>
+		      	</div>
+		      	<div class="col-md-3 p-a-0">
+		        	<h3 class="text-center">Planned</h3>
+		        	<div id="secnd" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+		    		</div>
+		      	</div>
+		    </div>
+	  	</div>
     </div>
-    <hr class="m-y-xs">
-    <div class="dashhead">
-      <div class="dashhead-titles">
-    	<h2 class="dashhead-title">Action list
-    		<a data-toggle="collapse" data-target="#collapse-time" class="collapsor">
-    		</a>
-    	</h2>
-      </div>
-    </div>
-    <div class="row collapse in" id="collapse-time">
-      <div class="col-md-3 p-a-0">
-        <h3 class="text-center">Proposed</h3>
-        <div id="secnd" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
-    </div>
-      </div>
-    	<div class="col-md-3 p-a-0">
-        <h3 class="text-center">Rejected</h3>
-    		<div id="second" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
-    		    {% for task in page.loose_tasks %}
-				<div class="alert alert-success m-a-xs" role="alert">
-				    <h4 class="m-a-xs">{{ task }} <a data-toggle="modal" data-target="#taskmodal" data-taskid="{{ task.id }}" class="info"><i class="fa fa-info-circle"></i></a></h4>
-          			<hr>
-				</div>		    	
-        		{% endfor %}
-			</div>
-    	</div>
-    	<div class="col-md-3 p-a-0">
-        <h3 class="text-center">Accepted</h3>
-    		<div id="third" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">	
-    		</div>
-    	</div>
-    	<div class="col-md-3 p-a-0">
-        <h3 class="text-center">Planned</h3>
-        	<div id="fourth" class="p-a-xs m-a-xs equal-height" style="min-height:100px; background-color: #434857;">
-				<div class="alert alert-warning m-a-xs" role="alert">
-				  <h4>This task has been planned, but is not completed yet!</h4>
-        <hr>
-        <h4><span class="icon icon-user"></span> Top hardware engineer</h4>
-        <h4><span class="icon icon-calendar"></span> 18-10-2015</h4>
-        <button class="btn btn-dark">More</button>
-				</div>
-				<div class="alert alert-success m-a-xs" role="alert">
-        <h4>This task has been planned, and also has been completed. Completed tasks will stay in this list for 2 more weeks</h4>
-        <hr>
-        <h4><span class="icon icon-user"></span> Top hardware engineer</h4>
-        <h4><span class="icon icon-calendar"></span> 18-10-2015</h4>
-        <h4><span class="icon icon-check"> Done!</span></h4>
-				</div>
-    		</div>
-    	</div>
-    </div>
+
+
+
+
+
 
 {% endblock content %}
 

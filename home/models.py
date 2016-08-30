@@ -181,6 +181,14 @@ class Request(djangomodels.Model):
 	description = djangomodels.TextField()
 	owner = djangomodels.ForeignKey('home.DashboardUser', null=True, blank=True)
 	due_date = djangomodels.DateField(default=datetime.date.today)
+	requisition_date = djangomodels.DateField(auto_now_add=True)
+	status = djangomodels.ForeignKey('home.RequestStatus')
+
+	class Meta:
+		ordering = ['owner']
+
+	def __str__(self):
+		return self.name
 
 
 class RequestStatus(djangomodels.Model):
@@ -188,6 +196,9 @@ class RequestStatus(djangomodels.Model):
 	rejection_reason = djangomodels.CharField(max_length=256)
 	status = djangomodels.IntegerField(choices=REQUEST_CHOICES, default=0)
 	last_update = djangomodels.DateField(default=datetime.date.today)
+
+	def __str__(self):
+		return self.status
 
 
 class Priority(djangomodels.Model):

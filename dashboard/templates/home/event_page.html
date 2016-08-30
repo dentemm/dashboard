@@ -16,149 +16,150 @@
 
 {% block content %}
     <div class="row">
-      <div class="col-sm-12 content">
-        <div class="dashhead">
-          <div class="dashhead-titles">
-            <h1 class="dashhead-title">{{ page.name }}</h1>
-            <h4 class="dashhead-subtitle">{{ page.module.tool }}</h4>
-          </div>
-          <div class="btn-group m-l-lg m-t-xs">
-            <button type="button" class="btn btn-primary-outline" data-toggle="modal" data-target="#addtaskmodal" data-eventid="{{ page.pk }}">
-              <span class="icon icon-pencil"></span> 
-              Add Task 
-            </button>
-          </div>
-        </div>
-        <hr class="m-b-0 m-t-xs">
-        <div class="pull-right">
-        	<h2 class="m-t-0">
-        		<a data-toggle="collapse" data-target="#collapse-info" class="collapsor"></a>
-        	</h2>
-	    </div>
-        <div class="row collapse in" id="collapse-info">
-          <div class="col-md-4">
-            <h4>{{ page.name }}</h4>
-            <p>
-              {{ page.description }}
-            </p>
-          </div>
-          <div class="col-md-8">
-            <div class="row">
-              <div class="col-md-4">   
-                <h4>Start datum</h4>
-                <div class="input-with-icon dashhead-toolbar-item">
-                  <input type="text" value="01/01/15&emsp;15u00" class="form-control">
-                  <span class="icon icon-calendar"></span>
-                </div>
-                <br><br>
-                <h4>Geplande einddatum</h4>
-                <div class="input-with-icon dashhead-toolbar-item">
-                  <input type="text" value="01/01/15&emsp;18u00" class="form-control">
-                  <span class="icon icon-calendar"></span>
-                </div>
-                <br><br>
-              </div>
-              <div class="col-md-4">
-                <h4>Owner</h4>
-                <p>
-                  De verantwoordelijke
-                </p>
-                <br> 
-                <div class="checkbox custom-control custom-checkbox">
-                  <label>
-                    <input type="checkbox">
-                    <span class="custom-control-indicator"></span>
-                    Reservatie OK?
-                  </label>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
+      	<div class="col-sm-12 content">
+<!-- General info -->
+        	<div class="dashhead">
+          		<div class="dashhead-titles">
+            		<h1 class="dashhead-title">{{ page.name }}</h1>
+            		<h4 class="dashhead-subtitle">{{ page.module.tool }}</h4>
+          		</div>
+	          	<div class="btn-group m-l-lg m-t-xs">
+	            	<button type="button" class="btn btn-primary-outline" data-toggle="modal" data-target="#addtaskmodal" data-eventid="{{ page.pk }}">
+		              	<span class="icon icon-pencil"></span> 
+		              	Add Task 
+	            	</button>
+	          	</div>
+        	</div>
+	        <hr class="m-b-0 m-t-xs">
+	        <div class="pull-right">
+	        	<h2 class="m-t-0">
+	        		<a data-toggle="collapse" data-target="#collapse-info" class="collapsor"></a>
+	        	</h2>
+		    </div>
+	        <div class="row collapse in" id="collapse-info">
+	          	<div class="col-md-4">
+	            	<h4>{{ page.name }}</h4>
+		            <p>
+		              	{{ page.description }}
+		            </p>
+	          	</div>
+	          	<div class="col-md-8">
+	            	<div class="row">
+	              		<div class="col-md-4">   
+	                		<h4>Start datum</h4>
+	                		<div class="input-with-icon dashhead-toolbar-item">
+	                  			<input type="text" value="01/01/15&emsp;15u00" class="form-control">
+	                  			<span class="icon icon-calendar"></span>
+	                		</div>
+	                		<br><br>
+	                		<h4>Geplande einddatum</h4>
+			                <div class="input-with-icon dashhead-toolbar-item">
+				                <input type="text" value="01/01/15&emsp;18u00" class="form-control">
+				                <span class="icon icon-calendar"></span>
+			                </div>
+	                		<br><br>
+	              		</div>
+	              		<div class="col-md-4">
+			                <h4>Owner</h4>
+			                <p>
+			                  De verantwoordelijke
+			                </p>
+			                <br> 
+			                <div class="checkbox custom-control custom-checkbox">
+			                  	<label>
+			                    	<input type="checkbox">
+			                    	<span class="custom-control-indicator"></span>
+			                    	Reservatie OK?
+			                  	</label>
+			                </div>
+	              		</div>
+	            	</div>
+	         	</div>
+	        </div>
 <!-- Timeline -->
-        <div class="dashhead m-t">
-          <div class="dashhead-titles">
-	    	<h2 class="dashhead-title">Timeline
-	    		<a data-toggle="collapse" data-target="#collapse-timeline" class="collapsor">
-	    		</a>
-	    	</h2>
-          </div>
-        </div>
-        <hr class="m-t-0 m-b-sm">
-        {% if page.tasks %}
-        <div class="row collapse in p-b-md" id="collapse-timeline">
-        	<div class="col-xs-12">
-        		<div id="calendar"></div>
-        	</div>
-        </div>
-        {% else %}
-        <div class="row">
-        	<div class="col-xs-12">
-        		<p>No tasks available ... </p>
-        	</div>
-        </div>
-        {% endif %}
+	        <div class="dashhead m-t">
+	          	<div class="dashhead-titles">
+		    		<h2 class="dashhead-title">Timeline
+		    			<a data-toggle="collapse" data-target="#collapse-timeline" class="collapsor">
+		    			</a>
+		    		</h2>
+	          	</div>
+	        </div>
+	        <hr class="m-t-0 m-b-sm">
+	        {% if page.tasks %}
+		        <div class="row collapse in p-b-md" id="collapse-timeline">
+		        	<div class="col-xs-12">
+		        		<div id="calendar"></div>
+		        	</div>
+		        </div>
+	        {% else %}
+		        <div class="row collapse in p-b-md" id="collapse-timeline">
+		        	<div class="col-xs-12">
+		        		<p>No tasks available ... </p>
+		        	</div>
+		        </div>
+	        {% endif %}
 <!-- Task list -->
-        <div class="dashhead m-t">
-          <div class="dashhead-titles">
-	    	<h2 class="dashhead-title">Task List
-	    		<a data-toggle="collapse" data-target="#collapse-actionlist" class="collapsor">
-	    		</a>
-	    	</h2>
-          </div>
-        </div>
-        <hr class="m-t-0 m-b-sm">
-        <div class="row collapse in" id="collapse-actionlist">
-        	<div class="col-md-4 p-a-0">
-        		<h3 class="text-center">To Do</h3>
-    			<div id="todo" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
-        		{% for task in page.todo_tasks %}
-        			<div class="alert alert-{{task.bs_color}} m-a-xs" role="alert">
-						<h4 class="m-a-xs">{{ task.title }}</h4>
-				  		<h5 class="m-a-xs">{{ task.description }}</h5>
-				  		<hr>
-				        <h5><span class="icon icon-user"></span> {{ task.owner }}</h5>
-				        <h5><span class="icon icon-calendar"></span> {{ task.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ task.due_datetime|date:'j M: G' }}h</h5>
-					</div>
-        		{% endfor %}
-    			</div>
-    		</div>
-    		<div class="col-md-4 p-a-0">
-    			<h3 class="text-center">In progress</h3>
-    			<div id="inprogress" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
-        		{% for task in page.inprogress_tasks %}
-        			<div class="alert alert-{{task.bs_color}} m-a-xs" role="alert">
-						<h4 class="m-a-xs">{{ task.title }}</h4>
-				  		<h5 class="m-a-xs">{{ task.description }}</h5>
-				  		<hr>
-				        <h5><span class="icon icon-user"></span> {{ task.owner }}</h5>
-				        <h5><span class="icon icon-calendar"></span> {{ task.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ task.due_datetime|date:'j M: G' }}h</h5>
-					</div>
-        		{% endfor %}
-    			</div>
-    		</div>
-    		<div class="col-md-4 p-a-0">
-    			<h3 class="text-center">Done</h3>
-    			<div id="done" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
-        		{% for task in page.done_tasks %}
-        			<div class="alert alert-{{task.bs_color}} m-a-xs" role="alert">
-						<h4 class="m-a-xs">{{ task.title }}</h4>
-				  		<h5 class="m-a-xs">{{ task.description }}</h5>
-				  		<hr>
-				        <h5><span class="icon icon-user"></span> {{ task.owner }}</h5>
-				        <h5><span class="icon icon-calendar"></span> {{ task.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ task.due_datetime|date:'j M: G' }}h</h5>
-				  		<h5><span class="icon icon-check"> Done!</span></h5>
-					</div>
-        		{% endfor %}
-    			</div>
-        	</div>
-          	<div class="col-md-9 col-md-offset-3 p-l-0 p-t-sm">
-            	<a href="#" class="btn btn-warning-outline pull-riht m-l-xs">Undo Changes</a>
-            	<a class="btn btn-success-outline pull-riht">Save Changes</a>
-          	</div>
-      	</div>
-    </div>
+	        <div class="dashhead m-t">
+	          	<div class="dashhead-titles">
+		    		<h2 class="dashhead-title">Task List
+		    			<a data-toggle="collapse" data-target="#collapse-actionlist" class="collapsor">
+		    			</a>
+		    		</h2>
+	          	</div>
+	        </div>
+	        <hr class="m-t-0 m-b-sm">
+	        <div class="row collapse in" id="collapse-actionlist">
+	        	<div class="col-md-4 p-a-0">
+	        		<h3 class="text-center">To Do</h3>
+	    			<div id="todo" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+	        		{% for task in page.todo_tasks %}
+	        			<div class="alert alert-{{task.bs_color}} m-a-xs" role="alert">
+							<h4 class="m-a-xs">{{ task.title }}</h4>
+					  		<h5 class="m-a-xs">{{ task.description }}</h5>
+					  		<hr>
+					        <h5><span class="icon icon-user"></span> {{ task.owner }}</h5>
+					        <h5><span class="icon icon-calendar"></span> {{ task.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ task.due_datetime|date:'j M: G' }}h</h5>
+						</div>
+	        		{% endfor %}
+	    			</div>
+	    		</div>
+	    		<div class="col-md-4 p-a-0">
+	    			<h3 class="text-center">In progress</h3>
+	    			<div id="inprogress" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+	        		{% for task in page.inprogress_tasks %}
+	        			<div class="alert alert-{{task.bs_color}} m-a-xs" role="alert">
+							<h4 class="m-a-xs">{{ task.title }}</h4>
+					  		<h5 class="m-a-xs">{{ task.description }}</h5>
+					  		<hr>
+					        <h5><span class="icon icon-user"></span> {{ task.owner }}</h5>
+					        <h5><span class="icon icon-calendar"></span> {{ task.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ task.due_datetime|date:'j M: G' }}h</h5>
+						</div>
+	        		{% endfor %}
+	    			</div>
+	    		</div>
+	    		<div class="col-md-4 p-a-0">
+	    			<h3 class="text-center">Done</h3>
+	    			<div id="done" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+	        		{% for task in page.done_tasks %}
+	        			<div class="alert alert-{{task.bs_color}} m-a-xs" role="alert">
+							<h4 class="m-a-xs">{{ task.title }}</h4>
+					  		<h5 class="m-a-xs">{{ task.description }}</h5>
+					  		<hr>
+					        <h5><span class="icon icon-user"></span> {{ task.owner }}</h5>
+					        <h5><span class="icon icon-calendar"></span> {{ task.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ task.due_datetime|date:'j M: G' }}h</h5>
+					  		<h5><span class="icon icon-check"> Done!</span></h5>
+						</div>
+	        		{% endfor %}
+	    			</div>
+	        	</div>
+	          	<div class="col-md-9 col-md-offset-3 p-l-0 p-t-sm">
+	            	<a href="#" class="btn btn-warning-outline pull-riht m-l-xs">Undo Changes</a>
+	            	<a class="btn btn-success-outline pull-riht">Save Changes</a>
+	          	</div>
+	      	</div>
+	    </div>
+	</div>
 {% endblock %}
 
 {% block modals %}
