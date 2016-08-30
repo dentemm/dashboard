@@ -79,7 +79,7 @@
 		      	</div>
 		    </div>
 <!-- Action list -->
-		    <div class="dashhead">
+		    <div class="dashhead m-t">
 		      	<div class="dashhead-titles">
 		    		<h2 class="dashhead-title">Action list
 		    			<a data-toggle="collapse" data-target="#collapse-time" class="collapsor">
@@ -132,12 +132,16 @@
 		    </div>
 <!-- Requests -->
 		    <div class="dashhead m-t">
-		      <div class="dashhead-titles">
-		    	<h2 class="dashhead-title">Requests
-		    		<a data-toggle="collapse" data-target="#collapse-request" class="collapsor">
-		    		</a>
-		    	</h2>
-		      </div>
+			    <div class="dashhead-titles">
+			    	<h2 class="dashhead-title">Requests
+			    		<a data-toggle="collapse" data-target="#collapse-request" class="collapsor">
+			    		</a>
+			    	</h2>
+			    </div>
+	            <button type="button" class="btn btn-sm btn-primary-outline m-l-lg" data-toggle="modal" data-target="#requestmodal">
+	              	<span class="icon icon-pencil"></span> 
+	              	Add 
+	            </button>
 		    </div>
 		    <hr class="m-y-xs">
 		    <div class="row collapse in" id="collapse-request">
@@ -174,7 +178,8 @@
 
 {% block modals %}
 	<div id="taskmodal" class="modal fade">
-
+  	</div>
+  	<div id="requestmodal" class="modal fade">
   	</div>
 {% endblock %}
 
