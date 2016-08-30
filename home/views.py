@@ -136,17 +136,40 @@ class AddRequestModalView(CreateView):
 	model = Request
 	form_class = RequestForm	
 
+	def dispatch(self, request, *args, **kwargs):
+
+		# Kijk na of de kwargs een event_id of tool_id bevatten
+		tool_id = kwargs.get('tool_id', 'empty')
+
+		if tool_id != 'empty':
+			self.tool_id = int(tool_id)
+
+		return super(AddRequestModalView, self).dispatch(request, *args, **kwargs)
+
+	def post(self, request, *args, **kwargs):
+
+		self.success_url = request.META.get('HTTP_REFERER')
+		return super(AddRequestModalView, self).post(request, *args, **kwargs)
 
 	def get_context_data(self, **kwargs):
 
 		ctx = super(AddRequestModalView, self).get_context_data(**kwargs)
 
-		tool_id = self.kwargs.get('tool_id', 'empty')
-
-		if tool_id != 'empty':
-			ctx['tool'] = ToolPage.objects.get(id=tool_id)
+		if self.tool_id != 'empty':
+			ctx['tool'] = ToolPage.objects.get(id=self.tool_id)
+			ctx['post_url'] = '/requests/new/tool/%s/' % self.tool_id
 
 		return ctx
+
+	def get_form(self, form_class=None):
+
+		form = super(AddRequestModalView, self).get_form(form_class)
+
+		if self.tool_id != None:
+			tool = ToolPage.objects.get(id=self.tool_id)
+			form.instance.tool = tool
+
+		return form
 
 #
 #

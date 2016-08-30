@@ -148,31 +148,33 @@
 		      	<div class="col-md-3 p-a-0">
 		        	<h3 class="text-center">Requested</h3>
 		        	<div id="requested" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
-		        		<div class="alert">request</div>
-	        		{% for request in page.todo_requests %}
-	        			<div class="alert alert-{{task.bs_color}} m-a-xs" role="alert">
-							<h4 class="m-a-xs">{{ task.title }}</h4>
-					  		<h5 class="m-a-xs">{{ task.description }}</h5>
-					  		<hr>
-					        <h5><span class="icon icon-user"></span> {{ task.owner }}</h5>
-					        <h5><span class="icon icon-calendar"></span> {{ task.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ task.due_datetime|date:'j M: G' }}h</h5>
-						</div>
+	        		{% for request in page.requested_requests %}
+	        			{% include 'request/partials/request_alert.html' with request=request %}
 	        		{% endfor %}
 		    		</div>
 		      	</div>
 		      	<div class="col-md-3 p-a-0">
 		        	<h3 class="text-center">Rejected</h3>
 		        	<div id="rejected" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+	        		{% for request in page.rejected_requests %}
+	        			{% include 'request/partials/request_alert.html' with request=request %}
+	        		{% endfor %}
 		    		</div>
 		      	</div>
 		      	<div class="col-md-3 p-a-0">
 		        	<h3 class="text-center">Accepted</h3>
 		        	<div id="accepted" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+	        		{% for request in page.accepted_requests %}
+	        			{% include 'request/partials/request_alert.html' with request=request %}
+	        		{% endfor %}
 		    		</div>
 		      	</div>
 		      	<div class="col-md-3 p-a-0">
 		        	<h3 class="text-center">Planned</h3>
 		        	<div id="planned" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+	        		{% for request in page.planned_requests %}
+	        			{% include 'request/partials/request_alert.html' with request=request %}
+	        		{% endfor %}
 		    		</div>
 		      	</div>
 		    </div>
