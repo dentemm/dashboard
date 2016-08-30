@@ -39,6 +39,13 @@ TASK_STATUS_CHOICES = (
 	(4, 'rejected')
 )
 
+REQUEST_CHOICES = (
+	(0, 'Requested'),
+	(1, 'Accepted'),
+	(2, 'Rejected'),
+	(3, 'Planned')
+)
+
 @register_snippet
 class DashboardUser(djangomodels.Model):
 
@@ -165,6 +172,22 @@ class ToolUtilityStatusValue(djangomodels.Model):
 
 	tool = ParentalKey('home.ToolPage', related_name='utilities', null=True, blank=True)
 	status = djangomodels.ForeignKey(UtilityStatus, related_name='tools', null=True, blank=True)
+
+
+@register_snippet
+class Request(djangomodels.Model):
+
+	name = djangomodels.CharField(max_length=127)
+	description = djangomodels.TextField()
+	owner = djangomodels.ForeignKey('home.DashboardUser', null=True, blank=True)
+	due_date = djangomodels.DateField(default=datetime.date.today)
+
+
+class RequestStatus(djangomodels.Model):
+
+	rejection_reason = djangomodels.CharField(max_length=256)
+	status = djangomodels.IntegerField(choices=REQUEST_CHOICES, default=0)
+	last_update = djangomodels.DateField(default=datetime.date.today)
 
 
 class Priority(djangomodels.Model):
