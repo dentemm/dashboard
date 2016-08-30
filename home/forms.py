@@ -1,7 +1,7 @@
 from django import forms
 
 from .widgets import CustomDateTimeInput, CustomDateInput
-from .models import Task
+from .models import Task, Request
 
 class TaskForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
@@ -20,3 +20,7 @@ class RequestForm(forms.ModelForm):
 
 		super(RequestForm, self).__init__(*args, **kwargs)
 		self.fields['due_date'].widget = CustomDateInput()
+
+	class Meta:
+		model = Request
+		fields = ['name', 'description', 'owner', 'due_date']

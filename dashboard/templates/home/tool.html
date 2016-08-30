@@ -231,4 +231,28 @@
 				};
 			})
 		</script>
+		<script type="text/javascript">
+			$('#requestmodal').on('show.bs.modal', function(e){
+
+				var id = $(e.relatedTarget).data("tool")
+
+				console.log('tool: ' + id)
+
+				$.ajax({
+					url:"/requests/new/tool/" + {{ page.pk }},
+					type: "GET",
+
+					success: task_handler,
+
+					error: function(xhr, ajaxOptions, thrownError) {
+						console.log(xhr.status);
+						alert(thrownError);
+					}
+				});
+
+				function task_handler(data) {
+					$('#requestmodal').html(data);
+				};
+			})
+		</script>
 {% endblock %}

@@ -4,9 +4,14 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
-from .models import Task, EventPage, ToolModule, ToolPage
-from .forms import TaskForm
+from .models import Task, EventPage, ToolModule, ToolPage, Request
+from .forms import TaskForm, RequestForm
 
+#
+#
+# TASK VIEWS
+#
+#
 class TaskView(TemplateView):
 
 	template_name = 'task/tasks.html'
@@ -117,6 +122,37 @@ class AddTaskModalView(CreateView):
 
 		return ctx
 
+#
+#
+# REQUEST VIEWS
+#
+#
+class AddRequestModalView(CreateView):
+	'''
+	Dit modal view voegt een extra Request object toe aan een Tool
+	'''
+
+	template_name = 'request/modals/addrequestmodal.html'
+	model = Request
+	form_class = RequestForm	
+
+
+	def get_context_data(self, **kwargs):
+
+		ctx = super(AddRequestModalView, self).get_context_data(**kwargs)
+
+		tool_id = self.kwargs.get('tool_id', 'empty')
+
+		if tool_id != 'empty':
+			ctx['tool'] = ToolPage.objects.get(id=tool_id)
+
+		return ctx
+
+#
+#
+# API VIEWS
+#
+#
 class TasksForEventApiView(APIView):
 	'''
 	Dit view retourneert een JSON response van alle taken voor een bepaald event. 

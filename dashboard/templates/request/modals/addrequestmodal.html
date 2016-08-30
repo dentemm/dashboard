@@ -1,0 +1,61 @@
+{% load widget_tweaks %}
+
+<div class="modal-dialog">
+  <div class="modal-content">
+    <form action="{{ post_url }}" method="post">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title">New Request</h3>
+        <h6 class="m-y-0">{{ tool }}</h6>
+        {{ form.errors }}
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-xs-12">
+              {% csrf_token %}
+              {{ form.media }}
+            <div class="row">
+              <div class="col-xs-6">
+                <b>Task name:</b>
+                {% render_field form.title class+='form-control m-b-sm' placeholder='Enter task name here' %}
+              </div> 
+              <div class="col-xs-12">
+                <b>Task description:</b>
+                {% render_field form.description class+='form-control m-b-sm' placeholder='Enter task description here' %}
+              </div>
+              <div class="col-xs-5">
+                <b>Owner:</b>
+                {% render_field form.owner class+='form-control m-b-sm' %}
+              </div>
+              <div class="col-xs-5 col-xs-offset-2">
+                <b>Priority:</b>
+                {% render_field form.priority class+='form-control m-b-sm' %}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-5">
+                <b>Start Date/Time:</b>
+                <div class="input-with-icon dashhead-toolbar-item">
+                  {% render_field form.start_datetime class+='form-control' placeholder='YYYY-MM-DD HH:mm' %}
+                  <span class="icon icon-calendar"></span>
+                </div>      
+              </div>
+              <div class="col-xs-5 col-xs-offset-2">
+                <b>Due Date/Time:</b>
+                <div class="input-with-icon dashhead-toolbar-item">
+                  {% render_field form.due_datetime class+='form-control m-b-md' placeholder='YYYY-MM-DD HH:mm' %}
+                  <span class="icon icon-calendar"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--<input type="submit" class="btn btn-lg btn-success rating-form" value="Submit" id="ratingsubmit">-->
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-link modal-action" data-dismiss="modal">Cancel</button>
+        <input type="submit" class="btn-link modal-action" id="ratingsubmit">
+      </div>
+    </form>
+  </div>
+</div>

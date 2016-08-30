@@ -29,6 +29,8 @@ urlpatterns = [
 
     url(r'tasks/(?P<id>\d+)/$', home_views.TaskModalView.as_view(), name='task-modal'),
 
+    url(r'requests/new/tool/(?P<tool_id>\d+)/$', home_views.AddRequestModalView.as_view(), name='add-request-for-tool'),
+
 
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
