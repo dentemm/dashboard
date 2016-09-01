@@ -3,7 +3,7 @@
 		<h5 class="m-a-xs">{{ request.description }}</h5>
 		<hr>
     <h5><span class="icon icon-user"></span> {{ request.owner }}</h5>
-    <h5><span class="icon icon-calendar"></span> {{ request.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ request.due_datetime|date:'j M: G' }}h</h5>
+    <h5><span class="icon icon-calendar"></span> {{ request.due_date|date:'j M' }}</h5>
 {% if request.status == 2  %}
 	<h5><span class="icon icon-check"> Accepted!</span></h5>
 {% endif %}
