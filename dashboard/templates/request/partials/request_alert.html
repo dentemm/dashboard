@@ -1,6 +1,6 @@
 <div class="alert alert-{{request.bs_color}} m-a-xs" role="alert">
-	<h4 class="m-a-xs">{{ request.name }}</h4>
-		<h5 class="m-a-xs">{{ request.description }}</h5>
+	<h4 class="m-a-xs">{{ request.name }} {% if request.status == 0 %} &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-exclamation"></i> Rejected <a data-toggle="popover" data-placement="top" data-title="Rejection Reason" data-content="This is the reason this request has been rejected!" class="info"><i class="fa fa-info-circle"></i></a>{% endif %}</h4>
+		<h5 class="m-a-xs">{{ request.description }}</h5> 
 		<hr>
     <h5><span class="icon icon-user"></span> {{ request.owner }}</h5>
     <h5><span class="icon icon-calendar"></span> {{ request.due_date|date:'j M' }}</h5>

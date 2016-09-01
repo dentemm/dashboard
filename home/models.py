@@ -41,8 +41,8 @@ TASK_STATUS_CHOICES = (
 
 REQUEST_CHOICES = (
 	(0, 'Requested'),
-	(1, 'Accepted'),
-	(2, 'Rejected'),
+	(1, 'Rejected'),
+	(2, 'Accepted'),
 	(3, 'Planned')
 )
 
@@ -259,6 +259,11 @@ class Task(djangomodels.Model):
 		return self.title
 
 	@property
+	def classname(self):
+		return self.__class__.__name__
+	
+
+	@property
 	def bs_color(self):
 		# case: Done
 		if self.status == 2:
@@ -329,6 +334,14 @@ class EventPage(models.Page):
 		return super(EventPage, self).save(*args, **kwargs)
 
 	@property
+	def classname(self):
+		return self.__class__.__name__
+
+	@property
+	def bs_color(self):
+		return 'primary'
+
+	@property
 	def task_count_distinct_owner(self):
 
 		return Task.objects.all().filter(event=self).values('owner').distinct().count()
@@ -356,6 +369,10 @@ EventPage.content_panels =  [
 			),
 			FieldRowPanel([
 					FieldPanel('description', classname='col12'),
+				]
+			),
+			FieldRowPanel([
+					FieldPanel('responsible', classname='col6'),
 				]
 			),
 		],
@@ -445,6 +462,18 @@ class ToolPage(RoutablePageMixin, models.Page):
 	@property
 	def planned_requests(self):
 		return Request.objects.all().filter(tool=self).filter(status=2)
+
+	@property
+	def todo_tasks_events(self):
+
+		tasks = list(self.loose_tasks)
+		events = list(EventPage.objects.all().filter(module__tool=self))
+
+		todo_tasks_events = tasks + events
+
+		return todo_tasks_events
+
+	
 
 
 # Panel definitions for ToolPage
