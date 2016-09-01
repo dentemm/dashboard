@@ -16,6 +16,10 @@ a.info {
 	color: white;
 }
 
+a.info-link {
+	font-size: 28px;
+}
+
 a.info:hover, a.info:focus {
 	color: #666;
 	cursor: pointer;

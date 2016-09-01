@@ -1,0 +1,11 @@
+<div class="alert alert-{{request.bs_color}} m-a-xs" role="alert">
+	<h4 class="m-a-xs">{{ request.name }}</h4>
+		<h5 class="m-a-xs">{{ request.description }}</h5>
+		<hr>
+    <h5><span class="icon icon-user"></span> {{ request.owner }}</h5>
+    <h5><span class="icon icon-calendar"></span> {{ request.due_date|date:'j M' }}</h5>
+    <button class="btn btn-dark">More</button>
+{% if request.status == 2  %}
+	<h5><span class="icon icon-check"> Accepted!</span></h5>
+{% endif %}
+</div>

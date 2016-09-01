@@ -387,7 +387,7 @@ class ToolPage(RoutablePageMixin, models.Page):
 	'''
 	
 	'''
-	template = 'home/tool.html'
+	template = 'tool/tool.html'
 
 	name = djangomodels.CharField(max_length=63, unique=True)
 	tool_number = djangomodels.PositiveIntegerField(null=True, blank=True)
