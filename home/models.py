@@ -35,8 +35,6 @@ TASK_STATUS_CHOICES = (
 	(0, 'To Do'),
 	(1, 'In Progress'),
 	(2, 'Done'),
-	(3, 'Proposed'),
-	(4, 'rejected')
 )
 
 REQUEST_CHOICES = (
@@ -342,6 +340,12 @@ class EventPage(models.Page):
 		return 'primary'
 
 	@property
+	def status(self):
+		# TODO: implementeer manier om te bepalen wat de status van een event is op basis van diens taken!
+		return 0
+	
+
+	@property
 	def task_count_distinct_owner(self):
 
 		return Task.objects.all().filter(event=self).values('owner').distinct().count()
@@ -428,10 +432,18 @@ class ToolPage(RoutablePageMixin, models.Page):
 	def submodules(self):
 		return self.modules.all().exclude(is_main=True)
 	
+	@property
+	def activities(self):
+
+		# Return false if no tasks or events related to this tool
+		if self.loose_tasks.count == 0 and EventPage.objects.all().filter(module__tool=self).count == 0:
+			return False
+
+		return True
+	
 
 	@property
 	def loose_tasks(self):
-
 	    loose_tasks = Task.objects.all().filter(module__tool=self).filter(event=None)
 	    return loose_tasks
 	
@@ -466,14 +478,29 @@ class ToolPage(RoutablePageMixin, models.Page):
 	@property
 	def todo_tasks_events(self):
 
-		tasks = list(self.loose_tasks)
-		events = list(EventPage.objects.all().filter(module__tool=self))
+		tasks = list(self.loose_tasks.filter(status=0))
+		# WATCHOUT: Possible efficiency issue!
+		events = [item for item in EventPage.objects.all().filter(module__tool=self) if item.status == 0]
 
-		todo_tasks_events = tasks + events
+		return tasks + events
 
-		return todo_tasks_events
+	@property
+	def inprogress_tasks_events(self):
 
-	
+		tasks = list(self.loose_tasks.filter(status=1))
+		# WATCHOUT: Possible efficiency issue!
+		events = [item for item in EventPage.objects.all().filter(module__tool=self) if item.status == 1]
+
+		return tasks + events
+
+	@property
+	def done_tasks_events(self):
+
+		tasks = list(self.loose_tasks.filter(status=2))
+		# WATCHOUT: Possible efficiency issue!
+		events = [item for item in EventPage.objects.all().filter(module__tool=self) if item.status == 2]
+
+		return tasks + events
 
 
 # Panel definitions for ToolPage

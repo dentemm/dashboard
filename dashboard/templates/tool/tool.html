@@ -1,7 +1,17 @@
 {% extends 'layout.html' %}
 
+{% load static %}
+
 {% block title %}
 	ToolBoard: {{ self.title }}
+{% endblock %}
+
+{% block extra_css %}
+	{{ block.super }}
+	<!-- FULLCALENDAR: Calendar and scheduler -->
+	<link rel="stylesheet" href="{% static 'plugins/fullcalendar/custom_calendar.css' %}"/>
+  	<link rel="stylesheet" href="{% static 'plugins/fullcalendar/fullcalendar.min.css' %}"/>
+  	<link rel="stylesheet" href="{% static 'plugins/fullcalendar/scheduler.min.css' %}"/> 
 {% endblock %}
 
 {% block content %}
@@ -78,6 +88,29 @@
 		        	</div>
 		      	</div>
 		    </div>
+<!-- Timeline -->
+	        <div class="dashhead m-t">
+	          	<div class="dashhead-titles">
+		    		<h2 class="dashhead-title">Timeline
+		    			<a data-toggle="collapse" data-target="#collapse-timeline" class="collapsor">
+		    			</a>
+		    		</h2>
+	          	</div>
+	        </div>
+	        <hr class="m-t-0 m-b-sm">
+	        {% if page.activities %}
+		        <div class="row collapse in p-b-md" id="collapse-timeline">
+		        	<div class="col-xs-12">
+		        		<div id="calendar"></div>
+		        	</div>
+		        </div>
+	        {% else %}
+		        <div class="row collapse in p-b-md" id="collapse-timeline">
+		        	<div class="col-xs-12">
+		        		<p>No tasks available ... </p>
+		        	</div>
+		        </div>
+	        {% endif %}
 <!-- Action list -->
 		    <div class="dashhead m-t">
 		      	<div class="dashhead-titles">
@@ -93,7 +126,7 @@
 		    <hr class="m-y-xs">
 		    <div class="row collapse in" id="collapse-time">
 		      	<div class="col-md-4 p-a-0">
-		        	<h3 class="text-center">To Do & Upcoming</h3>
+		        	<h3 class="text-center">To Do / Upcoming</h3>
 		        	<div id="upcoming" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
 		        		{% for item in page.todo_tasks_events %}
 		        			{% include 'tool/partials/task_event_alert.html' with item=item %}
@@ -196,6 +229,84 @@
 
 {% block extra_js %}
     {# Override this in templates to add extra javascript #}
+	<!-- MOMENT: Datetime representations-->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+	<!-- FULLCALENDAR: Calendar and scheduler -->
+	<script type="text/javascript" src="{% static 'plugins/fullcalendar/fullcalendar.min.js' %}"></script>
+  	<script type="text/javascript" src="{% static 'plugins/fullcalendar/scheduler.min.js' %}"></script>
+  	<!-- MATCHHEIGHT: Init-->
+  	<script type="text/javascript">
+	  	$(function() {
+	  		$.fn.matchHeight._maintainScroll = true;
+	    	$('.equal-height').matchHeight();
+	  	});
+  	</script>
+  	<!-- FULLCALENDAR: Init-->
+	<script>
+   		$(function() { // dom ready
+	      $('#calendar').fullCalendar({
+	        schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+	        resourceAreaWidth: 140,
+	        defaultDate: '2016-08-08',
+	        defaultDate: moment().startOf('day'),	// Today in Moment.js
+	        editable: true,
+	        //aspectRatio: 4.35,
+	        contentHeight: 30 * {{ page.task_count_distinct_owner }} + 28,  /* aantal resources bepaalt hoogte van kalender */
+	        eventOverlap: false,
+	        //scrollTime: '00:00',
+	        minTime: '05:00',
+	        maxTime: '23:00',
+	        header: {
+	          left: 'promptResource today prev,next',
+	          //left: null,
+	          center: 'title',
+	          //right: 'timelineDay,timelineThreeDays,timelineTenDays,month',
+	          //right: null 
+	          right: 'timelineDay,timelineWW,timeline2WW'
+	        },
+	        customButtons: {
+	        },
+	        defaultView: 'timelineDay',
+	        views: {
+	          timelineDay: {
+	            buttonText: 'Today',
+	            slotDuration: '01:00',
+	            duration: {days: 7 }
+	          },
+	          timelineWW: {
+	            type: 'timeline',
+	            slotDuration: '04:00',
+	            duration: { days: 7 }
+	          },
+	          timeline2WW: {
+	            type: 'timeline',
+	            slotDuration: '08:00',
+	            duration: { days: 14 }
+	          }
+	        },
+	        resourceLabelText: 'Owner',
+	        resources: '/api/resources/tool/{{ page.pk }}/',
+	        events: '/api/events/tool/{{ page.pk }}/', /* events list afkomstig van url */
+	        //eventClick: function(event) {
+	        	/* This callback gets executed when an event is being clicked by a user */
+
+	          //$('#calendartaskmodal').modal();
+	 
+	       // },
+	        eventAfterRender: function(event, element, view) {
+	        	/* This callback get executed when an event is added to the calendar */
+
+	        	// Add Bootstrap modal data attributes
+	        	$(element).attr('data-taskid', event.id);
+	        	$(element).attr('data-target', '#calendartaskmodal');
+	        	$(element).attr('data-toggle', 'modal');
+	        }
+	      });
+	    });
+  	</script>
+
+
+
     {{ block.super }}
     	<script type="text/javascript">
 		    options = {

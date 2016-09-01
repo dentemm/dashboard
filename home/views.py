@@ -206,7 +206,7 @@ class TasksForEventApiView(APIView):
 
 			else:
 				if task.priority == 1:
-					color = '#e64759'
+					color = '#e64759' 
 
 				elif task.priority == 2:
 					color = '#FF9017'
