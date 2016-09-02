@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView, UpdateView
 
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
@@ -121,6 +121,24 @@ class AddTaskModalView(CreateView):
 		print(' ----- url: %s' % ctx['post_url']) 
 
 		return ctx
+
+class UpdateTaskModalView(UpdateView):
+
+	template_name = 'task/modals/updatetaskmodal.html'
+	model = Task
+	fields = ['owner']
+
+	'''def get_context_data(self, **kwargs):
+
+		ctx = super(TaskModalView, self).get_context_data(**kwargs)
+
+		task_id = self.kwargs['id']
+
+		#print('task: %s' % task_id)
+
+		ctx['task'] = Task.objects.get(id=task_id)
+
+		return ctx'''
 
 #
 #

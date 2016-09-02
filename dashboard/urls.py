@@ -27,7 +27,8 @@ urlpatterns = [
 
     url(r'tasks/new/tool/(?P<tool_id>\d+)/$', home_views.AddTaskModalView.as_view(), name='add-task-for-tool'),
 
-    url(r'tasks/(?P<id>\d+)/$', home_views.TaskModalView.as_view(), name='task-modal'),
+    url(r'tasks/(?P<pk>\d+)/$', home_views.UpdateTaskModalView.as_view(), name='update-task-modal'),
+    #url(r'tasks/(?P<id>\d+)/$', home_views.TaskModalView.as_view(), name='task-modal'),
 
     url(r'requests/new/tool/(?P<tool_id>\d+)/$', home_views.AddRequestModalView.as_view(), name='add-request-for-tool'),
 

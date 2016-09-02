@@ -242,7 +242,6 @@ class Task(djangomodels.Model):
 	status = djangomodels.IntegerField(choices=TASK_STATUS_CHOICES, null=False, default=0)
 	single = djangomodels.BooleanField(default=True)
 
-
 	# Managers
 	objects = djangomodels.Manager()
 	loose_tasks = LooseTasksManager()
@@ -251,7 +250,7 @@ class Task(djangomodels.Model):
 	#base_form_class = TaskCreationForm
 
 	class Meta:
-		pass
+		ordering = ['event', 'owner']
 
 	def __str__(self):
 		return self.title
