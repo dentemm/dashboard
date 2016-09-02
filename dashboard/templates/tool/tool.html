@@ -147,20 +147,7 @@
 		    	<div class="col-md-4 p-a-0">
 		        	<h3 class="text-center">Done</h3>
 		        	<div id="done" class="p-a-xs m-a-xs equal-height" style="min-height:100px; background-color: #434857;">
-						<div class="alert alert-warning m-a-xs" role="alert">
-						  	<h4>This task has been planned, but is not completed yet!</h4>
-					        <hr>
-					        <h4><span class="icon icon-user"></span> Top hardware engineer</h4>
-					        <h4><span class="icon icon-calendar"></span> 18-10-2015</h4>
-					        <button class="btn btn-dark">More</button>
-						</div>
-						<div class="alert alert-success m-a-xs" role="alert">
-					        <h4>This task has been planned, and also has been completed. Completed tasks will stay in this list for 2 more weeks</h4>
-					        <hr>
-					        <h4><span class="icon icon-user"></span> Top hardware engineer</h4>
-					        <h4><span class="icon icon-calendar"></span> 18-10-2015</h4>
-					        <h4><span class="icon icon-check"> Done!</span></h4>
-						</div>
+
 		    		</div>
 		    	</div>
 		    </div>
@@ -229,88 +216,94 @@
 
 {% block extra_js %}
     {# Override this in templates to add extra javascript #}
-	<!-- MOMENT: Datetime representations-->
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
-	<!-- FULLCALENDAR: Calendar and scheduler -->
-	<script type="text/javascript" src="{% static 'plugins/fullcalendar/fullcalendar.min.js' %}"></script>
-  	<script type="text/javascript" src="{% static 'plugins/fullcalendar/scheduler.min.js' %}"></script>
-  	<!-- MATCHHEIGHT: Init-->
-  	<script type="text/javascript">
-	  	$(function() {
-	  		$.fn.matchHeight._maintainScroll = true;
-	    	$('.equal-height').matchHeight();
-	  	});
-  	</script>
-  	<!-- FULLCALENDAR: Init-->
-	<script>
-   		$(function() { // dom ready
-	      $('#calendar').fullCalendar({
-	        schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-	        resourceAreaWidth: 140,
-	        defaultDate: '2016-08-08',
-	        defaultDate: moment().startOf('day'),	// Today in Moment.js
-	        editable: true,
-	        //aspectRatio: 4.35,
-	        contentHeight: 30 * {{ page.task_count_distinct_owner }} + 28,  /* aantal resources bepaalt hoogte van kalender */
-	        eventOverlap: false,
-	        //scrollTime: '00:00',
-	        minTime: '05:00',
-	        maxTime: '23:00',
-	        header: {
-	          left: 'promptResource today prev,next',
-	          //left: null,
-	          center: 'title',
-	          //right: 'timelineDay,timelineThreeDays,timelineTenDays,month',
-	          //right: null 
-	          right: 'timelineDay,timelineWW,timeline2WW'
-	        },
-	        customButtons: {
-	        },
-	        defaultView: 'timelineDay',
-	        views: {
-	          timelineDay: {
-	            buttonText: 'Today',
-	            slotDuration: '01:00',
-	            duration: {days: 7 }
-	          },
-	          timelineWW: {
-	            type: 'timeline',
-	            slotDuration: '04:00',
-	            duration: { days: 7 }
-	          },
-	          timeline2WW: {
-	            type: 'timeline',
-	            slotDuration: '08:00',
-	            duration: { days: 14 }
-	          }
-	        },
-	        resourceLabelText: 'Owner',
-	        resources: '/api/resources/tool/{{ page.pk }}/',
-	        events: '/api/events/tool/{{ page.pk }}/', /* events list afkomstig van url */
-	        //eventClick: function(event) {
-	        	/* This callback gets executed when an event is being clicked by a user */
+        {{ block.super }}
 
-	          //$('#calendartaskmodal').modal();
-	 
-	       // },
-	        eventAfterRender: function(event, element, view) {
-	        	/* This callback get executed when an event is added to the calendar */
+		<!-- MOMENT: Datetime representations-->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+		<!-- FULLCALENDAR: Calendar and scheduler -->
+		<script type="text/javascript" src="{% static 'plugins/fullcalendar/fullcalendar.min.js' %}"></script>
+	  	<script type="text/javascript" src="{% static 'plugins/fullcalendar/scheduler.min.js' %}"></script>
+	  	<!-- MATCHHEIGHT: Init-->
+	  	<script type="text/javascript">
+		  	$(function() {
+		  		$.fn.matchHeight._maintainScroll = true;
+		    	$('.equal-height').matchHeight();
+		  	});
+	  	</script>
+	  	<!-- FULLCALENDAR: Init-->
+		<script>
+	   		$(function() { // dom ready
+		      $('#calendar').fullCalendar({
+		        schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+		        resourceAreaWidth: 140,
+		        defaultDate: '2016-08-08',
+		        defaultDate: moment().startOf('day'),	// Today in Moment.js
+		        editable: true,
+		        //aspectRatio: 4.35,
+		        contentHeight: 30 * {{ page.task_count_distinct_owner }} + 28,  /* aantal resources bepaalt hoogte van kalender */
+		        eventOverlap: false,
+		        //scrollTime: '00:00',
+		        minTime: '05:00',
+		        maxTime: '23:00',
+		        header: {
+		          left: 'promptResource today prev,next',
+		          //left: null,
+		          center: 'title',
+		          //right: 'timelineDay,timelineThreeDays,timelineTenDays,month',
+		          //right: null 
+		          right: 'timelineDay,timelineWW,timeline2WW'
+		        },
+		        customButtons: {
+		        },
+		        defaultView: 'timelineDay',
+		        views: {
+		          timelineDay: {
+		            buttonText: 'Today',
+		            slotDuration: '01:00',
+		            duration: {days: 7 }
+		          },
+		          timelineWW: {
+		            type: 'timeline',
+		            slotDuration: '04:00',
+		            duration: { days: 7 }
+		          },
+		          timeline2WW: {
+		            type: 'timeline',
+		            slotDuration: '08:00',
+		            duration: { days: 14 }
+		          }
+		        },
+		        resourceLabelText: 'Owner',
+		        resources: '/api/resources/tool/{{ page.pk }}/',
+		        events: '/api/events/tool/{{ page.pk }}/', /* events list afkomstig van url */
+		        //eventClick: function(event) {
+		        	/* This callback gets executed when an event is being clicked by a user */
 
-	        	// Add Bootstrap modal data attributes
-	        	$(element).attr('data-taskid', event.id);
-	        	$(element).attr('data-target', '#calendartaskmodal');
-	        	$(element).attr('data-toggle', 'modal');
-	        }
-	      });
-	    });
-  	</script>
+		          //$('#calendartaskmodal').modal();
+		 
+		       // },
+		        eventAfterRender: function(event, element, view) {
+		        	/* This callback get executed when an event is added to the calendar */
 
-
-
-    {{ block.super }}
+		        	// Add Bootstrap modal data attributes
+		        	$(element).attr('data-taskid', event.id);
+		        	$(element).attr('data-target', '#calendartaskmodal');
+		        	$(element).attr('data-toggle', 'modal');
+		        }
+		      });
+		    });
+	  	</script>
     	<script type="text/javascript">
 		    options = {
-		      revertOnSpill: true
+		      revertOnSpill: true,
+		      // invalid option to disallow tool events from being dragged
+		      invalid: function(el, handle) {
+		      	if ($(el).hasClass('tool-event')) {
+		      		return true;
+		      	}
+
+	      		return false;
+		      }
 		    }
 		  	// initieer Dragula 
 		  	drake = dragula([upcoming, progress, done], options);

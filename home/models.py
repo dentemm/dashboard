@@ -305,10 +305,11 @@ class EventPage(models.Page):
 	name = djangomodels.CharField('title', max_length=63)
 	description = djangomodels.TextField(max_length=510, blank=True, null=True)
 
-	start_date = djangomodels.DateTimeField(blank=True, null=True)
-	end_date = djangomodels.DateTimeField(blank=True, null=True)
+	#start_date = djangomodels.DateTimeField(blank=True, null=True)
+	#end_date = djangomodels.DateTimeField(blank=True, null=True)
 
-	responsible = djangomodels.ForeignKey(settings.AUTH_USER_MODEL, related_name='events', blank=True, null=True)
+	# owner field already taken by parent Page class
+	responsible = djangomodels.ForeignKey(settings.AUTH_USER_MODEL, related_name='events', blank=True, null=True) 
 
 	module = djangomodels.ForeignKey('home.ToolModule', related_name='events', null=True, blank=True)
 
@@ -340,11 +341,20 @@ class EventPage(models.Page):
 		return 'primary'
 
 	@property
+	def start_datetime(self):
+		return self._start_datetime
+
+	@property
+	def end_datetime(self):
+		return self._end_datetime
+	
+	
+
+	@property
 	def status(self):
 		# TODO: implementeer manier om te bepalen wat de status van een event is op basis van diens taken!
 		return 0
 	
-
 	@property
 	def task_count_distinct_owner(self):
 
@@ -478,7 +488,7 @@ class ToolPage(RoutablePageMixin, models.Page):
 
 	@property
 	def planned_requests(self):
-		return Request.objects.all().filter(tool=self).filter(status=2)
+		return Request.objects.all().filter(tool=self).filter(status=3)
 
 	@property
 	def todo_tasks_events(self):

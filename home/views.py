@@ -261,11 +261,12 @@ class ActivitiesForToolApiView(APIView):
 
 	def get(self, request, format=None):
 
-		tasks = Task.objects.filter(module__tool__pk=self.tool_id)
+		tool_tasks = Task.objects.filter(module__tool__pk=self.tool_id)
+		tool_events = EventPage.objects.filter(module__tool__pk=self.tool_id)
 
 		events = []
 
-		for task in tasks:
+		for task in tool_tasks:
 
 			color = ''
 
@@ -304,11 +305,12 @@ class ResourcesForToolApiView(APIView):
 
 	def get(self, request, format=None):
 
-		tasks = Task.objects.filter(module__tool__pk=self.tool_id)
+		tool_tasks = Task.objects.filter(module__tool__pk=self.tool_id)
+		tool_events = EventPage.objects.filter(module__tool__pk=self.tool_id)
 
 		resources = []
 
-		for task in tasks:
+		for task in tool_tasks:
 			resources.append({
 				'id': task.owner.user.id, 'title': task.owner.user.username
 			})

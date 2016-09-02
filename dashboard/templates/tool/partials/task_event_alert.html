@@ -11,8 +11,13 @@
 	{% endif %}
 	</div>
 {% else %}
-	<div class="alert alert-{{item.bs_color}} m-a-xs" role="alert">
-		<h4 class="m-a-xs">{{ item.name }}</h4>
+	<div class="alert alert-{{item.bs_color}} m-a-xs tool-event" role="alert">
+		<h4 class="m-a-xs">{{ item.name }} 
+			<a data-toggle="popover" data-placement="right" data-content="Events are not draggable, and should be updated at the dedicated event page. Check the 'More' button!" data-title="Event" class="info">
+				<i class="fa fa-info-circle"></i>
+			</a>
+		</h4>
+
 			<h5 class="m-a-xs">{{ item.description }}</h5>
 			<hr>
 	    <h5><span class="icon icon-user"></span> {{ item.responsible }}</h5>
