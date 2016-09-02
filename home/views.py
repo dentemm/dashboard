@@ -6,7 +6,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
 from .models import Task, EventPage, ToolModule, ToolPage, Request
-from .forms import TaskForm, RequestForm
+from .forms import TaskForm, TaskUpdateForm, RequestForm
 
 #
 #
@@ -127,7 +127,7 @@ class UpdateTaskModalView(UpdateView):
 
 	template_name = 'task/modals/updatetaskmodal.html'
 	model = Task
-	fields = ['owner']
+	form_class = TaskUpdateForm
 
 	def post(self, request, *args, **kwargs):
 		self.success_url = request.META.get('HTTP_REFERER')

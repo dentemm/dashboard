@@ -1,3 +1,5 @@
+{% load widget_tweaks %}
+
 <div class="modal-dialog">
   	<div class="modal-content">
   		<form action="{{ post_url }}" method="post">
@@ -6,9 +8,44 @@
 			    <h3 class="modal-title">{{ task }}</h3>
 			    <h6 class="m-y-0">{{ task.module.tool }}</h6>
 		    </div>
-		    <div class="modal-body">
-		    	{% csrf_token %}
-		      	<p>{{ form }}</p>
+		    <div class="modal-body">	
+		        <div class="row">
+		          <div class="col-xs-12">
+		              {% csrf_token %}
+		              {{ form.media }}
+		              {{ form.errors }}
+		            <div class="row">
+		              <div class="col-xs-5">
+		                <b>Owner:</b>
+		                {% render_field form.owner class+='form-control m-b-sm' %}
+		              </div> 
+		              <div class="col-xs-5 col-xs-offset-2">
+		                <b>Priority:</b>
+		                {% render_field form.priority class+='form-control m-b-sm' %}
+		              </div>
+		              <div class="col-xs-5">
+		                <b>Status:</b>
+		                {% render_field form.status class+='form-control m-b-sm' %}
+		              </div>
+		            </div>
+		            <div class="row">
+		              <div class="col-xs-5">
+		                <b>Start Date/Time:</b>
+		                <div class="input-with-icon dashhead-toolbar-item">
+		                  {% render_field form.start_datetime class+='form-control' placeholder='YYYY-MM-DD HH:mm' %}
+		                  <span class="icon icon-calendar"></span>
+		                </div>      
+		              </div>
+		              <div class="col-xs-5 col-xs-offset-2">
+		                <b>Due Date/Time:</b>
+		                <div class="input-with-icon dashhead-toolbar-item">
+		                  {% render_field form.due_datetime class+='form-control m-b-md' placeholder='YYYY-MM-DD HH:mm' %}
+		                  <span class="icon icon-calendar"></span>
+		                </div>
+		              </div>
+		            </div>
+		          </div>
+		        </div>
 		    </div>
 		    <div class="modal-actions">
 		      	<button type="button" class="btn-link modal-action" data-dismiss="modal">Cancel</button>
