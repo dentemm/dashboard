@@ -212,8 +212,8 @@
 	          }
 	        },
 	        resourceLabelText: 'Owner',
-	        resources: '/api/resources/event/{{ page.pk }}/',
-	        events: '/api/events/event/{{ page.pk }}/', /* events list afkomstig van url */
+	        resources: "{% url 'event-resources' event_id=page.pk %}",
+	        events: "{% url 'event-events' event_id=page.pk %}",
 	        //eventClick: function(event) {
 	        	/* This callback gets executed when an event is being clicked by a user */
 
@@ -239,7 +239,8 @@
 			var id = $(e.relatedTarget).data("taskid");
 
 			$.ajax({
-				url:"/tasks/" + id,
+				url:"/tasks/update/" + id,	// Impossible to solve through {- url -} template tag?
+				//url: "{- url 'update-task-modal' pk=page.page.page -}",
 				type: "GET",
 				success: task_handler,
 
@@ -263,7 +264,7 @@
 			console.log(id);
 
 			$.ajax({
-				url:"/tasks/new/event/" + id,
+				url: "{% url 'add-task-for-event' event_id=page.pk %}",
 				type: "GET",
 				success: task_handler,
 

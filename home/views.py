@@ -180,7 +180,7 @@ class AddRequestModalView(CreateView):
 
 		if self.tool_id != 'empty':
 			ctx['tool'] = ToolPage.objects.get(id=self.tool_id)
-			ctx['post_url'] = '/requests/new/tool/%s/' % self.tool_id
+			ctx['post_url'] = reverse('add-request-for-tool', kwargs={'tool_id': self.tool_id})
 
 		return ctx
 
