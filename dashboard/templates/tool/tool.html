@@ -283,8 +283,8 @@
 		          }
 		        },
 		        resourceLabelText: 'Owner',
-		        resources: '/api/resources/tool/{{ page.pk }}/',
-		        events: '/api/events/tool/{{ page.pk }}/', /* events list afkomstig van url */
+		        resources: "{% url 'tool-resources' tool_id=page.pk %}",
+		        events:"{% url 'tool-events' tool_id=page.pk %}",
 		        //eventClick: function(event) {
 		        	/* This callback gets executed when an event is being clicked by a user */
 
@@ -380,7 +380,7 @@
 				console.log('tool: ' + id)
 
 				$.ajax({
-					url:"/requests/new/tool/" + {{ page.pk }},
+					url: "{% url 'add-request-for-tool' tool_id=page.pk %}",
 					type: "GET",
 
 					success: task_handler,
