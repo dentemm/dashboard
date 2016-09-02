@@ -1,18 +1,19 @@
 <div class="modal-dialog">
-  <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <h3 class="modal-title">{{ task }}</h3>
-      <h6 class="m-y-0">{{ task.module.tool }}</h6>
-    </div>
-    <div class="modal-body">
-      <p>Update task modal</p>
-    </div>
-    <div class="modal-actions">
-      <button type="button" class="btn-link modal-action" data-dismiss="modal">Cancel</button>
-      <button type="button" class="btn-link modal-action" data-dismiss="modal">
-        <strong>Edit</strong>
-      </button>
-    </div>
-  </div>
+  	<div class="modal-content">
+  		<form action="{{ post_url }}" method="post">
+	    	<div class="modal-header">
+			    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			    <h3 class="modal-title">{{ task }}</h3>
+			    <h6 class="m-y-0">{{ task.module.tool }}</h6>
+		    </div>
+		    <div class="modal-body">
+		    	{% csrf_token %}
+		      	<p>{{ form }}</p>
+		    </div>
+		    <div class="modal-actions">
+		      	<button type="button" class="btn-link modal-action" data-dismiss="modal">Cancel</button>
+		      	<input type="submit" class="btn-link modal-action" id="updatetask" value="Edit">
+		    </div>
+		</form>
+  	</div>
 </div>

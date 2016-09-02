@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView, CreateView, UpdateView
+from django.urls import reverse
 
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
@@ -111,11 +112,11 @@ class AddTaskModalView(CreateView):
 
 		if event_id != 'empty':
 			ctx['tool'] = EventPage.objects.get(id=event_id)
-			ctx['post_url'] = '/tasks/new/event/%s/' % event_id
+			ctx['post_url'] = reverse('add-task-for-event', kwargs={'event_id': event_id})
 
 		if tool_id != 'empty':
 			ctx['tool'] = ToolPage.objects.get(id=tool_id)
-			ctx['post_url'] = 'tasks/new/tool/%s/' % tool_id
+			ctx['post_url'] = reverse('add-task-for-tool', kwargs={'tool_id': tool_id})
 
 		
 		print(' ----- url: %s' % ctx['post_url']) 
