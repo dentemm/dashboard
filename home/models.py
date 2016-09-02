@@ -431,6 +431,11 @@ class ToolPage(RoutablePageMixin, models.Page):
 	@property
 	def submodules(self):
 		return self.modules.all().exclude(is_main=True)
+
+	@property
+	def task_count_distinct_owner(self):
+
+		return Task.objects.all().filter(module__tool=self).values('owner').distinct().count()		
 	
 	@property
 	def activities(self):

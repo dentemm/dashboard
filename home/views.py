@@ -248,3 +248,69 @@ class ResourcesForEventApiView(APIView):
 			})
 
 		return Response(resources)
+
+class ActivitiesForToolApiView(APIView):
+
+	def dispatch(self, request, *args, **kwargs):
+
+		self.tool_id = kwargs.pop('tool_id', None)
+
+		print('tool id: %s' % self.tool_id)
+
+		return super(ActivitiesForToolApiView, self).dispatch(request, *args, **kwargs)
+
+	def get(self, request, format=None):
+
+		tasks = Task.objects.filter(module__tool__pk=self.tool_id)
+
+		events = []
+
+		for task in tasks:
+
+			color = ''
+
+			if task.status == 2:
+				color = '#1bc98e'
+
+			else:
+				if task.priority == 1:
+					color = '#e64759' 
+
+				elif task.priority == 2:
+					color = '#FF9017'
+
+				elif task.priority == 3:
+					color = '#1ca8dd'
+
+				else:
+					color = '#9f86ff'
+
+
+			events.append({
+				'id': task.pk, 'resourceId': task.owner.pk, 'start': task.start_datetime, 'end': task.due_datetime, 'title': task.title, 'color': color
+			})
+
+		return Response(events)
+
+class ResourcesForToolApiView(APIView):
+
+	def dispatch(self, request, *args, **kwargs):
+
+		self.tool_id = kwargs.pop('tool_id', None)
+
+		print('tool id: %s' % self.tool_id)
+
+		return super(ResourcesForToolApiView, self).dispatch(request, *args, **kwargs)
+
+	def get(self, request, format=None):
+
+		tasks = Task.objects.filter(module__tool__pk=self.tool_id)
+
+		resources = []
+
+		for task in tasks:
+			resources.append({
+				'id': task.owner.user.id, 'title': task.owner.user.username
+			})
+
+		return Response(resources)
