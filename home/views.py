@@ -119,7 +119,7 @@ class AddTaskModalView(CreateView):
 			ctx['post_url'] = reverse('add-task-for-tool', kwargs={'tool_id': tool_id})
 
 		
-		print(' ----- url: %s' % ctx['post_url']) 
+		#print(' ----- url: %s' % ctx['post_url']) 
 
 		return ctx
 
@@ -129,17 +129,21 @@ class UpdateTaskModalView(UpdateView):
 	model = Task
 	fields = ['owner']
 
-	'''def get_context_data(self, **kwargs):
+	def post(self, request, *args, **kwargs):
+		self.success_url = request.META.get('HTTP_REFERER')
+		return super(UpdateTaskModalView, self).post(request, *args, **kwargs)
 
-		ctx = super(TaskModalView, self).get_context_data(**kwargs)
 
-		task_id = self.kwargs['id']
+	def get_context_data(self, **kwargs):
 
-		#print('task: %s' % task_id)
+		ctx = super(UpdateTaskModalView, self).get_context_data(**kwargs)
 
-		ctx['task'] = Task.objects.get(id=task_id)
+		tool_id = self.kwargs.get('pk', 'empty')
 
-		return ctx'''
+		if tool_id != 'empty':
+			ctx['post_url'] = reverse('update-task-modal', kwargs={'pk': tool_id})
+
+		return ctx
 
 #
 #
