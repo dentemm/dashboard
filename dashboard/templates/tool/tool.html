@@ -28,20 +28,14 @@
 		            <button type="button" class="btn btn-primary-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 		              	<span class="icon icon-pencil"></span> 
 		              	New 
-		              <span class="caret"></span>
+		              	<span class="caret"></span>
 		            </button>
 		            <ul class="dropdown-menu" role="menu">
 			            <li>
-			            	<a href="#" data-toggle="modal" data-target="#taskmodal" data-tool="{{page.pk}}">Small task</a>
+			            	<a href="#" data-toggle="modal" data-target="#taskmodal" data-tool="{{page.pk}}">Task</a>
 			            </li>
 			            <li>
-			            	<a href="#">Maintenance</a>
-			            </li>
-			            <li>
-			            	<a href="#">Escalation</a>
-			            </li>
-			            <li>
-			            	<a href="#">VWV</a>
+			            	<a href="#">Event</a>
 			            </li>
 		            </ul>
           		</div>
@@ -122,6 +116,21 @@
 		      	<a data-toggle="popover" data-placement="left" title="Color Legend" data-content="<i>hier komt de inhoud</i>" data-trigger="click" data-html="true" class="info-link pull-right">
 		      		<i class="fa fa-info-circle"></i>
 		      	</a>
+          		<div class="btn-group m-l-lg">
+		            <button type="button" class="btn btn-sm btn-primary-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+		              	<span class="icon icon-pencil"></span> 
+		              	Add 
+		              	<span class="caret"></span>
+		            </button>
+		            <ul class="dropdown-menu" role="menu">
+			            <li>
+			            	<a href="#" data-toggle="modal" data-target="#taskmodal" data-tool="{{page.pk}}">Task</a>
+			            </li>
+			            <li>
+			            	<a href="#">Event</a>
+			            </li>
+		            </ul>
+          		</div>
 		    </div>
 		    <hr class="m-y-xs">
 		    <div class="row collapse in" id="collapse-time">
