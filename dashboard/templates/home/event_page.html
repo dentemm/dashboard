@@ -176,6 +176,9 @@
 	<!-- FULLCALENDAR: Calendar and scheduler -->
 	<script type="text/javascript" src="{% static 'plugins/fullcalendar/fullcalendar.min.js' %}"></script>
   	<script type="text/javascript" src="{% static 'plugins/fullcalendar/scheduler.min.js' %}"></script>
+
+	<!--<script type="text/javascript" src="{% static 'js/event_page.js' %}"></script>-->
+
   	<!-- MATCHHEIGHT: Init-->
   	<script type="text/javascript">
 	  	$(function() {
@@ -248,66 +251,71 @@
   	</script>
   	<!-- Fetch data for task modal through ajax call -->
 	<script type="text/javascript">
-		$('#calendartaskmodal').on('show.bs.modal', function(e){
+		$(function() {
+			$('#calendartaskmodal').on('show.bs.modal', function(e){
 
-			//console.log(e.relatedTarget);
-			var id = $(e.relatedTarget).data("taskid");
+				//console.log(e.relatedTarget);
+				var id = $(e.relatedTarget).data("taskid");
 
-			$.ajax({
-				url:"/tasks/update/" + id,	// Impossible to solve through {- url -} template tag?
-				//url: "{- url 'update-task-modal' pk=page.page.page -}",
-				type: "GET",
-				success: task_handler,
+				$.ajax({
+					url:"/tasks/update/" + id,	// Impossible to solve through {- url -} template tag?
+					//url: "{- url 'update-task-modal' pk=page.page.page -}",
+					type: "GET",
+					success: task_handler,
 
-				error: function(xhr, ajaxOptions, thrownError) {
-					console.log(xhr.status);
-					alert(thrownError);
-				}
-			});
-			function task_handler(data) {
-				console.log('success');
-				$('#calendartaskmodal').html(data);
-			};
+					error: function(xhr, ajaxOptions, thrownError) {
+						console.log(xhr.status);
+						alert(thrownError);
+					}
+				});
+				function task_handler(data) {
+					console.log('success');
+					$('#calendartaskmodal').html(data);
+				};
+			})
 		})
 	</script>
   	<!-- Add task modal -->
 	<script type="text/javascript">
-		$('#addtaskmodal').on('show.bs.modal', function(e){
+		$(function() {
+			$('#addtaskmodal').on('show.bs.modal', function(e){
 
-			var id = $(e.relatedTarget).data("eventid");
+				var id = $(e.relatedTarget).data("eventid");
 
-			console.log(id);
+				console.log(id);
 
-			$.ajax({
-				url: "{% url 'add-task-for-event' event_id=page.pk %}",
-				type: "GET",
-				success: task_handler,
+				$.ajax({
+					url: "{% url 'add-task-for-event' event_id=page.pk %}",
+					type: "GET",
+					success: task_handler,
 
-				error: function(xhr, ajaxOptions, thrownError) {
-					console.log(xhr.status);
-					alert(thrownError);
-				}
-			});
-			function task_handler(data) {
-				console.log('success');
-				$('#addtaskmodal').html(data);
-			};
+					error: function(xhr, ajaxOptions, thrownError) {
+						console.log(xhr.status);
+						alert(thrownError);
+					}
+				});
+				function task_handler(data) {
+					console.log('success');
+					$('#addtaskmodal').html(data);
+				};
+			})
 		})
 	</script>
 	<script type="text/javascript">
-	    options = {
-	      revertOnSpill: true
-	    }
-	  	// initieer Dragula 
-	  	drake = dragula([todo, inprogress, done], options);
-	  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
-	  	drake.on('drop', function(el, target, source, sibling) {
-	  		$('.equal-height').matchHeight();
-	  		//console.log('drop');
-	  	});
-	  	drake.on('dragend', function(el, target, source, sibling) {
-	  		//console.log('drag end');
-	  	});
-
+		$(function() {
+		    options = {
+		      revertOnSpill: true
+		    }
+		  	// initieer Dragula 
+		  	drake = dragula([todo, inprogress, done], options);
+		  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
+		  	drake.on('drop', function(el, target, source, sibling) {
+		  		$('.equal-height').matchHeight();
+		  		//console.log('drop');
+		  	});
+		  	drake.on('dragend', function(el, target, source, sibling) {
+		  		//console.log('drag end');
+		  	});
+		  })
   	</script>
 {% endblock %}

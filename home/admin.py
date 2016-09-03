@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-from .models import UtilityStatus
 from .models import EventPage, Task, Request
 
 @admin.register(EventPage)
@@ -13,9 +12,5 @@ class TaskAdmin(admin.ModelAdmin):
 
 @admin.register(Request)
 class RequestAdmin(admin.ModelAdmin):
-	pass
-
-@admin.register(UtilityStatus)
-class UtilityStatusAdmin(admin.ModelAdmin):
 	pass
 

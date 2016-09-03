@@ -16,9 +16,6 @@ urlpatterns = [
     url(r'^django-admin/', include(admin.site.urls)),
     url(r'^api/', include('home.urls')),
 
-    # Facility urls
-    url(r'^facilities/', include('utilities.urls')),
-
     # Home views
     #url(r'^tasks/', home_views.LooseTasksView.as_view(), name='tasks')
 
