@@ -168,6 +168,16 @@ class Task(djangomodels.Model):
 	def __str__(self):
 		return self.title
 
+	def save(self, *args, **kwargs):
+		'''
+		Als de Task bij een Event hoort, update dan de timing
+		'''
+
+		if self.event != None:
+			self.event.update_timing(self)
+
+		return super(Task, self).save(*args, **kwargs)
+
 	@property
 	def classname(self):
 		return self.__class__.__name__
@@ -217,8 +227,8 @@ class EventPage(models.Page):
 	name = djangomodels.CharField('title', max_length=63)
 	description = djangomodels.TextField(max_length=510, blank=True, null=True)
 
-	#start_date = djangomodels.DateTimeField(blank=True, null=True)
-	#end_date = djangomodels.DateTimeField(blank=True, null=True)
+	start_date = djangomodels.DateTimeField(blank=True, null=True)
+	end_date = djangomodels.DateTimeField(blank=True, null=True)
 
 	# owner field already taken by parent Page class
 	responsible = djangomodels.ForeignKey(settings.AUTH_USER_MODEL, related_name='events', blank=True, null=True) 
@@ -244,23 +254,26 @@ class EventPage(models.Page):
 
 		return super(EventPage, self).save(*args, **kwargs)
 
+	def update_timing(self, task):
+		'''
+		Update de start en end datetimes van een Event als deze door het toevoegen van een taak worden beinvloed. 
+		'''
+
+		if task.start_datetime < self.start_date:
+			self.start_date = task.start_datetime
+
+		if task.due_datetime > self.end_date:
+			self.end_date = task.due_datetime
+
+		self.save()
+
 	@property
 	def classname(self):
 		return self.__class__.__name__
 
 	@property
 	def bs_color(self):
-		return 'primary'
-
-	@property
-	def start_datetime(self):
-		return self._start_datetime
-
-	@property
-	def end_datetime(self):
-		return self._end_datetime
-	
-	
+		return 'primary'	
 
 	@property
 	def status(self):
@@ -367,7 +380,6 @@ class ToolPage(RoutablePageMixin, models.Page):
 			return False
 
 		return True
-	
 
 	@property
 	def loose_tasks(self):
@@ -384,7 +396,6 @@ class ToolPage(RoutablePageMixin, models.Page):
 		context['loose_tasks'] = Task.loose_tasks.all()
 
 		return TemplateResponse(request, template=template, context=context)
-
 
 	@property
 	def requested_requests(self):
@@ -450,15 +461,6 @@ ToolPage.content_panels =  [
 ToolPage.promote_panels = [
 ]
 
-
-class FacilityStatusPage(models.Page):
-	'''
-	'''
-
-	template = 'home/facility_status.html'
-
-	pass 
-
 @register_snippet
 class ToolModule(djangomodels.Model):
 	'''
@@ -485,7 +487,6 @@ ToolModule.panels = [
 	FieldPanel('name'),
 	FieldPanel('is_main')
 ]
-
 
 class HomePage(models.Page):
     pass
