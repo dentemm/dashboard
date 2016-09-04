@@ -151,6 +151,12 @@ class AddTaskModalView(CreateView):
 
 		return ctx
 
+class UpdateEventModalView(TemplateView):
+
+	def get(self, request, *args, **kwargs):
+
+		return super(UpdateEventModalView, self).get(request, *args, **kwargs)
+
 class UpdateTaskModalView(UpdateView):
 
 	template_name = 'task/modals/updatetaskmodal.html'
@@ -352,7 +358,7 @@ class ActivitiesForToolApiView(APIView):
 			color = '#9f86ff'
 
 			events.append({
-				'id': event.name, 'resourceId': event.responsible.pk, 'start': event.start_date, 'end': event.end_date, 'title': event.name, 'color': color
+				'id': event.slug, 'resourceId': event.responsible.pk, 'start': event.start_date, 'end': event.end_date, 'title': event.name, 'color': color
 			})
 
 		return Response(events)

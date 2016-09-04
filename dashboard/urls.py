@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'tasks/new/tool/(?P<tool_id>\d+)/$', home_views.AddTaskModalView.as_view(), name='add-task-for-tool'),
 
     url(r'tasks/update/(?P<pk>\d+)/$', home_views.UpdateTaskModalView.as_view(), name='update-task-modal'),
+    url(r'tasks/update/(?P<event_name>[\w-]+)/$', home_views.UpdateEventModalView.as_view(), name='update-event-modal'),
     url(r'^updatetasks/event/(?P<event_id>\d+)$', home_views.UpdateTasksForEventView.as_view(), name='update-tasks-for-event'),
 
     # Request views

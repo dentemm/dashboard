@@ -181,7 +181,7 @@
 		    <hr class="m-y-xs">
 		    <div class="row collapse in" id="collapse-request">
 		      	<div class="col-md-3 p-a-0">
-		        	<h3 class="text-center">Requested</h3>
+		        	<h3 class="text-center">Pending</h3>
 		        	<div id="requested" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
 	        		{% for request in page.requested_requests %}
 	        			{% include 'request/partials/request_alert.html' with request=request %}
@@ -386,6 +386,8 @@
 
 				//console.log(e.relatedTarget);
 				var id = $(e.relatedTarget).data("taskid");
+
+				console.log('wat is dit? ' + id)
 
 				$.ajax({
 					url:"/tasks/update/" + id,	// Impossible to solve through {- url -} template tag?
