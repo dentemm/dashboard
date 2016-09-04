@@ -221,6 +221,8 @@
 {% block modals %}
 	<div id="taskmodal" class="modal fade">
   	</div>
+  	<div id="updatetaskmodal" class="modal fade">
+  	</div>
   	<div id="requestmodal" class="modal fade">
   	</div>
 {% endblock %}
@@ -298,7 +300,7 @@
 
 		        	// Add Bootstrap modal data attributes
 		        	$(element).attr('data-taskid', event.id);
-		        	$(element).attr('data-target', '#calendartaskmodal');
+		        	$(element).attr('data-target', '#updatetaskmodal');
 		        	$(element).attr('data-toggle', 'modal');
 		        }
 		      });
@@ -374,6 +376,33 @@
 				};
 			})
 		</script>
+<!-- Updata task modal -->
+		<script type="text/javascript">
+			$(function() {
+				$('#updatetaskmodal').on('show.bs.modal', function(e){
+
+					//console.log(e.relatedTarget);
+					var id = $(e.relatedTarget).data("taskid");
+
+					$.ajax({
+						url:"/tasks/update/" + id,	// Impossible to solve through {- url -} template tag?
+						//url: "{- url 'update-task-modal' pk=page.page.page -}",
+						type: "GET",
+						success: task_handler,
+
+						error: function(xhr, ajaxOptions, thrownError) {
+							console.log(xhr.status);
+							alert(thrownError);
+						}
+					});
+					function task_handler(data) {
+						console.log('success');
+						$('#updatetaskmodal').html(data);
+					};
+				})
+			})
+		</script>
+<!-- Add request modal -->
 		<script type="text/javascript">
 			$('#requestmodal').on('show.bs.modal', function(e){
 

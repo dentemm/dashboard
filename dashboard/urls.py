@@ -16,17 +16,16 @@ urlpatterns = [
     url(r'^django-admin/', include(admin.site.urls)),
     url(r'^api/', include('home.urls')),
 
-    # Home views
-    #url(r'^tasks/', home_views.LooseTasksView.as_view(), name='tasks')
+    # HOME views
 
+    # Task views
     url(r'tasks/new/$', home_views.AddTaskModalView.as_view(), name='add-task-modal'),
     url(r'tasks/new/event/(?P<event_id>\d+)/$', home_views.AddTaskModalView.as_view(), name='add-task-for-event'),
-
     url(r'tasks/new/tool/(?P<tool_id>\d+)/$', home_views.AddTaskModalView.as_view(), name='add-task-for-tool'),
 
     url(r'tasks/update/(?P<pk>\d+)/$', home_views.UpdateTaskModalView.as_view(), name='update-task-modal'),
-    #url(r'tasks/(?P<id>\d+)/$', home_views.TaskModalView.as_view(), name='task-modal'),
 
+    # Request views
     url(r'requests/new/tool/(?P<tool_id>\d+)/$', home_views.AddRequestModalView.as_view(), name='add-request-for-tool'),
 
 

@@ -25,7 +25,6 @@ USER_ROLE_CHOICES = (
 )
 
 TASK_PRIORITY_CHOICES = (
-	(0, 'None'),
 	(1, 'HIGH'),
 	(2, 'MEDIUM'),
 	(3, 'LOW')
@@ -151,7 +150,7 @@ class Task(djangomodels.Model):
 	event = ParentalKey('home.EventPage', related_name='tasks', blank=True, null=True)
 	module = djangomodels.ForeignKey('home.ToolModule', related_name='tasks', null=True, blank=True)
 
-	priority = djangomodels.IntegerField(choices=TASK_PRIORITY_CHOICES, null=True, default=0)
+	priority = djangomodels.IntegerField(choices=TASK_PRIORITY_CHOICES, null=True, default=3)
 	status = djangomodels.IntegerField(choices=TASK_STATUS_CHOICES, null=False, default=0)
 	single = djangomodels.BooleanField(default=True)
 
@@ -370,7 +369,7 @@ class ToolPage(RoutablePageMixin, models.Page):
 	@property
 	def task_count_distinct_owner(self):
 
-		return Task.objects.all().filter(module__tool=self).values('owner').distinct().count()		
+		return Task.objects.all().filter(module__tool=self).values('owner').distinct().count()	
 	
 	@property
 	def activities(self):

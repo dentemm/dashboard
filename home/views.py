@@ -284,7 +284,9 @@ class ActivitiesForToolApiView(APIView):
 
 	def get(self, request, format=None):
 
-		tool_tasks = Task.objects.filter(module__tool__pk=self.tool_id)
+		tool = ToolPage.objects.get(pk=self.tool_id)
+		tool_tasks = tool.loose_tasks
+
 		tool_events = EventPage.objects.filter(module__tool__pk=self.tool_id)
 
 		events = []
@@ -309,9 +311,16 @@ class ActivitiesForToolApiView(APIView):
 				else:
 					color = '#9f86ff'
 
-
 			events.append({
 				'id': task.pk, 'resourceId': task.owner.pk, 'start': task.start_datetime, 'end': task.due_datetime, 'title': task.title, 'color': color
+			})
+
+		for event in tool_events:
+
+			color = '#1ca8dd'
+
+			events.append({
+				'id': event.name, 'resourceId': event.responsible.pk, 'start': event.start_date, 'end': event.end_date, 'title': event.name, 'color': color
 			})
 
 		return Response(events)
@@ -328,7 +337,9 @@ class ResourcesForToolApiView(APIView):
 
 	def get(self, request, format=None):
 
-		tool_tasks = Task.objects.filter(module__tool__pk=self.tool_id)
+		tool = ToolPage.objects.get(pk=self.tool_id)
+		tool_tasks = tool.loose_tasks
+
 		tool_events = EventPage.objects.filter(module__tool__pk=self.tool_id)
 
 		resources = []
@@ -336,6 +347,12 @@ class ResourcesForToolApiView(APIView):
 		for task in tool_tasks:
 			resources.append({
 				'id': task.owner.user.id, 'title': task.owner.user.username
+			})
+
+		for event in tool_events:
+
+			resources.append({
+				'id': event.responsible.pk, 'title': event.responsible.username
 			})
 
 		return Response(resources)
