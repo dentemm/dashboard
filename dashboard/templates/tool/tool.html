@@ -90,6 +90,9 @@
 		    			</a>
 		    		</h2>
 	          	</div>
+			    <a data-toggle="popover" data-placement="left" title="Color Legend" data-content="<i>hier komt de inhoud</i>" data-trigger="click" data-html="true" class="info-link pull-right">
+		      		<i class="fa fa-info-circle"></i>
+		      	</a>
 	        </div>
 	        <hr class="m-t-0 m-b-sm">
 	        {% if page.activities %}
@@ -145,11 +148,8 @@
 		    	<div class="col-md-4 p-a-0">
 		        	<h3 class="text-center">In Progress</h3>
 		    		<div id="progress" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
-		    		    {% for task in page.loose_tasks %}
-						<div class="alert alert-success m-a-xs" role="alert">
-						    <h4 class="m-a-xs">{{ task }} <a data-toggle="modal" data-target="#taskmodal" data-taskid="{{ task.id }}" class="info"><i class="fa fa-info-circle"></i></a></h4>
-		          			<hr>
-						</div>		    	
+		        		{% for item in page.inprogress_tasks_events %}
+		        			{% include 'tool/partials/task_event_alert.html' with item=item %}
 		        		{% endfor %}
 					</div>
 		    	</div>
@@ -228,194 +228,169 @@
 {% endblock %}
 
 {% block extra_js %}
-    {# Override this in templates to add extra javascript #}
-        {{ block.super }}
+    {{ block.super }}
 
-		<!-- MOMENT: Datetime representations-->
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
-		<!-- FULLCALENDAR: Calendar and scheduler -->
-		<script type="text/javascript" src="{% static 'plugins/fullcalendar/fullcalendar.min.js' %}"></script>
-	  	<script type="text/javascript" src="{% static 'plugins/fullcalendar/scheduler.min.js' %}"></script>
-	  	<!-- MATCHHEIGHT: Init-->
-	  	<script type="text/javascript">
-		  	$(function() {
-		  		$.fn.matchHeight._maintainScroll = true;
-		    	$('.equal-height').matchHeight();
-		  	});
-	  	</script>
-	  	<!-- FULLCALENDAR: Init-->
-		<script>
-	   		$(function() { // dom ready
-		      $('#calendar').fullCalendar({
-		        schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-		        resourceAreaWidth: 140,
-		        defaultDate: '2016-08-08',
-		        defaultDate: moment().startOf('day'),	// Today in Moment.js
-		        editable: true,
-		        //aspectRatio: 4.35,
-		        contentHeight: 30 * {{ page.task_count_distinct_owner }} + 28,  /* aantal resources bepaalt hoogte van kalender */
-		        eventOverlap: false,
-		        //scrollTime: '00:00',
-		        minTime: '05:00',
-		        maxTime: '23:00',
-		        header: {
-		          left: 'promptResource today prev,next',
-		          //left: null,
-		          center: 'title',
-		          //right: 'timelineDay,timelineThreeDays,timelineTenDays,month',
-		          //right: null 
-		          right: 'timelineDay,timelineWW,timeline2WW'
-		        },
-		        customButtons: {
-		        },
-		        defaultView: 'timelineDay',
-		        views: {
-		          timelineDay: {
-		            buttonText: 'Today',
-		            slotDuration: '01:00',
-		            duration: {days: 7 }
-		          },
-		          timelineWW: {
-		            type: 'timeline',
-		            slotDuration: '04:00',
-		            duration: { days: 7 }
-		          },
-		          timeline2WW: {
-		            type: 'timeline',
-		            slotDuration: '08:00',
-		            duration: { days: 14 }
-		          }
-		        },
-		        resourceLabelText: 'Owner',
-		        resources: "{% url 'tool-resources' tool_id=page.pk %}",
-		        events:"{% url 'tool-events' tool_id=page.pk %}",
-		        //eventClick: function(event) {
-		        	/* This callback gets executed when an event is being clicked by a user */
+	<!-- MOMENT: Datetime representations-->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+	<!-- FULLCALENDAR: Calendar and scheduler -->
+	<script type="text/javascript" src="{% static 'plugins/fullcalendar/fullcalendar.min.js' %}"></script>
+  	<script type="text/javascript" src="{% static 'plugins/fullcalendar/scheduler.min.js' %}"></script>
+  	<!-- MATCHHEIGHT: Init-->
+  	<script type="text/javascript">
+	  	$(function() {
+	  		$.fn.matchHeight._maintainScroll = true;
+	    	$('.equal-height').matchHeight();
+	  	});
+  	</script>
+<!-- FULLCALENDAR: Init-->
+	<script>
+   		$(function() { // dom ready
+	      $('#calendar').fullCalendar({
+	        schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+	        resourceAreaWidth: 140,
+	        defaultDate: '2016-08-08',
+	        defaultDate: moment().startOf('day'),	// Today in Moment.js
+	        editable: true,
+	        //aspectRatio: 4.35,
+	        contentHeight: 30 * {{ page.task_count_distinct_owner }} + 28,  /* aantal resources bepaalt hoogte van kalender */
+	        eventOverlap: false,
+	        //scrollTime: '00:00',
+	        header: {
+	          left: 'promptResource today prev,next',
+	          //left: null,
+	          center: 'title',
+	          //right: 'timelineDay,timelineThreeDays,timelineTenDays,month',
+	          //right: null 
+	          right: 'timelineDay,timelineWW,timeline2WW'
+	        },
+	        customButtons: {
+	        },
+	        defaultView: 'timelineDay',
+	        views: {
+	          timelineDay: {
+	            buttonText: 'Today',
+	            slotDuration: '01:00',
+	        	minTime: '05:00',
+	        	maxTime: '23:00',
+	            duration: {days: 7 }
+	          },
+	          timelineWW: {
+	            type: 'timeline',
+	            slotDuration: '04:00',
+	            duration: { days: 7 }
+	          },
+	          timeline2WW: {
+	            type: 'timeline',
+	            slotDuration: '08:00',
+	            duration: { days: 14 }
+	          }
+	        },
+	        resourceLabelText: 'Owner',
+	        resources: "{% url 'tool-resources' tool_id=page.pk %}",
+	        events:"{% url 'tool-events' tool_id=page.pk %}",
+	        //eventClick: function(event) {
+	        	/* This callback gets executed when an event is being clicked by a user */
 
-		          //$('#calendartaskmodal').modal();
-		 
-		       // },
-		        eventAfterRender: function(event, element, view) {
-		        	/* This callback get executed when an event is added to the calendar */
+	          //$('#calendartaskmodal').modal();
+	 
+	       // },
+	        eventAfterRender: function(event, element, view) {
+	        	/* This callback get executed when an event is added to the calendar */
 
-		        	// Add Bootstrap modal data attributes
-		        	$(element).attr('data-taskid', event.id);
-		        	$(element).attr('data-target', '#updatetaskmodal');
-		        	$(element).attr('data-toggle', 'modal');
+	        	// Add Bootstrap modal data attributes
+	        	$(element).attr('data-taskid', event.id);
+	        	$(element).attr('data-target', '#updatetaskmodal');
+	        	$(element).attr('data-toggle', 'modal');
 
-		        	//if(event.color == ' ')
-		        }
-		      });
-		    });
-	  	</script>
-    	<script type="text/javascript">
-		    options = {
-		      revertOnSpill: true,
-		      // invalid option to disallow tool events from being dragged
-		      invalid: function(el, handle) {
-		      	if ($(el).hasClass('tool-event')) {
-		      		return true;
-		      	}
+	        	//if(event.color == ' ')
+	        }
+	      });
+	    });
+  	</script>
+<!-- DRAGULA: Init() tasks&events -->
+	<script type="text/javascript">
+	    options = {
+	      revertOnSpill: true,
+	      // invalid option to disallow tool events from being dragged
+	      invalid: function(el, handle) {
+	      	if ($(el).hasClass('tool-event')) {
+	      		return true;
+	      	}
 
-	      		return false;
-		      }
-		    }
-		  	// initieer Dragula 
-		  	drake = dragula([upcoming, progress, done], options);
-		  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
-		  	drake.on('drop', function(el, target, source, sibling) {
-		  		$('.equal-height').matchHeight();
-		  		console.log('drop');
-		  	});
-		  	drake.on('dragend', function(el, target, source, sibling) {
-		  		console.log('drag end');
-		  	});
+      		return false;
+	      }
+	    }
+	  	// initieer Dragula 
+	  	drake = dragula([upcoming, progress, done], options);
+	  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
+	  	drake.on('drop', function(el, target, source, sibling) {
+	  		$('.equal-height').matchHeight();
+	  		console.log('drop');
+	  	});
+	  	drake.on('dragend', function(el, target, source, sibling) {
+	  		console.log('drag end');
+	  	});
 
-	  	</script>
-    	<script type="text/javascript">
-		    options = {
-		      revertOnSpill: true
-		    }
-		  	// initieer Dragula 
-		  	drake = dragula([requested, rejected, accepted, planned], options);
-		  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
-		  	drake.on('drop', function(el, target, source, sibling) {
-		  		$('.equal-height').matchHeight();
-		  		console.log('drop');
-		  	});
-		  	drake.on('dragend', function(el, target, source, sibling) {
-		  		console.log('drag end');
-		  	});
+  	</script>
+<!-- DRAGULA: Init() requests -->
+	<script type="text/javascript">
+	    options = {
+	      revertOnSpill: true
+	    }
+	  	// initieer Dragula 
+	  	drake = dragula([requested, rejected, accepted, planned], options);
+	  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
+	  	drake.on('drop', function(el, target, source, sibling) {
+	  		$('.equal-height').matchHeight();
+	  		console.log('drop');
+	  	});
+	  	drake.on('dragend', function(el, target, source, sibling) {
+	  		console.log('drag end');
+	  	});
 
-	  	</script>
-		<script type="text/javascript">
-			$(function() {
-				$.fn.matchHeight._maintainScroll = true;
-			    $('.equal-height').matchHeight();
+  	</script>
+	<script type="text/javascript">
+		$(function() {
+			$.fn.matchHeight._maintainScroll = true;
+		    $('.equal-height').matchHeight();
+		});
+	</script>
+	<script type="text/javascript">
+		$('#taskmodal').on('show.bs.modal', function(e){
+
+			var id = $(e.relatedTarget).data("tool")
+
+			console.log('tool: ' + id)
+
+			$.ajax({
+				url:"/tasks/new/tool/" + id,
+				type: "GET",
+
+				success: task_handler,
+
+				error: function(xhr, ajaxOptions, thrownError) {
+					console.log(xhr.status);
+					alert(thrownError);
+				}
 			});
-		</script>
-		<script type="text/javascript">
-			$('#taskmodal').on('show.bs.modal', function(e){
 
-				var id = $(e.relatedTarget).data("tool")
-
-				console.log('tool: ' + id)
-
-				$.ajax({
-					url:"/tasks/new/tool/" + id,
-					type: "GET",
-
-					success: task_handler,
-
-					error: function(xhr, ajaxOptions, thrownError) {
-						console.log(xhr.status);
-						alert(thrownError);
-					}
-				});
-
-				function task_handler(data) {
-					$('#taskmodal').html(data);
-				};
-			})
-		</script>
+			function task_handler(data) {
+				$('#taskmodal').html(data);
+			};
+		})
+	</script>
 <!-- Update task modal -->
-		<script type="text/javascript">
-			$(function() {
-				$('#updatetaskmodal').on('show.bs.modal', function(e){
+	<script type="text/javascript">
+		$(function() {
+			$('#updatetaskmodal').on('show.bs.modal', function(e){
 
-					//console.log(e.relatedTarget);
-					var id = $(e.relatedTarget).data("taskid");
-
-					$.ajax({
-						url:"/tasks/update/" + id,	// Impossible to solve through {- url -} template tag?
-						//url: "{- url 'update-task-modal' pk=page.page.page -}",
-						type: "GET",
-						success: task_handler,
-
-						error: function(xhr, ajaxOptions, thrownError) {
-							console.log(xhr.status);
-							alert(thrownError);
-						}
-					});
-					function task_handler(data) {
-						console.log('success');
-						$('#updatetaskmodal').html(data);
-					};
-				})
-			})
-		</script>
-<!-- Add request modal -->
-		<script type="text/javascript">
-			$('#requestmodal').on('show.bs.modal', function(e){
-
-				var id = $(e.relatedTarget).data("tool")
-
-				console.log('tool: ' + id)
+				//console.log(e.relatedTarget);
+				var id = $(e.relatedTarget).data("taskid");
 
 				$.ajax({
-					url: "{% url 'add-request-for-tool' tool_id=page.pk %}",
+					url:"/tasks/update/" + id,	// Impossible to solve through {- url -} template tag?
+					//url: "{- url 'update-task-modal' pk=page.page.page -}",
 					type: "GET",
-
 					success: task_handler,
 
 					error: function(xhr, ajaxOptions, thrownError) {
@@ -423,15 +398,41 @@
 						alert(thrownError);
 					}
 				});
-
 				function task_handler(data) {
-					$('#requestmodal').html(data);
+					console.log('success');
+					$('#updatetaskmodal').html(data);
 				};
 			})
-		</script>
-		<script type="text/javascript">
-			$(function (){
-				$('[data-toggle="popover"]').popover()
+		})
+	</script>
+<!-- Add request modal -->
+	<script type="text/javascript">
+		$('#requestmodal').on('show.bs.modal', function(e){
+
+			var id = $(e.relatedTarget).data("tool")
+
+			console.log('tool: ' + id)
+
+			$.ajax({
+				url: "{% url 'add-request-for-tool' tool_id=page.pk %}",
+				type: "GET",
+
+				success: task_handler,
+
+				error: function(xhr, ajaxOptions, thrownError) {
+					console.log(xhr.status);
+					alert(thrownError);
+				}
 			});
-		</script>
+
+			function task_handler(data) {
+				$('#requestmodal').html(data);
+			};
+		})
+	</script>
+	<script type="text/javascript">
+		$(function (){
+			$('[data-toggle="popover"]').popover()
+		});
+	</script>
 {% endblock %}

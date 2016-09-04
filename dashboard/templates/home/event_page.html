@@ -97,6 +97,9 @@
 		    			</a>
 		    		</h2>
 	          	</div>
+				<a data-toggle="popover" data-placement="left" title="Color Legend" data-content="<i>hier komt de inhoud</i>" data-trigger="click" data-html="true" class="info-link pull-right">
+		      		<i class="fa fa-info-circle"></i>
+		      	</a>
 	        </div>
 	        <hr class="m-t-0 m-b-sm">
 	        {% if page.tasks %}
@@ -120,6 +123,9 @@
 		    			</a>
 		    		</h2>
 	          	</div>
+			    <a data-toggle="popover" data-placement="left" title="Color Legend" data-content="<i>hier komt de inhoud</i>" data-trigger="click" data-html="true" class="info-link pull-right">
+		      		<i class="fa fa-info-circle"></i>
+		      	</a>
 	            <button type="button" class="btn btn-sm btn-primary-outline m-l-lg" data-toggle="modal" data-target="#addtaskmodal" data-eventid="{{ page.pk }}">
 	              	<span class="icon icon-pencil"></span> 
 	              	Add 
@@ -151,13 +157,11 @@
 	        		{% endfor %}
 	    			</div>
 	        	</div>
-	          	<div class="col-md-9 col-md-offset-3 p-l-0 p-t-sm">
+	          	<div id="save-undo-changes" class="hidden col-md-6 col-md-offset-3 text-center p-l-0 p-t-sm">
 	            	<a href="#" class="btn btn-warning-outline pull-riht m-l-xs">Undo Changes</a>
 	            	<a class="btn btn-success-outline pull-riht">Save Changes</a>
 	          	</div>
 	      	</div>
-	    </div>
-	</div>
 <!-- External files -->
 	        <div class="dashhead m-t">
 	          	<div class="dashhead-titles">
@@ -177,6 +181,9 @@
 	        		Hier komen de links
 	        	</div>
 	        </div>
+	    </div>
+	</div>
+
 
 {% endblock %}
 
@@ -219,8 +226,6 @@
 	        contentHeight: 30 * {{ page.task_count_distinct_owner }} + 28,  /* aantal resources bepaalt hoogte van kalender */
 	        eventOverlap: false,
 	        //scrollTime: '00:00',
-	        minTime: '05:00',
-	        maxTime: '23:00',
 	        header: {
 	          left: 'promptResource today prev,next',
 	          //left: null,
@@ -235,6 +240,8 @@
 	        views: {
 	          timelineDay: {
 	            buttonText: 'Today',
+	        	minTime: '05:00',
+	        	maxTime: '23:00',
 	            slotDuration: '01:00',
 	            duration: {days: 7 }
 	          },
@@ -247,7 +254,7 @@
 	            type: 'timeline',
 	            slotDuration: '08:00',
 	            duration: { days: 14 }
-	          }
+	          },
 	        },
 	        resourceLabelText: 'Owner',
 	        resources: "{% url 'event-resources' event_id=page.pk %}",
@@ -332,12 +339,19 @@
 		  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
 		  	drake.on('drop', function(el, target, source, sibling) {
 		  		$('.equal-height').matchHeight();
-		  		//console.log('drop');
+		  		console.log('drop');
+
+		  		$('div#save-undo-changes').removeClass('hidden');
+
 		  	});
 		  	drake.on('dragend', function(el, target, source, sibling) {
 		  		//console.log('drag end');
 		  	});
 		  })
   	</script>
+<!-- CUSTOM: Update task status after Dragula drop -->
+	<script type="text/javascript">
+		
+	</script>
 
 {% endblock %}
