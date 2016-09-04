@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, CreateView, UpdateView
+from django.views.generic import TemplateView, CreateView, UpdateView, View
 from django.urls import reverse
 
 from rest_framework.views import APIView
@@ -171,6 +171,55 @@ class UpdateTaskModalView(UpdateView):
 			ctx['post_url'] = reverse('update-task-modal', kwargs={'pk': tool_id})
 
 		return ctx
+
+class UpdateTasksForEventView(View):
+
+	model = Task
+
+	def _allowed_methods(self):
+
+		return ('POST', 'PUT', 'GET')
+
+	"""def dispatch(self, request, *args, **kwargs):
+
+		todo_tasks = request.GET.getlist('todo')
+		done_tasks = request.GET.getlist('inprogress[]')
+		inprogress_tasks = request.GET.getlist('done[]')
+
+		print('===== todo: %s' % todo_tasks)
+		print('===== done: %s' % done_tasks)
+		print('===== inprogress: %s' % inprogress_tasks)
+
+
+		return super(UpdateTasksForEventView, self).dispatch(request, *args, **kwargs)"""
+
+	def post(self, request, format=None):
+
+		todo_tasks = request.POST.getlist('todo[]')
+		done_tasks = request.POST.getlist('inprogress[]')
+		inprogress_tasks = request.POST.getlist('done[]')
+
+		print('===== todo: %s' % todo_tasks)
+		print('===== done: %s' % done_tasks)
+		print('===== inprogress: %s' % inprogress_tasks)
+
+
+		return None
+
+	def get(self, request, format=None):
+
+		print('GETGETGET')
+
+		todo_tasks = request.GET.getlist('todo[]')
+		done_tasks = request.GET.getlist('inprogress[]')
+		inprogress_tasks = request.GET.getlist('done[]')
+
+		print('===== todo: %s' % todo_tasks)
+		print('===== done: %s' % done_tasks)
+		print('===== inprogress: %s' % inprogress_tasks)
+
+
+		return None
 
 #
 #

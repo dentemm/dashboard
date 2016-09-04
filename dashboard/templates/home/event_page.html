@@ -159,7 +159,7 @@
 	        	</div>
 	          	<div id="save-undo-changes" class="hidden col-md-6 col-md-offset-3 text-center p-l-0 p-t-sm">
 	            	<a href="#" class="btn btn-warning-outline pull-riht m-l-xs">Undo Changes</a>
-	            	<a class="btn btn-success-outline pull-riht">Save Changes</a>
+	            	<a id="savechanges" class="btn btn-success-outline pull-riht">Save Changes</a>
 	          	</div>
 	      	</div>
 <!-- External files -->
@@ -203,9 +203,9 @@
 	<!-- FULLCALENDAR: Calendar and scheduler -->
 	<script type="text/javascript" src="{% static 'plugins/fullcalendar/fullcalendar.min.js' %}"></script>
   	<script type="text/javascript" src="{% static 'plugins/fullcalendar/scheduler.min.js' %}"></script>
-
-	<!--<script type="text/javascript" src="{% static 'js/event_page.js' %}"></script>-->
-
+  	<!-- COOKIE JQUERY PLUGIN: For django CSRF token -->
+  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  	<script type="text/javascript" src="{% static 'plugins/realpython/csrf_protection.js' %}"></script>
   	<!-- MATCHHEIGHT: Init-->
   	<script type="text/javascript">
 	  	$(function() {
@@ -328,6 +328,68 @@
 			})
 		})
 	</script>
+<!-- CUSTOM: Update task status after save button press drop -->
+	<script type="text/javascript">
+		$(function(){
+			$('a#savechanges').on('click', function(){
+
+				console.log('going to save changes');
+
+ 				var tasks = [];
+
+ 				var querydict = {}
+ 				var todo_list = []
+ 				var inprogress_list = []
+ 				var done_list = []
+ 				var status_list = ['todo', 'inprogress', 'done']
+
+				$('div[data-item]').each(function(){
+
+					if($(this).attr('data-changed') == 'true' && $(this).attr('data-item') == 'task') { 
+
+						//console.log($(this).attr('data-status'));
+
+						if ($(this).attr('data-status') == 0) {
+							todo_list.push($(this).attr('data-taskid'));
+						}
+						else if ($(this).attr('data-status') == 1) {
+							inprogress_list.push($(this).attr('data-taskid'));
+						}
+						else if ($(this).attr('data-status') == 2) {
+							done_list.push($(this).attr('data-taskid'));
+						}
+					}
+				});
+
+
+				console.log('todo list:' + todo_list);
+
+				params = {}
+				params['todo'] = todo_list;
+				params['inprogress'] = inprogress_list;
+				params['done'] = done_list;
+
+				console.log($.param(params));
+
+
+				$.ajax({
+					url:"{% url 'update-tasks-for-event' %}",
+					type: "POST",
+					success: success_handler,
+					data: 
+						$.param(params)
+					,
+					error: function(xhr, ajaxOptions, thrownError) {
+						console.log(xhr.status);
+						alert(thrownError);
+					}
+				});
+				function success_handler(data) {
+					console.log('success');
+				};	
+			});
+		})
+	</script>
 <!-- DRAGULA: init -->
 	<script type="text/javascript">
 		$(function() {
@@ -340,8 +402,33 @@
 		  	drake.on('drop', function(el, target, source, sibling) {
 		  		$('.equal-height').matchHeight();
 		  		console.log('drop');
+		  		console.log($(target).attr('id'));
+
 
 		  		$('div#save-undo-changes').removeClass('hidden');
+		  		$(el).attr('data-changed', 'true');
+
+		  		var status = 0;
+
+		  		switch($(target).attr('id')) {
+		  			case 'todo':
+		  				status = 0;
+		  				break;
+
+		  			case 'inprogress':
+		  				status = 1;
+		  				break;
+
+		  			case 'done':
+		  				status = 2;
+		  				break;
+
+		  			default:
+		  				status = 0;
+		  		}
+
+		  		$(el).attr('data-status', status);
+
 
 		  	});
 		  	drake.on('dragend', function(el, target, source, sibling) {
@@ -349,9 +436,6 @@
 		  	});
 		  })
   	</script>
-<!-- CUSTOM: Update task status after Dragula drop -->
-	<script type="text/javascript">
-		
-	</script>
+	
 
 {% endblock %}
