@@ -373,7 +373,7 @@
 
 
 				$.ajax({
-					url:"{% url 'update-tasks-for-event' %}",
+					url:"{% url 'update-tasks-for-event' event_id=page.pk %}",
 					type: "POST",
 					success: success_handler,
 					data: 
@@ -386,6 +386,7 @@
 				});
 				function success_handler(data) {
 					console.log('success');
+					window.location.reload();
 				};	
 			});
 		})

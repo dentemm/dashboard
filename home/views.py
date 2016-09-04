@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView, CreateView, UpdateView, View
+from django.http import HttpResponse
 from django.urls import reverse
 
 from rest_framework.views import APIView
@@ -174,52 +175,40 @@ class UpdateTaskModalView(UpdateView):
 
 class UpdateTasksForEventView(View):
 
-	model = Task
-
 	def _allowed_methods(self):
 
 		return ('POST', 'PUT', 'GET')
 
-	"""def dispatch(self, request, *args, **kwargs):
-
-		todo_tasks = request.GET.getlist('todo')
-		done_tasks = request.GET.getlist('inprogress[]')
-		inprogress_tasks = request.GET.getlist('done[]')
-
-		print('===== todo: %s' % todo_tasks)
-		print('===== done: %s' % done_tasks)
-		print('===== inprogress: %s' % inprogress_tasks)
-
-
-		return super(UpdateTasksForEventView, self).dispatch(request, *args, **kwargs)"""
-
-	def post(self, request, format=None):
+	def post(self, request, *args, **kwargs):
 
 		todo_tasks = request.POST.getlist('todo[]')
 		done_tasks = request.POST.getlist('inprogress[]')
 		inprogress_tasks = request.POST.getlist('done[]')
 
-		print('===== todo: %s' % todo_tasks)
-		print('===== done: %s' % done_tasks)
-		print('===== inprogress: %s' % inprogress_tasks)
+		event_id = int(kwargs['event_id'])
+
+		page = EventPage.objects.get(pk=event_id)
+
+		if len(todo_tasks) > 0:
+			self.update_tasks_with_status(todo_tasks, 0)
+
+		if len(done_tasks) > 0:
+			self.update_tasks_with_status(done_tasks, 1)
+
+		if len(inprogress_tasks) > 0:
+			self.update_tasks_with_status(inprogress_tasks, 2)
+
+		return HttpResponse()
 
 
-		return None
+	def update_tasks_with_status(self, tasks, status):
 
-	def get(self, request, format=None):
+		for item in tasks:
 
-		print('GETGETGET')
+			task = Task.objects.get(pk=item)
+			task.status = status
+			task.save()
 
-		todo_tasks = request.GET.getlist('todo[]')
-		done_tasks = request.GET.getlist('inprogress[]')
-		inprogress_tasks = request.GET.getlist('done[]')
-
-		print('===== todo: %s' % todo_tasks)
-		print('===== done: %s' % done_tasks)
-		print('===== inprogress: %s' % inprogress_tasks)
-
-
-		return None
 
 #
 #
