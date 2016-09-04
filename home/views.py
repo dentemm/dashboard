@@ -8,6 +8,33 @@ from rest_framework.response import Response
 from .models import Task, EventPage, ToolModule, ToolPage, Request
 from .forms import TaskForm, TaskUpdateForm, RequestForm
 
+
+#
+#
+# HELPER METHODES
+#
+#
+def get_color_for_task(task):
+	'''
+	Retourneer een kleur voor een gegeven taak
+	'''
+
+	if task.status == 2:
+		return '#1bc98e'
+
+	else:
+		if task.priority == 1:
+			return '#e64759' 
+
+		elif task.priority == 2:
+			return '#FF9017'
+
+		elif task.priority == 3:
+			return '#1ca8dd'
+
+		else:
+			return '#1ca8dd'
+
 #
 #
 # TASK VIEWS
@@ -97,9 +124,9 @@ class AddTaskModalView(CreateView):
 
 		kwargs = super(AddTaskModalView, self).get_form_kwargs()
 
-		print('---form kwargs: %s' % kwargs)
-		print(self.tool_id)
-		print(self.event_id)
+		#print('---form kwargs: %s' % kwargs)
+		#print(self.tool_id)
+		#print(self.event_id)
 
 		return kwargs
 
@@ -222,24 +249,7 @@ class TasksForEventApiView(APIView):
 
 		for task in tasks:
 
-			color = ''
-
-			if task.status == 2:
-				color = '#1bc98e'
-
-			else:
-				if task.priority == 1:
-					color = '#e64759' 
-
-				elif task.priority == 2:
-					color = '#FF9017'
-
-				elif task.priority == 3:
-					color = '#1ca8dd'
-
-				else:
-					color = '#9f86ff'
-
+			color = get_color_for_task(task)
 
 			events.append({
 				'id': task.pk, 'resourceId': task.owner.pk, 'start': task.start_datetime, 'end': task.due_datetime, 'title': task.title, 'color': color
@@ -293,23 +303,7 @@ class ActivitiesForToolApiView(APIView):
 
 		for task in tool_tasks:
 
-			color = ''
-
-			if task.status == 2:
-				color = '#1bc98e'
-
-			else:
-				if task.priority == 1:
-					color = '#e64759' 
-
-				elif task.priority == 2:
-					color = '#FF9017'
-
-				elif task.priority == 3:
-					color = '#1ca8dd'
-
-				else:
-					color = '#9f86ff'
+			color = get_color_for_task(task)
 
 			events.append({
 				'id': task.pk, 'resourceId': task.owner.pk, 'start': task.start_datetime, 'end': task.due_datetime, 'title': task.title, 'color': color
@@ -317,7 +311,7 @@ class ActivitiesForToolApiView(APIView):
 
 		for event in tool_events:
 
-			color = '#1ca8dd'
+			color = '#9f86ff'
 
 			events.append({
 				'id': event.name, 'resourceId': event.responsible.pk, 'start': event.start_date, 'end': event.end_date, 'title': event.name, 'color': color

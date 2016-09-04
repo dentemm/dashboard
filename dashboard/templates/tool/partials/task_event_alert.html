@@ -1,14 +1,5 @@
 {% if item.classname == 'Task' %}
-	<div class="alert alert-{{item.bs_color}} m-a-xs" role="alert">
-		<h4 class="m-a-xs">{{ item.title }}</h4>
-			<h5 class="m-a-xs">{{ item.description }}</h5>
-			<hr>
-	    <h5><span class="icon icon-user"></span> {{ item.owner }}</h5>
-	    <h5><span class="icon icon-calendar"></span> {{ item.start_datetime|date:'j M' }}</h5>
-	{% if item.status == 2  %}
-		<h5><span class="icon icon-check"> Accepted!</span></h5>
-	{% endif %}
-	</div>
+	{% include 'task/partials/task_alert.html' with task=item %}
 {% else %}
 	<div class="alert alert-{{item.bs_color}} m-a-xs tool-event" role="alert">
 		<h4 class="m-a-xs">{{ item.name }} 
