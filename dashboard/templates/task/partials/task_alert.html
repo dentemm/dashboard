@@ -1,7 +1,11 @@
 <div class="alert alert-{{task.bs_color}} m-a-xs" role="alert">
-	<h4 class="m-a-xs">{{ task.title }}</h4>
-		<h5 class="m-a-xs">{{ task.description }}</h5>
-		<hr>
+	<h4 class="m-a-xs">{{ task.title }}
+		<a class="info pull-right edit" data-toggle="modal" data-target="#updatetaskmodal" data-taskid="{{ task.pk }}">
+			<i class="fa fa-edit"></i>
+		</a>
+	</h4>
+	<h5 class="m-a-xs">{{ task.description }}</h5>
+	<hr>
     <h5><span class="icon icon-user"></span> {{ task.owner }}</h5>
     <h5><span class="icon icon-calendar"></span> {{ task.start_datetime|date:'j M: G' }}h&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{ task.due_datetime|date:'j M: G' }}h</h5>
 {% if task.status == 2  %}

@@ -59,8 +59,6 @@ INSTALLED_APPS = [
     #'compressor',
     'widget_tweaks',
 
-    # custom apps
-    #'utilities',
 ]
 
 MIDDLEWARE_CLASSES = [

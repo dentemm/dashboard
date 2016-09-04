@@ -48,13 +48,13 @@
 	              		<div class="col-md-4">   
 	                		<h4>Start datum</h4>
 	                		<div class="input-with-icon dashhead-toolbar-item">
-	                  			<input type="text" value="01/01/15&emsp;15u00" class="form-control">
+	                  			<input type="text" value="{{ page.start_date|date:'Y/m/d - h:i' }}" class="form-control">
 	                  			<span class="icon icon-calendar"></span>
 	                		</div>
 	                		<br><br>
 	                		<h4>Geplande einddatum</h4>
 			                <div class="input-with-icon dashhead-toolbar-item">
-				                <input type="text" value="01/01/15&emsp;18u00" class="form-control">
+				                <input type="text" value="{{ page.end_date|date:'Y/m/d - h:i'  }}" class="form-control">
 				                <span class="icon icon-calendar"></span>
 			                </div>
 	                		<br><br>
@@ -161,7 +161,7 @@
 {% endblock %}
 
 {% block modals %}
-	<div id="calendartaskmodal" class="modal fade">
+	<div id="updatetaskmodal" class="modal fade">
   	</div>
 	<div id="addtaskmodal" class="modal fade">
   	</div>
@@ -243,16 +243,16 @@
 
 	        	// Add Bootstrap modal data attributes
 	        	$(element).attr('data-taskid', event.id);
-	        	$(element).attr('data-target', '#calendartaskmodal');
+	        	$(element).attr('data-target', '#updatetaskmodal');
 	        	$(element).attr('data-toggle', 'modal');
 	        }
 	      });
 	    });
   	</script>
-  	<!-- Fetch data for task modal through ajax call -->
+<!-- Updata task modal -->
 	<script type="text/javascript">
 		$(function() {
-			$('#calendartaskmodal').on('show.bs.modal', function(e){
+			$('#updatetaskmodal').on('show.bs.modal', function(e){
 
 				//console.log(e.relatedTarget);
 				var id = $(e.relatedTarget).data("taskid");
@@ -270,12 +270,12 @@
 				});
 				function task_handler(data) {
 					console.log('success');
-					$('#calendartaskmodal').html(data);
+					$('#updatetaskmodal').html(data);
 				};
 			})
 		})
 	</script>
-  	<!-- Add task modal -->
+<!-- Add task modal -->
 	<script type="text/javascript">
 		$(function() {
 			$('#addtaskmodal').on('show.bs.modal', function(e){
@@ -301,6 +301,7 @@
 			})
 		})
 	</script>
+<!-- DRAGULA: init -->
 	<script type="text/javascript">
 		$(function() {
 		    options = {
@@ -318,4 +319,5 @@
 		  	});
 		  })
   	</script>
+
 {% endblock %}
