@@ -186,7 +186,7 @@
 		    <div class="row collapse in" id="collapse-request">
 		      	<div class="col-md-3 p-a-0">
 		        	<h3 class="text-center">Pending</h3>
-		        	<div id="requested" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+		        	<div id="pending" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
 	        		{% for request in page.requested_requests %}
 	        			{% include 'request/partials/request_alert.html' with request=request %}
 	        		{% endfor %}
@@ -410,16 +410,43 @@
 	      revertOnSpill: true
 	    }
 	  	// initieer Dragula 
-	  	drake = dragula([requested, rejected, accepted, planned], options);
+	  	drake = dragula([pending, rejected, accepted, planned], options);
 	  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
 	  	drake.on('drop', function(el, target, source, sibling) {
 	  		$('.equal-height').matchHeight();
 
 	  		url = $(el).attr('data-requesturl');
-	  		console.log('request ' + url);
+
+	  		console.log($(target).attr('id'));
+
+	  		switch($(target).attr('id')) {
+	  			case 'pending':
+	  				status = 0;
+	  				break;
+
+	  			case 'rejected':
+	  				status = 1;
+	  				break;
+
+	  			case 'accepted':
+	  				status = 2;
+	  				break;
+
+	  			case 'planned':
+	  				status = 3;
+	  				break;
+
+	  			default:
+	  				status = 0;
+	  		}
+
+	  		data = {'status': status}
+
+	  		console.log(data)  		
 
 	  		$.ajax({
 	  			url: url,
+	  			data: data,
 	  			type: 'POST',
 	  			success: success_handler,
 	  			error: function(xhr, ajaxOptions, thrownError) {
@@ -429,7 +456,7 @@
 	  		});
 	  		function success_handler(data) {
 	  			console.log('success');
-	  			
+
 	  		}
 	  	});
 

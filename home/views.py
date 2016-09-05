@@ -314,16 +314,24 @@ class AddRequestModalView(CreateView):
 
 		return form
 
-class UpdateRequestView(UpdateView):
+class UpdateRequestView(View):
 
-	model = Request
-	fields = ['status']
+	def _allowed_methods(self):
+
+		return ('POST', 'PUT', 'GET')
+
 
 	def post(self, request, *args, **kwargs):
 
-		print('--- update request view')
+		status = request.POST.get('status', 0)
 
-		return super(UpdateRequestView, self).post(request, *args, **kwargs)
+		request_id = int(kwargs['request_id'])
+		request = Request.objects.get(pk=request_id)
+
+		request.status = status
+		request.save()	
+
+		return HttpResponse()
 
 #
 #
