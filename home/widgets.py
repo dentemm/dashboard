@@ -67,15 +67,3 @@ class CustomDateTimeInput(widgets.DateTimeInput):
             json.dumps(id_),
             json.dumps({'dayOfWeekStart': 1})
             )
-
-    class Media:
-
-        css = {
-            'all': (
-                'plugins/datetimepicker/jquery.datetimepicker.min.css',
-                )
-        }
-        js = (
-            'plugins/datetimepicker/jquery.datetimepicker.full.min.js',
-            'plugins/datetimepicker/custom_script.js'
-            )

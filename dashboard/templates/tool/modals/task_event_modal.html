@@ -1,3 +1,5 @@
+{% load wagtailcore_tags %}
+
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
@@ -6,13 +8,15 @@
       <h6 class="m-y-0">{{ event.module.tool }}</h6>
     </div>
     <div class="modal-body">
-      <p>Modal body text...</p>
+      <div class="row">
+        
+      </div>
     </div>
     <div class="modal-actions">
       <button type="button" class="btn-link modal-action" data-dismiss="modal">Cancel</button>
-      <button type="button" class="btn-link modal-action" data-dismiss="modal">
-        <strong>Edit</strong>
-      </button>
+      <a href="{% pageurl event %}" type="button" class="btn-link text-center modal-action">
+        <strong>To Event</strong>
+      </a>
     </div>
   </div>
 </div>
