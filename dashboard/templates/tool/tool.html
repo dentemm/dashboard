@@ -139,7 +139,7 @@
 		    <div class="row collapse in" id="collapse-time">
 		      	<div class="col-md-4 p-a-0">
 		        	<h3 class="text-center">To Do / Upcoming</h3>
-		        	<div id="upcoming" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+		        	<div id="todo" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
 		        		{% for item in page.todo_tasks_events %}
 		        			{% include 'tool/partials/task_event_alert.html' with item=item %}
 		        		{% endfor %}
@@ -147,7 +147,7 @@
 		      	</div>
 		    	<div class="col-md-4 p-a-0">
 		        	<h3 class="text-center">In Progress</h3>
-		    		<div id="progress" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
+		    		<div id="inprogress" class="p-a-xs m-a-xs equal-height" style="background-color: #434857;">
 		        		{% for item in page.inprogress_tasks_events %}
 		        			{% include 'tool/partials/task_event_alert.html' with item=item %}
 		        		{% endfor %}
@@ -161,6 +161,10 @@
 		        		{% endfor %}
 		    		</div>
 		    	</div>
+	          	<div id="save-undo-changes" class="hidden col-md-6 col-md-offset-3 text-center p-l-0 p-t-sm">
+	            	<a href="#" class="btn btn-warning-outline pull-riht m-l-xs">Undo Changes</a>
+	            	<a id="savechanges" class="btn btn-success-outline pull-riht">Save Changes</a>
+	          	</div>
 		    </div>
 <!-- Requests -->
 		    <div class="dashhead m-t">
@@ -230,6 +234,8 @@
 {% block extra_js %}
     {{ block.super }}
 
+  	<!-- REAL PYTHON SCRIPT: For django CSRF token -->
+  	<script type="text/javascript" src="{% static 'plugins/realpython/csrf_protection.js' %}"></script>
 	<!-- MOMENT: Datetime representations-->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
 	<!-- FULLCALENDAR: Calendar and scheduler -->
@@ -314,30 +320,109 @@
 			$(this).data('bs.modal', null);
 		});
 	</script>
+<!-- CUSTOM: Update task status after save button press drop -->
+	<script type="text/javascript">
+		$(function(){
+			$('a#savechanges').on('click', function(){
+
+				console.log('going to save changes');
+
+ 				var todo_list = []
+ 				var inprogress_list = []
+ 				var done_list = []
+
+				$('div[data-item]').each(function(){
+
+					if($(this).attr('data-changed') == 'true' && $(this).attr('data-item') == 'task') { 
+
+						//console.log($(this).attr('data-status'));
+
+						if ($(this).attr('data-status') == 0) {
+							todo_list.push($(this).attr('data-taskid'));
+						}
+						else if ($(this).attr('data-status') == 1) {
+							inprogress_list.push($(this).attr('data-taskid'));
+						}
+						else if ($(this).attr('data-status') == 2) {
+							done_list.push($(this).attr('data-taskid'));
+						}
+					}
+				});
+
+				params = {}
+				params['todo'] = todo_list;
+				params['inprogress'] = inprogress_list;
+				params['done'] = done_list;
+
+				console.log($.param(params));
+
+
+				$.ajax({
+					url:"{% url 'update-tasks-for-tool' tool_id=page.pk %}",
+					type: "POST",
+					success: success_handler,
+					data: 
+						$.param(params)
+					,
+					error: function(xhr, ajaxOptions, thrownError) {
+						console.log(xhr.status);
+						alert(thrownError);
+					}
+				});
+				function success_handler(data) {
+					console.log('success');
+					window.location.reload();
+				};	
+			});
+		})
+	</script>
 <!-- DRAGULA: Init() tasks&events -->
 	<script type="text/javascript">
-	    options = {
-	      revertOnSpill: true,
-	      // invalid option to disallow tool events from being dragged
-	      invalid: function(el, handle) {
-	      	if ($(el).hasClass('tool-event')) {
-	      		return true;
-	      	}
+		$(function() {
+		    options = {
+		      	revertOnSpill: true,
+		      	// invalid option to disallow tool events from being dragged
+		      	invalid: function(el, handle) {
+		      		if ($(el).hasClass('tool-event')) {
+		      			return true;
+		      		}
+	      			return false;
+		      	}
+		    }
+		  	// initieer Dragula 
+		  	drake = dragula([todo, inprogress, done], options);
+		  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
+		  	drake.on('drop', function(el, target, source, sibling) {
+		  		$('.equal-height').matchHeight();
 
-      		return false;
-	      }
-	    }
-	  	// initieer Dragula 
-	  	drake = dragula([upcoming, progress, done], options);
-	  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
-	  	drake.on('drop', function(el, target, source, sibling) {
-	  		$('.equal-height').matchHeight();
-	  		console.log('drop');
-	  	});
-	  	drake.on('dragend', function(el, target, source, sibling) {
-	  		console.log('drag end');
-	  	});
+		  		$('div#save-undo-changes').removeClass('hidden');
+		  		$(el).attr('data-changed', 'true');
 
+		  		var status = 0;
+
+		  		switch($(target).attr('id')) {
+		  			case 'todo':
+		  				status = 0;
+		  				break;
+
+		  			case 'inprogress':
+		  				status = 1;
+		  				break;
+
+		  			case 'done':
+		  				status = 2;
+		  				break;
+
+		  			default:
+		  				status = 0;
+		  		}
+
+		  		$(el).attr('data-status', status);
+		  	});
+		  	drake.on('dragend', function(el, target, source, sibling) {
+		  		console.log('drag end');
+		  	});
+		})
   	</script>
 <!-- DRAGULA: Init() requests -->
 	<script type="text/javascript">

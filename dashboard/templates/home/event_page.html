@@ -188,7 +188,7 @@
 {% endblock %}
 
 {% block modals %}
-	<div id="updatetaskmodal" class="modal fade">
+	<div id="calendareventmodal" class="modal fade">
   	</div>
 	<div id="addtaskmodal" class="modal fade">
   	</div>
@@ -203,8 +203,7 @@
 	<!-- FULLCALENDAR: Calendar and scheduler -->
 	<script type="text/javascript" src="{% static 'plugins/fullcalendar/fullcalendar.min.js' %}"></script>
   	<script type="text/javascript" src="{% static 'plugins/fullcalendar/scheduler.min.js' %}"></script>
-  	<!-- COOKIE JQUERY PLUGIN: For django CSRF token -->
-  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  	<!-- REAL PYTHON SCRIPT: For django CSRF token -->
   	<script type="text/javascript" src="{% static 'plugins/realpython/csrf_protection.js' %}"></script>
   	<!-- MATCHHEIGHT: Init-->
   	<script type="text/javascript">
@@ -266,7 +265,7 @@
 
 	        	// Add Bootstrap modal data attributes
 	        	$(element).attr('data-taskid', event.id);
-	        	$(element).attr('data-target', '#updatetaskmodal');
+	        	$(element).attr('data-target', '#calendareventmodal');
 	        	$(element).attr('data-toggle', 'modal');
 	        }
 	      });
@@ -275,13 +274,13 @@
 <!-- Updata task modal -->
 	<script type="text/javascript">
 		$(function() {
-			$('#updatetaskmodal').on('show.bs.modal', function(e){
+			$('#calendareventmodal').on('show.bs.modal', function(e){
 
 				//console.log(e.relatedTarget);
 				var id = $(e.relatedTarget).data("taskid");
 
 				$.ajax({
-					url:"/tasks/update/" + id,	// Impossible to solve through {- url -} template tag?
+					url:"tool/calendarevent/" + id,	// Impossible to solve through {- url -} template tag?
 					//url: "{- url 'update-task-modal' pk=page.page.page -}",
 					type: "GET",
 					success: task_handler,
@@ -293,7 +292,7 @@
 				});
 				function task_handler(data) {
 					console.log('success');
-					$('#updatetaskmodal').html(data);
+					$('#calendareventmodal').html(data);
 				};
 			})
 		})
@@ -331,13 +330,9 @@
 
 				console.log('going to save changes');
 
- 				var tasks = [];
-
- 				var querydict = {}
  				var todo_list = []
  				var inprogress_list = []
  				var done_list = []
- 				var status_list = ['todo', 'inprogress', 'done']
 
 				$('div[data-item]').each(function(){
 
@@ -425,14 +420,8 @@
 		  		}
 
 		  		$(el).attr('data-status', status);
-
-
-		  	});
-		  	drake.on('dragend', function(el, target, source, sibling) {
-		  		//console.log('drag end');
 		  	});
 		  })
   	</script>
-	
 
 {% endblock %}

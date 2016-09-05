@@ -229,6 +229,41 @@ class UpdateTasksForEventView(View):
 			task.status = status
 			task.save()
 
+class UpdateTasksForToolView(View):
+
+	def _allowed_methods(self):
+
+		return ('POST', 'PUT', 'GET')
+
+	def post(self, request, *args, **kwargs):
+
+		todo_tasks = request.POST.getlist('todo[]')
+		done_tasks = request.POST.getlist('inprogress[]')
+		inprogress_tasks = request.POST.getlist('done[]')
+
+		tool_id = int(kwargs['tool_id'])
+
+		page = ToolPage.objects.get(pk=tool_id)
+
+		if len(todo_tasks) > 0:
+			self.update_tasks_with_status(todo_tasks, 0)
+
+		if len(done_tasks) > 0:
+			self.update_tasks_with_status(done_tasks, 1)
+
+		if len(inprogress_tasks) > 0:
+			self.update_tasks_with_status(inprogress_tasks, 2)
+
+		return HttpResponse()
+
+
+	def update_tasks_with_status(self, tasks, status):
+
+		for item in tasks:
+
+			task = Task.objects.get(pk=item)
+			task.status = status
+			task.save()
 
 #
 #
