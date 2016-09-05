@@ -36,18 +36,6 @@ class CustomDateInput(widgets.DateInput):
             json.dumps({'dayOfWeekStart': 1})
             )
 
-    class Media:
-
-        css = {
-            'all': (
-                'plugins/datetimepicker/jquery.datetimepicker.min.css',
-                )
-        }
-        js = (
-            'plugins/datetimepicker/jquery.datetimepicker.full.min.js',
-            'plugins/datetimepicker/custom_script.js'
-            )
-
 class CustomDateTimeInput(widgets.DateTimeInput):
     '''
     Custom widget dat gebruikt wordt voor DateTimeFields.

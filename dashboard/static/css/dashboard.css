@@ -29,6 +29,11 @@ a.info:hover, a.info:focus {
 input.submitbutton {
 	font-weight: 800;
 }
+
+div.popover {
+	min-width: 13em;
+}
+
 /*
 *
 * BOOTSTRAP DASHBOARD THEME OVERRIDES

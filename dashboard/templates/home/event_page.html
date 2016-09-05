@@ -259,12 +259,6 @@
 	        resourceLabelText: 'Owner',
 	        resources: "{% url 'event-resources' event_id=page.pk %}",
 	        events: "{% url 'event-events' event_id=page.pk %}",
-	        //eventClick: function(event) {
-	        	/* This callback gets executed when an event is being clicked by a user */
-
-	          //$('#calendartaskmodal').modal();
-	 
-	       // },
 	        eventAfterRender: function(event, element, view) {
 	        	/* This callback get executed when an event is added to the calendar */
 

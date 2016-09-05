@@ -221,7 +221,7 @@
 {% block modals %}
 	<div id="taskmodal" class="modal fade">
   	</div>
-  	<div id="updatetaskmodal" class="modal fade">
+  	<div id="calendareventmodal" class="modal fade">
   	</div>
   	<div id="requestmodal" class="modal fade">
   	</div>
@@ -299,14 +299,19 @@
 
 	        	// Add Bootstrap modal data attributes
 	        	$(element).attr('data-taskid', event.id);
-	        	$(element).attr('data-target', '#updatetaskmodal');
+	        	$(element).attr('data-target', '#calendareventmodal');
 	        	$(element).attr('data-toggle', 'modal');
 
-	        	//if(event.color == ' ')
 	        }
 	      });
 	    });
   	</script>
+<!-- BOOTSTRAP MODAL: Destroy on close-->
+	<script type="text/javascript">
+		$('div.modal').on('hidden.bs.modal', function() {
+			$(this).data('bs.modal', null);
+		});
+	</script>
 <!-- DRAGULA: Init() tasks&events -->
 	<script type="text/javascript">
 	    options = {
@@ -379,19 +384,17 @@
 			};
 		})
 	</script>
-<!-- Update task modal -->
+<!-- Calendar event modal -->
 	<script type="text/javascript">
 		$(function() {
-			$('#updatetaskmodal').on('show.bs.modal', function(e){
+			$('#calendareventmodal').on('show.bs.modal', function(e){
 
 				//console.log(e.relatedTarget);
 				var id = $(e.relatedTarget).data("taskid");
 
-				console.log('wat is dit? ' + id)
-
 				$.ajax({
-					url:"/tasks/update/" + id,	// Impossible to solve through {- url -} template tag?
-					//url: "{- url 'update-task-modal' pk=page.page.page -}",
+					//url:"/tasks/update/" + id,
+					url:"/tool/calendarevent/" + id,
 					type: "GET",
 					success: task_handler,
 
@@ -402,7 +405,7 @@
 				});
 				function task_handler(data) {
 					console.log('success');
-					$('#updatetaskmodal').html(data);
+					$('#calendareventmodal').html(data);
 				};
 			})
 		})

@@ -50,7 +50,7 @@ class TaskModalView(TemplateView):
 	Dit view wordt gebruikt om een modal window te tonen waar je de details van een Task object kan raadplegen
 	'''
 
-	template_name = 'task/modals/taskmodal.html'
+	template_name = 'task/modals/task_event_modal.html'
 
 	def get_context_data(self, **kwargs):
 
@@ -151,13 +151,27 @@ class AddTaskModalView(CreateView):
 
 		return ctx
 
-class UpdateEventModalView(TemplateView):
+class CalendarEventModalViewEvent(TemplateView):
+
+	template_name = 'tool/modals/task_event_modal.html'
 
 	def get(self, request, *args, **kwargs):
 
-		return super(UpdateEventModalView, self).get(request, *args, **kwargs)
+		return super(CalendarEventModalViewEvent, self).get(request, *args, **kwargs)
 
-class UpdateTaskModalView(UpdateView):
+	def get_context_data(self, **kwargs):
+
+		ctx = super(CalendarEventModalViewEvent, self).get_context_data(**kwargs)
+
+		event_slug = self.kwargs.get('event_slug')
+
+		event = EventPage.objects.get(slug=event_slug)
+
+		ctx['event'] = event
+
+		return ctx
+
+class CalendarEventModalViewTask(UpdateView):
 
 	template_name = 'task/modals/updatetaskmodal.html'
 	model = Task
@@ -165,17 +179,17 @@ class UpdateTaskModalView(UpdateView):
 
 	def post(self, request, *args, **kwargs):
 		self.success_url = request.META.get('HTTP_REFERER')
-		return super(UpdateTaskModalView, self).post(request, *args, **kwargs)
+		return super(CalendarEventModalViewTask, self).post(request, *args, **kwargs)
 
 
 	def get_context_data(self, **kwargs):
 
-		ctx = super(UpdateTaskModalView, self).get_context_data(**kwargs)
+		ctx = super(CalendarEventModalViewTask, self).get_context_data(**kwargs)
 
 		tool_id = self.kwargs.get('pk', 'empty')
 
 		if tool_id != 'empty':
-			ctx['post_url'] = reverse('update-task-modal', kwargs={'pk': tool_id})
+			ctx['post_url'] = reverse('tool-calendar-modal-task', kwargs={'pk': tool_id})
 
 		return ctx
 

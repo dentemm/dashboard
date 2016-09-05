@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block extra_css %}
 	<!-- DRAGULA: Drag&Drop-->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.1/dragula.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.1/dragula.min.css">
+	<!-- JQUERY DATETIMEPICKER: Custom form widget -->
+	<link rel="stylesheet" type="text/css" href="{% static 'plugins/datetimepicker/jquery.datetimepicker.min.css' %}">
 {% endblock %}
+
 
 {% block extra_js %}
     {# Override this in templates to add extra javascript #}
@@ -11,4 +16,8 @@
 	  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.1/dragula.min.js"></script>
 	  	<!-- JQUERY MATCHHEIGTH: Equal container elements -->
     	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.0/jquery.matchHeight-min.js"></script>
+    	<!-- JQUERY DATETIMEPICKER: Custom form widget -->
+    	<script type="text/javascript" src="{% static 'plugins/datetimepicker/jquery.datetimepicker.full.min.js' %}"></script>
+    	<script type="text/javascript" src="{% static 'plugins/datetimepicker/custom_script.js' %}"></script>
+
 {% endblock %}

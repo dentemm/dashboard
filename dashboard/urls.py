@@ -23,9 +23,9 @@ urlpatterns = [
     url(r'tasks/new/event/(?P<event_id>\d+)/$', home_views.AddTaskModalView.as_view(), name='add-task-for-event'),
     url(r'tasks/new/tool/(?P<tool_id>\d+)/$', home_views.AddTaskModalView.as_view(), name='add-task-for-tool'),
 
-    url(r'tasks/update/(?P<pk>\d+)/$', home_views.UpdateTaskModalView.as_view(), name='update-task-modal'),
-    url(r'tasks/update/(?P<event_name>[\w-]+)/$', home_views.UpdateEventModalView.as_view(), name='update-event-modal'),
-    url(r'^updatetasks/event/(?P<event_id>\d+)$', home_views.UpdateTasksForEventView.as_view(), name='update-tasks-for-event'),
+    url(r'tool/calendarevent/(?P<pk>\d+)/$', home_views.CalendarEventModalViewTask.as_view(), name='tool-calendar-modal-task'),
+    url(r'tool/calendarevent/(?P<event_slug>[\w-]+)/$', home_views.CalendarEventModalViewEvent.as_view(), name='tool-calendar-modal-event'),
+    url(r'updatetasks/event/(?P<event_id>\d+)$', home_views.UpdateTasksForEventView.as_view(), name='update-tasks-for-event'),
 
     # Request views
     url(r'requests/new/tool/(?P<tool_id>\d+)/$', home_views.AddRequestModalView.as_view(), name='add-request-for-tool'),
