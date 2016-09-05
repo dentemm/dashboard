@@ -223,8 +223,6 @@
 {% endblock content %}
 
 {% block modals %}
-	<div id="taskmodal" class="modal fade">
-  	</div>
   	<div id="calendareventmodal" class="modal fade">
   	</div>
   	<div id="requestmodal" class="modal fade">
@@ -416,42 +414,32 @@
 	  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
 	  	drake.on('drop', function(el, target, source, sibling) {
 	  		$('.equal-height').matchHeight();
-	  		console.log('drop');
-	  	});
-	  	drake.on('dragend', function(el, target, source, sibling) {
-	  		console.log('drag end');
+
+	  		url = $(el).attr('data-requesturl');
+	  		console.log('request ' + url);
+
+	  		$.ajax({
+	  			url: url,
+	  			type: 'POST',
+	  			success: success_handler,
+	  			error: function(xhr, ajaxOptions, thrownError) {
+	  				console.log(xhr.status);
+	  				alert(thrownError);
+	  			}
+	  		});
+	  		function success_handler(data) {
+	  			console.log('success');
+	  			
+	  		}
 	  	});
 
   	</script>
+<!-- MATCHHEIGHT: Init() -->
 	<script type="text/javascript">
 		$(function() {
 			$.fn.matchHeight._maintainScroll = true;
 		    $('.equal-height').matchHeight();
 		});
-	</script>
-	<script type="text/javascript">
-		$('#taskmodal').on('show.bs.modal', function(e){
-
-			var id = $(e.relatedTarget).data("tool")
-
-			console.log('tool: ' + id)
-
-			$.ajax({
-				url:"/tasks/new/tool/" + id,
-				type: "GET",
-
-				success: task_handler,
-
-				error: function(xhr, ajaxOptions, thrownError) {
-					console.log(xhr.status);
-					alert(thrownError);
-				}
-			});
-
-			function task_handler(data) {
-				$('#taskmodal').html(data);
-			};
-		})
 	</script>
 <!-- Calendar event modal -->
 	<script type="text/javascript">

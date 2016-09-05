@@ -26,10 +26,12 @@ urlpatterns = [
     url(r'tool/calendarevent/(?P<pk>\d+)/$', home_views.CalendarEventModalViewTask.as_view(), name='tool-calendar-modal-task'),
     url(r'tool/calendarevent/(?P<event_slug>[\w-]+)/$', home_views.CalendarEventModalViewEvent.as_view(), name='tool-calendar-modal-event'),
     url(r'updatetasks/event/(?P<event_id>\d+)$', home_views.UpdateTasksForEventView.as_view(), name='update-tasks-for-event'),
+    url(r'updatetasks/tool/(?P<tool_id>\d+)$', home_views.UpdateTasksForToolView.as_view(), name='update-tasks-for-tool'),
 
     # Request views
     url(r'requests/new/tool/(?P<tool_id>\d+)/$', home_views.AddRequestModalView.as_view(), name='add-request-for-tool'),
-    url(r'updatetasks/tol/(?P<tool_id>\d+)$', home_views.UpdateTasksForToolView.as_view(), name='update-tasks-for-tool'),
+    url(r'requests/update/(?P<pk>\d+)/$', home_views.UpdateRequestView.as_view(), name='update-request'),
+    
 
 
     url(r'^admin/', include(wagtailadmin_urls)),

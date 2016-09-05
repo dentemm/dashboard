@@ -314,6 +314,17 @@ class AddRequestModalView(CreateView):
 
 		return form
 
+class UpdateRequestView(UpdateView):
+
+	model = Request
+	fields = ['status']
+
+	def post(self, request, *args, **kwargs):
+
+		print('--- update request view')
+
+		return super(UpdateRequestView, self).post(request, *args, **kwargs)
+
 #
 #
 # API VIEWS

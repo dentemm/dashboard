@@ -113,10 +113,10 @@ class Request(djangomodels.Model):
 	@property
 	def bs_color(self):
 		# case: Done
-		if self.status == 0:
-			return 'success'
+		if self.importance == 0:
+			return 'primary'
 		elif self.status == 1:
-			return 'info'
+			return 'warning'
 		elif self.status == 2:
 			return 'danger'
 		elif self.status == 3:
@@ -279,7 +279,7 @@ class EventPage(models.Page):
 
 	@property
 	def bs_color(self):
-		return 'primary'	
+		return 'info'	
 
 	@property
 	def status(self):
