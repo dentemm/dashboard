@@ -257,16 +257,11 @@
 	        defaultDate: '2016-08-08',
 	        defaultDate: moment().startOf('day'),	// Today in Moment.js
 	        editable: true,
-	        //aspectRatio: 4.35,
 	        contentHeight: 30 * {{ page.task_count_distinct_owner }} + 28,  /* aantal resources bepaalt hoogte van kalender */
 	        eventOverlap: false,
-	        //scrollTime: '00:00',
 	        header: {
 	          left: 'promptResource today prev,next',
-	          //left: null,
 	          center: 'title',
-	          //right: 'timelineDay,timelineThreeDays,timelineTenDays,month',
-	          //right: null 
 	          right: 'timelineDay,timelineWW,timeline2WW'
 	        },
 	        customButtons: {
@@ -296,12 +291,6 @@
 	        resourceLabelText: 'Owner',
 	        resources: "{% url 'tool-resources' tool_id=page.pk %}",
 	        events:"{% url 'tool-events' tool_id=page.pk %}",
-	        //eventClick: function(event) {
-	        	/* This callback gets executed when an event is being clicked by a user */
-
-	          //$('#calendartaskmodal').modal();
-	 
-	       // },
 	        eventAfterRender: function(event, element, view) {
 	        	/* This callback get executed when an event is added to the calendar */
 
@@ -309,7 +298,6 @@
 	        	$(element).attr('data-taskid', event.id);
 	        	$(element).attr('data-target', '#calendareventmodal');
 	        	$(element).attr('data-toggle', 'modal');
-
 	        }
 	      });
 	    });
@@ -324,8 +312,6 @@
 	<script type="text/javascript">
 		$(function(){
 			$('a#savechanges').on('click', function(){
-
-				console.log('going to save changes');
 
  				var todo_list = []
  				var inprogress_list = []
@@ -354,9 +340,6 @@
 				params['inprogress'] = inprogress_list;
 				params['done'] = done_list;
 
-				console.log($.param(params));
-
-
 				$.ajax({
 					url:"{% url 'update-tasks-for-tool' tool_id=page.pk %}",
 					type: "POST",
@@ -370,7 +353,6 @@
 					}
 				});
 				function success_handler(data) {
-					console.log('success');
 					window.location.reload();
 				};	
 			});
@@ -476,11 +458,9 @@
 		$(function() {
 			$('#calendareventmodal').on('show.bs.modal', function(e){
 
-				//console.log(e.relatedTarget);
 				var id = $(e.relatedTarget).data("taskid");
 
 				$.ajax({
-					//url:"/tasks/update/" + id,
 					url:"/tool/calendarevent/" + id,
 					type: "GET",
 					success: task_handler,
@@ -501,16 +481,10 @@
 	<script type="text/javascript">
 		$('#requestmodal').on('show.bs.modal', function(e){
 
-			var id = $(e.relatedTarget).data("tool")
-
-			console.log('tool: ' + id)
-
 			$.ajax({
 				url: "{% url 'add-request-for-tool' tool_id=page.pk %}",
 				type: "GET",
-
 				success: task_handler,
-
 				error: function(xhr, ajaxOptions, thrownError) {
 					console.log(xhr.status);
 					alert(thrownError);

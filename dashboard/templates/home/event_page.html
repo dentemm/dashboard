@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 
-{% load static %}
+{% load static wagtailcore_tags %}
 
 {% block title %}
 	ToolBoard: {{ self.title }}
@@ -21,7 +21,9 @@
         	<div class="dashhead">
           		<div class="dashhead-titles">
             		<h1 class="dashhead-title">{{ page.name }}</h1>
-            		<h4 class="dashhead-subtitle">{{ page.module.tool }}</h4>
+            		<a href="{% pageurl page.module.tool %}">
+            			<h4 class="dashhead-subtitle">{{ page.module.tool }}</h4>
+            		</a>
           		</div>
 	          	<div class="btn-group m-l-lg m-t-xs">
 	            	<button type="button" class="btn btn-primary-outline" data-toggle="modal" data-target="#addtaskmodal" data-eventid="{{ page.pk }}">

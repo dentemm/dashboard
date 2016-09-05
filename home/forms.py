@@ -34,4 +34,4 @@ class RequestForm(forms.ModelForm):
 
 	class Meta:
 		model = Request
-		fields = ['name', 'description', 'owner', 'due_date']
+		fields = ['name', 'description', 'owner', 'due_date', 'importance']

@@ -43,6 +43,12 @@ REQUEST_CHOICES = (
 	(3, 'Planned')
 )
 
+REQUEST_PRIORITIES = (
+	(0, 'Nice To Have'),
+	(1, 'Important'),
+	(2, 'Critical')
+)
+
 @register_snippet
 class DashboardUser(djangomodels.Model):
 
@@ -91,6 +97,7 @@ class Request(djangomodels.Model):
 	description = djangomodels.TextField()
 	owner = djangomodels.ForeignKey('home.DashboardUser', null=True, blank=True)
 	due_date = djangomodels.DateField(default=datetime.date.today)
+	importance = djangomodels.IntegerField(choices=REQUEST_PRIORITIES, default=0)
 	requisition_date = djangomodels.DateField(auto_now_add=True, null=True)
 	status = djangomodels.IntegerField(choices=REQUEST_CHOICES, default=0)
 	tool = ParentalKey('home.ToolPage', related_name='requests', null=True, blank=True)
