@@ -223,10 +223,9 @@
 {% endblock content %}
 
 {% block modals %}
-  	<div id="calendareventmodal" class="modal fade">
-  	</div>
-  	<div id="requestmodal" class="modal fade">
-  	</div>
+  	<div id="calendareventmodal" class="modal fade"></div>
+  	<div id="requestmodal" class="modal fade"></div>
+  	<div id="rejectedrequestmodal" class="modal fade"></div>
 {% endblock %}
 
 {% block extra_js %}
@@ -442,22 +441,44 @@
 
 	  		data = {'status': status}
 
-	  		console.log(data)  		
+	  		if (status == 1) {
+	  		 		
+		  		$.ajax({
+		  			url: url,
+		  			data: data,
+		  			type: 'GET',
+		  			success: success_handler,
+		  			error: function(xhr, ajaxOptions, thrownError) {
+		  				console.log(xhr.status);
+		  				alert(thrownError);
+		  			}
+		  		});
+		  		function success_handler(data) {
+		  			console.log('success reject');
+		  			console.log(data);
 
-	  		$.ajax({
-	  			url: url,
-	  			data: data,
-	  			type: 'POST',
-	  			success: success_handler,
-	  			error: function(xhr, ajaxOptions, thrownError) {
-	  				console.log(xhr.status);
-	  				alert(thrownError);
-	  			}
-	  		});
-	  		function success_handler(data) {
-	  			console.log('success');
-
+		  			$('#rejectedrequestmodal').html(data);
+		  			$('#rejectedrequestmodal').modal();
+		  		}
 	  		}
+
+	  		else {
+		  		$.ajax({
+		  			url: url,
+		  			data: data,
+		  			type: 'POST',
+		  			success: handler,
+		  			error: function(xhr, ajaxOptions, thrownError) {
+		  				console.log(xhr.status);
+		  				alert(thrownError);
+		  			}
+		  		});
+		  		function handler(data) {
+		  			console.log('success');
+		  			console.log(data);
+		  		}  			
+	  		}
+
 	  	});
 
   	</script>

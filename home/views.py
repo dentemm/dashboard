@@ -333,6 +333,44 @@ class UpdateRequestView(View):
 
 		return HttpResponse()
 
+
+
+class UpdateRejectRequestView(UpdateView):
+
+	model = Request
+	fields = ['rejection_reason']
+	template_name = 'request/modals/rejectrequestmodal.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		self.pk = kwargs['pk']
+
+		return super(UpdateRejectRequestView, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, *args, **kwargs):
+
+		ctx = super(UpdateRejectRequestView, self).get_context_data(*args, **kwargs)
+		request = Request.objects.get(pk=self.pk)
+		ctx['request'] = request
+		ctx['post_url'] = reverse('update-reject-request', kwargs={'pk': self.pk})
+
+		return ctx
+
+	def get_form(self, form_class=None):
+
+		form = super(UpdateRejectRequestView, self).get_form(form_class)
+
+		form.instance.status = 1
+
+		return form
+
+	def post(self, request, *args, **kwargs):
+
+		self.success_url = request.META.get('HTTP_REFERER')
+
+		return super(UpdateRejectRequestView, self).post(request, *args, **kwargs)
+
+
 #
 #
 # API VIEWS

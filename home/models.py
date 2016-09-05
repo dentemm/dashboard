@@ -101,7 +101,7 @@ class Request(djangomodels.Model):
 	requisition_date = djangomodels.DateField(auto_now_add=True, null=True)
 	status = djangomodels.IntegerField(choices=REQUEST_CHOICES, default=0)
 	tool = ParentalKey('home.ToolPage', related_name='requests', null=True, blank=True)
-	rejection_reason = djangomodels.CharField(max_length=256, null=True)
+	rejection_reason = djangomodels.TextField(null=True)
 	last_update = djangomodels.DateField(auto_now=True)
 
 	class Meta:
