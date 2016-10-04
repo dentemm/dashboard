@@ -81,9 +81,9 @@
 	              				class="ex-graph"
 	              				data-chart="doughnut"
 	              				data-percentage-inner-cutout="60"
-	              				data-value="[{value: 4, color: '#9f86ff', label:'To Do'},
-	              							{value: 7, color: '#ff9017', label:'In Progress'},
-	              							{value: 8, color: '#1bc98e', label:'Done'}]"
+	              				data-value="[{value: {{ page.todo_tasks|length }}, color: '#9f86ff', label:'To Do'},
+	              							{value: {{ page.inprogress_tasks|length }}, color: '#ff9017', label:'In Progress'},
+	              							{value: {{ page.done_tasks|length }}, color: '#1bc98e', label:'Done'}]"
 	              				data-segment-stroke-color="#252830"
 	              				>
 	              			</canvas>
@@ -425,5 +425,10 @@
 		  	});
 		  })
   	</script>
+	<script type="text/javascript">
+		$(function (){
+			$('[data-toggle="popover"]').popover()
+		});
+	</script>
 
 {% endblock %}
