@@ -532,6 +532,62 @@
 			};
 		})
 	</script>
+<!-- Request rejection modal -->
+	<script type="text/javascript">
+		$(function(){
+			$('#rejection-input').on('click', function(e){
+
+				e.preventDefault();
+				console.log('going to save changes');
+
+
+ 				var todo_list = []
+ 				var inprogress_list = []
+ 				var done_list = []
+
+				$('div[data-item]').each(function(){
+
+					if($(this).attr('data-changed') == 'true' && $(this).attr('data-item') == 'task') { 
+
+						//console.log($(this).attr('data-status'));
+
+						if ($(this).attr('data-status') == 0) {
+							todo_list.push($(this).attr('data-taskid'));
+						}
+						else if ($(this).attr('data-status') == 1) {
+							inprogress_list.push($(this).attr('data-taskid'));
+						}
+						else if ($(this).attr('data-status') == 2) {
+							done_list.push($(this).attr('data-taskid'));
+						}
+					}
+				});
+
+				params = {}
+				params['todo'] = todo_list;
+				params['inprogress'] = inprogress_list;
+				params['done'] = done_list;
+
+				$.ajax({
+					url:{% url 'update-tasks-for-event' event_id=page.pk %},
+					type: "POST",
+					success: success_handler,
+					data: 
+						$.param(params)
+					,
+					error: function(xhr, ajaxOptions, thrownError) {
+						console.log(xhr.status);
+						alert(thrownError);
+					}
+				});
+				function success_handler(data) {
+					console.log('success');
+					window.location.reload();
+				};	
+			});
+		})
+	</script>
+<!-- Initialiseer Bootstrap popovers -->
 	<script type="text/javascript">
 		$(function (){
 			$('[data-toggle="popover"]').popover()

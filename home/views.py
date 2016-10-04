@@ -359,12 +359,14 @@ class UpdateRejectRequestView(UpdateView):
 	def get_form(self, form_class=None):
 
 		form = super(UpdateRejectRequestView, self).get_form(form_class)
-
 		form.instance.status = 1
 
 		return form
 
 	def post(self, request, *args, **kwargs):
+
+		print('post methode!')
+		print(self.fields)
 
 		self.success_url = request.META.get('HTTP_REFERER')
 

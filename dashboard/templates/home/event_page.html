@@ -354,16 +354,10 @@
 					}
 				});
 
-
-				console.log('todo list:' + todo_list);
-
 				params = {}
 				params['todo'] = todo_list;
 				params['inprogress'] = inprogress_list;
 				params['done'] = done_list;
-
-				console.log($.param(params));
-
 
 				$.ajax({
 					url:"{% url 'update-tasks-for-event' event_id=page.pk %}",
