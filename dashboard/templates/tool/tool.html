@@ -440,13 +440,9 @@
 
 	  		data = {'status': status}
 
-	  		var url;
+	  		var url = $(el).attr('data-reject-request-url');
 
-	  		if (status == 1) {
-	  			url = $(el).attr('data-reject-request-url');
-	  		}
-
-	  		else if (status == 3) {
+	  		if (status == 3) {
 	  			url = $(el).attr('data-plan-request-url');
 	  		}
 	  		 		
@@ -467,25 +463,6 @@
 	  			$('#updaterequestmodal').html(data);
 	  			$('#updaterequestmodal').modal();
 	  		}
-	  		//}
-
-	  		/*else {
-		  		$.ajax({
-		  			url: url,
-		  			data: data,
-		  			type: 'POST',
-		  			success: handler,
-		  			error: function(xhr, ajaxOptions, thrownError) {
-		  				console.log(xhr.status);
-		  				alert(thrownError);
-		  			}
-		  		});
-		  		function handler(data) {
-		  			console.log('success');
-		  			console.log(data);
-		  		}  			
-	  		}*/
-
 	  	});
 
   	</script>

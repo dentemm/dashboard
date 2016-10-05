@@ -457,7 +457,41 @@ class PlanRequestUpdateView(UpdateView):
 
 		return super(PlanRequestUpdateView, self).post(request, *args, **kwargs)
 
-		
+	def form_valid(self, form):
+
+		self.object = form.save()
+
+		task = Task(description=self.object.description, title=self.object.name,
+				module=self.object.tool.modules.all().filter(is_main=True).first()
+				)
+
+		task.save()
+
+		return super(PlanRequestUpdateView, self).form_valid(form)
+
+
+'''title = djangomodels.CharField(max_length=90)
+description = djangomodels.CharField(max_length=510)
+start_datetime = djangomodels.DateTimeField(blank=True, null=True)
+due_datetime = djangomodels.DateTimeField(blank=True, null=True)
+
+owner = djangomodels.ForeignKey('home.DashboardUser', blank=True, null=True, related_name='tasks')
+requisitioner = djangomodels.ForeignKey('home.DashboardUser', blank=True, null=True, related_name='requested_tasks')
+
+event = ParentalKey('home.EventPage', related_name='tasks', blank=True, null=True)
+module = djangomodels.ForeignKey('home.ToolModule', related_name='tasks', null=True, blank=True)
+
+priority = djangomodels.IntegerField(choices=TASK_PRIORITY_CHOICES, null=True, default=3)
+status = djangomodels.IntegerField(choices=TASK_STATUS_CHOICES, null=False, default=0)
+single = djangomodels.BooleanField(default=True)
+
+# Managers
+objects = djangomodels.Manager()
+loose_tasks = LooseTasksManager()'''
+
+
+	
+
 
 #
 #

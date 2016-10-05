@@ -1,5 +1,10 @@
 <div data-reject-request-url="{% url 'update-reject-request' request.pk %}" data-plan-request-url="{% url 'update-plan-request' request.pk %}" class="alert alert-{{request.bs_color}} m-a-xs" role="alert">
-	<h4 class="m-a-xs">{{ request.name }} {% if request.status == 1 %} &nbsp;&nbsp;&nbsp;&nbsp; <a data-toggle="popover" data-placement="top" data-title="Rejection Reason" data-content="{{ request.rejection_reason }}" class="info pull-right"><i class="fa fa-info-circle"></i></a><i class="pull-right">Rejected&nbsp;</i> {% elif request.status == 2 %}&nbsp;&nbsp;&nbsp;&nbsp; <a data-toggle="popover" data-placement="top" data-title="Rejection Reason" data-content="{{ request.rejection_reason }}" class="info pull-right"><i class="fa fa-info-circle"></i></a><i class="pull-right">Accepted&nbsp;</i>{% endif %}</h4>
+	<h4 class="m-a-xs">{{ request.name }} &nbsp;&nbsp;&nbsp;&nbsp; 
+		{% if request.status == 1 %} 
+			<a data-toggle="popover" data-placement="top" data-title="Rejection Reason" data-content="{{ request.rejection_reason }}" class="info pull-right"><i class="fa fa-info-circle"></i></a><i class="pull-right">Rejected&nbsp;</i> 
+		{% elif request.status == 2 %}&nbsp;&nbsp;&nbsp;&nbsp; 
+			<a data-toggle="popover" data-placement="top" data-title="Rejection Reason" data-content="{{ request.rejection_reason }}" class="info pull-right"><i class="fa fa-info-circle"></i></a><i class="pull-right">Accepted&nbsp;</i>
+		{% endif %}</h4>
 		<h5 class="m-a-xs">{{ request.description }}</h5> 
 		<hr>
     <h5><span class="icon icon-user"></span> {{ request.owner }}</h5>
