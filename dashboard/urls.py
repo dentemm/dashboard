@@ -31,7 +31,7 @@ urlpatterns = [
     # Request views
     url(r'requests/new/tool/(?P<tool_id>\d+)/$', home_views.AddRequestModalView.as_view(), name='add-request-for-tool'),
     url(r'requests/update/reject/(?P<pk>\d+)/$', home_views.UpdateRejectRequestView.as_view(), name='update-reject-request'),
-    url(r'requests/update/(?P<pk>\d+)/$', home_views.UpdateRequestView.as_view(), name='update-request'),
+    url(r'requests/update/(?P<pk>\d+)/$', home_views.RequestUpdateView.as_view(), name='update-request'),
     
 
 

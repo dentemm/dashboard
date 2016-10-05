@@ -7,7 +7,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
 from .models import Task, EventPage, ToolModule, ToolPage, Request
-from .forms import TaskForm, TaskUpdateForm, RequestForm
+from .forms import TaskForm, TaskUpdateForm, RequestForm, RequestUpdateForm
 
 
 #
@@ -314,27 +314,54 @@ class AddRequestModalView(CreateView):
 
 		return form
 
-class UpdateRequestView(View):
+class RequestUpdateView(UpdateView):
+
+	template_name = 'request/partials/update_request.html'
+	model = Request
+	form_class = RequestUpdateForm	
 
 	def _allowed_methods(self):
 
 		return ('POST', 'PUT', 'GET')
 
+	def dispatch(self, request, *args, **kwargs):
+
+		self.status = request.POST.get('status', 0)
+		self.pk = kwargs['pk']
+
+		super(RequestUpdateView, self).dispatch(request, *args, **kwargs)
+
+
 	def post(self, request, *args, **kwargs):
 
-		print('update request view!!!')
+		self.success_url = request.META.get('HTTP_REFERER')
 
-		status = request.POST.get('status', 0)
+		return super(RequestUpdateView, self).post(request, *args, **kwargs)
 
-		request_id = int(kwargs['request_id'])
-		request = Request.objects.get(pk=request_id)
+	def get_context_data(self, *args, **kwargs):
 
-		request.status = status
-		request.save()	
+		ctx = super(RequestUpdateView, self).get_context_data(*args, **kwargs)
+		request = Request.objects.get(pk=self.pk)
+		ctx['request'] = request
+		ctx['post_url'] = reverse('update-request', kwargs={'pk': self.pk})
 
-		return HttpResponse()
+		return ctx
+
+	def get_form_kwargs(self):
+
+		form_kwargs = super(RequestUpdateView, self).get_form_kwargs()
+		extra_kwargs = self.get_extra_form_kwargs_for_status(self.status)
+
+		form_kwargs.update(extra_kwargs)
+
+		return form_kwargs
 
 
+	def get_extra_form_kwargs_for_status(self, status):
+
+		data = {'extra': 'test'}
+
+		return data
 
 class UpdateRejectRequestView(UpdateView):
 

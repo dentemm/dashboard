@@ -123,6 +123,8 @@ class Request(djangomodels.Model):
 			return 'warning'
 		elif self.status == 3:
 			return 'primary'
+		else:
+			return 'primary'
 
 
 class Priority(djangomodels.Model):

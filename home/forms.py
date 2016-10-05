@@ -46,15 +46,17 @@ class RequestUpdateForm(forms.ModelForm):
 		extra_fields = kwargs.pop('extra')
 		super(RequestUpdateForm, self).__init__(*args, **kwargs)
 
-		for field in extra_fields:
-			self.fields.add[field]
+		#self.fields['status'] = 
+
+		#for field in extra_fields:
+		#	self.fields[field] = field
 
 	class Meta:
 		model = Request
 		fields = ['status', ]
 
 
-class RejectRequestUpdateFrom(forms.ModelForm):
+class RejectRequestUpdateForm(forms.ModelForm):
 
 	class Meta:
 		model = Request

@@ -400,7 +400,7 @@
 		  		$(el).attr('data-status', status);
 		  	});
 		  	drake.on('dragend', function(el, target, source, sibling) {
-		  		console.log('drag end');
+		  		//console.log('drag end');
 		  	});
 		})
   	</script>
@@ -417,7 +417,7 @@
 
 	  		url = $(el).attr('data-requesturl');
 
-	  		console.log($(target).attr('id'));
+	  		//console.log($(target).attr('id'));
 
 	  		switch($(target).attr('id')) {
 	  			case 'pending':
@@ -475,7 +475,7 @@
 		  		});
 		  		function handler(data) {
 		  			console.log('success');
-		  			//console.log(data);
+		  			console.log(data);
 		  		}  			
 	  		}
 
@@ -528,12 +528,11 @@
 					success: task_handler,
 
 					error: function(xhr, ajaxOptions, thrownError) {
-						console.log(xhr.status);
+						//console.log(xhr.status);
 						alert(thrownError);
 					}
 				});
 				function task_handler(data) {
-					console.log('success');
 					$('#taskmodal').html(data);
 				};
 			})
@@ -548,7 +547,7 @@
 				type: "GET",
 				success: task_handler,
 				error: function(xhr, ajaxOptions, thrownError) {
-					console.log(xhr.status);
+					console.log(xhr.status + 'hierzo');
 					alert(thrownError);
 				}
 			});
