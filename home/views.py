@@ -325,15 +325,22 @@ class RequestUpdateView(UpdateView):
 
 		return ('POST', 'PUT', 'GET')
 
+	def dispatch(self, request, *args, **kwargs):
+
+		self.pk = kwargs['pk']
+
+		return super(RequestUpdateView, self).dispatch(request, *args, **kwargs)
+
 	def get(self, request, *args, **kwargs):
 
 		self.status = int(request.GET.get('status', 0))
-		print(self.status)
+		print('status: %s' % self.status)
 
 		return super(RequestUpdateView, self).get(request, *args, **kwargs)
 
-	'''def post(self, request, *args, **kwargs):
+	def post(self, request, *args, **kwargs):
 
+		self.status = int(request.POST.get('status', 0))
 		self.success_url = request.META.get('HTTP_REFERER')
 
 		return super(RequestUpdateView, self).post(request, *args, **kwargs)
@@ -347,7 +354,7 @@ class RequestUpdateView(UpdateView):
 
 		return ctx
 
-	def get_form(self, form_class=None):
+	'''def get_form(self, form_class=None):
 
 		#if form.instance.status == 1:
 		#	form = super(UpdateRejectRequestView, self).get_form()
@@ -355,7 +362,7 @@ class RequestUpdateView(UpdateView):
 		form = super(RequestUpdateView, self).get_form(form_class)
 		form.instance.status = self.status
 
-		return form
+		return form'''
 
 	def get_form_kwargs(self):
 
@@ -371,7 +378,7 @@ class RequestUpdateView(UpdateView):
 
 		data = {'extra': 'test'}
 
-		return data'''
+		return data
 
 class UpdateRejectRequestView(UpdateView):
 

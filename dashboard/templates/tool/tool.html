@@ -381,6 +381,7 @@
 
 		  		var status = 0;
 
+		  		// Update status after drop event
 		  		switch($(target).attr('id')) {
 		  			case 'todo':
 		  				status = 0;
@@ -442,23 +443,23 @@
 
 	  		//if (status == 1) {
 	  		 		
-		  		$.ajax({
-		  			url: url,
-		  			data: data,
-		  			type: 'GET',
-		  			success: success_handler,
-		  			error: function(xhr, ajaxOptions, thrownError) {
-		  				console.log(xhr.status);
-		  				//alert(thrownError);
-		  			}
-		  		});
-		  		function success_handler(data) {
-		  			console.log('wat doen we nu?');
-		  			console.log(data);
+	  		$.ajax({
+	  			url: url,
+	  			data: data,
+	  			type: 'GET',
+	  			success: success_handler,
+	  			error: function(xhr, ajaxOptions, thrownError) {
+	  				console.log(xhr.status);
+	  				//alert(thrownError);
+	  			}
+	  		});
+	  		function success_handler(data) {
+	  			console.log('wat doen we nu?');
+	  			console.log(data);
 
-		  			$('#updaterequestmodal').html(data);
-		  			$('#updaterequestmodal').modal();
-		  		}
+	  			$('#updaterequestmodal').html(data);
+	  			$('#updaterequestmodal').modal();
+	  		}
 	  		//}
 
 	  		/*else {

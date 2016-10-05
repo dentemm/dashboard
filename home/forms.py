@@ -45,6 +45,7 @@ class RequestUpdateForm(forms.ModelForm):
 
 		#extra_fields = kwargs.pop('extra')
 		super(RequestUpdateForm, self).__init__(*args, **kwargs)
+		#self.fields['status'].widget = forms.HiddenInput
 
 		#self.fields['status'] = 
 
@@ -53,7 +54,7 @@ class RequestUpdateForm(forms.ModelForm):
 
 	class Meta:
 		model = Request
-		fields = ['rejection_reason', ]
+		fields = ['status', ]
 
 
 class RejectRequestUpdateForm(forms.ModelForm):

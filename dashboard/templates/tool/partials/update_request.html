@@ -13,7 +13,8 @@
           <div class="col-xs-12">
             {% csrf_token %}
             <p class="text-danger" id="form-errors"></p>
-            {% render_field form.rejection_reason class+='form-control' %}
+            {- render_field form.rejection_reason class+='form-control' -}
+            {% render_field form.status class+='form-control' %}
           </div>
         </div>
       </div>
