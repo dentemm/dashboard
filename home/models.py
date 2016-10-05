@@ -97,6 +97,7 @@ class Request(djangomodels.Model):
 	description = djangomodels.TextField()
 	owner = djangomodels.ForeignKey('home.DashboardUser', null=True, blank=True)
 	due_date = djangomodels.DateField(default=datetime.date.today)
+	planned_date = djangomodels.DateField(default=datetime.date.today)
 	importance = djangomodels.IntegerField(choices=REQUEST_PRIORITIES, default=0)
 	requisition_date = djangomodels.DateField(auto_now_add=True, null=True)
 	status = djangomodels.IntegerField(choices=REQUEST_CHOICES, default=0)

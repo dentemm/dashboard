@@ -1,7 +1,6 @@
 from django.views.generic import TemplateView, CreateView, UpdateView, View
 from django.http import HttpResponse
 from django.urls import reverse
-from django.shortcuts import render_to_response
 
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
@@ -334,14 +333,18 @@ class RequestUpdateView(UpdateView):
 	def get(self, request, *args, **kwargs):
 
 		self.status = int(request.GET.get('status', 0))
-		print('status: %s' % self.status)
+		print('get status: %s' % self.status)
 
 		return super(RequestUpdateView, self).get(request, *args, **kwargs)
 
 	def post(self, request, *args, **kwargs):
 
+		print('post')
+
 		self.status = int(request.POST.get('status', 0))
 		self.success_url = request.META.get('HTTP_REFERER')
+
+		print('post status: %s' % self.status)
 
 		return super(RequestUpdateView, self).post(request, *args, **kwargs)
 
@@ -354,15 +357,21 @@ class RequestUpdateView(UpdateView):
 
 		return ctx
 
-	'''def get_form(self, form_class=None):
+	def get_form(self, form_class=None):
+
+		form = super(RequestUpdateView, self).get_form(form_class)
+
+		form.instance.status = self.status
 
 		#if form.instance.status == 1:
 		#	form = super(UpdateRejectRequestView, self).get_form()
 
-		form = super(RequestUpdateView, self).get_form(form_class)
-		form.instance.status = self.status
+		#print('get form status: %s' % self.status)
 
-		return form'''
+		return form
+
+
+		#return self.form_class(initial={'status':self.status})
 
 	def get_form_kwargs(self):
 
@@ -380,7 +389,7 @@ class RequestUpdateView(UpdateView):
 
 		return data
 
-class UpdateRejectRequestView(UpdateView):
+class RejectRequestUpdateView(UpdateView):
 
 	model = Request
 	fields = ['rejection_reason', ]
@@ -390,11 +399,11 @@ class UpdateRejectRequestView(UpdateView):
 
 		self.pk = kwargs['pk']
 
-		return super(UpdateRejectRequestView, self).dispatch(*args, **kwargs)
+		return super(RejectRequestUpdateView, self).dispatch(*args, **kwargs)
 
 	def get_context_data(self, *args, **kwargs):
 
-		ctx = super(UpdateRejectRequestView, self).get_context_data(*args, **kwargs)
+		ctx = super(RejectRequestUpdateView, self).get_context_data(*args, **kwargs)
 		request = Request.objects.get(pk=self.pk)
 		ctx['request'] = request
 		ctx['post_url'] = reverse('update-reject-request', kwargs={'pk': self.pk})
@@ -403,36 +412,52 @@ class UpdateRejectRequestView(UpdateView):
 
 	def get_form(self, form_class=None):
 
-		#if form.instance.status == 1:
-		#	form = super(UpdateRejectRequestView, self).get_form()
-
-		form = super(UpdateRejectRequestView, self).get_form(form_class)
-		form.instance.status = 1
+		form = super(RejectRequestUpdateView, self).get_form(form_class)
+		form.instance.status = 1	#REJECT!
 
 		return form
 
 	def post(self, request, *args, **kwargs):
 
-		'''print('post methode!')
-		print(request.POST)
-		form = self.get_form()
-		print(form)
+		self.success_url = request.META.get('HTTP_REFERER')
 
-		if not form.is_valid():
-			form.instance.rejection_reason = 'noreason'
-			form.instance.status = request.POST.get('status', 2)
+		return super(RejectRequestUpdateView, self).post(request, *args, **kwargs)
 
-		form.is_valid()
+class PlanRequestUpdateView(UpdateView):
 
-		print('valid? %s' % form.is_valid())
-		print(form.errors)
+	model = RequestForm
+	fields = ['planned_date',]
+	template_name = 'request/partials/update_request.html'
 
-		form.save()'''
+	def dispatch(self, *args, **kwargs):
+
+		self.pk = kwargs['pk']
+
+		return super(PlanRequestUpdateView, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, *args, **kwargs):
+
+		ctx = super(PlanRequestUpdateView, self).get_context_data(*args, **kwargs)
+		request = Request.objects.get(pk=self.pk)
+		ctx['request'] = request
+		ctx['post_url'] = reverse('update-plan-request', kwargs={'pk': self.pk})
+
+		return ctx
+
+	def get_form(self, form_class=None):
+
+		form = super(PlanRequestUpdateView, self).get_form(form_class)
+		form.instance.status = 3	#PLAN!
+
+		return form
+
+	def post(self, request, *args, **kwargs):
 
 		self.success_url = request.META.get('HTTP_REFERER')
 
-		return super(UpdateRejectRequestView, self).post(request, *args, **kwargs)
+		return super(PlanRequestUpdateView, self).post(request, *args, **kwargs)
 
+		
 
 #
 #

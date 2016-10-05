@@ -416,7 +416,6 @@
 	  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
 	  	drake.on('drop', function(el, target, source, sibling) {
 	  		$('.equal-height').matchHeight();
-	  		url = $(el).attr('data-requesturl');
 
 	  		switch($(target).attr('id')) {
 	  			case 'pending':
@@ -441,7 +440,15 @@
 
 	  		data = {'status': status}
 
-	  		//if (status == 1) {
+	  		var url;
+
+	  		if (status == 1) {
+	  			url = $(el).attr('data-reject-request-url');
+	  		}
+
+	  		else if (status == 3) {
+	  			url = $(el).attr('data-plan-request-url');
+	  		}
 	  		 		
 	  		$.ajax({
 	  			url: url,

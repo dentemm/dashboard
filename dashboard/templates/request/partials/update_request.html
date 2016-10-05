@@ -12,15 +12,19 @@
         <div class="row">
           <div class="col-xs-12">
             {% csrf_token %}
-            <p class="text-danger" id="form-errors"></p>
-            {- render_field form.rejection_reason class+='form-control' -}
+            <p class="text-danger" id="form-errors">
+              {{ form.errors }}
+            </p>
+            {% if form.rejection_reason %}
+              {% render_field form.rejection_reason class+='form-control' %}
+            {% endif %}
             {% render_field form.status class+='form-control' %}
           </div>
         </div>
       </div>
       <div class="modal-actions">
         <button type="button" class="btn-link modal-action" data-dismiss="modal">Cancel</button>
-        <input id="rejection-input" type="submit" class="btn-link modal-action submitbutton" value="Submit">
+        <input type="submit" class="btn-link modal-action submitbutton" value="Submit">
       </div>
     </div>
   </form>

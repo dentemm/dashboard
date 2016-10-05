@@ -43,9 +43,10 @@ class RequestUpdateForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 
-		#extra_fields = kwargs.pop('extra')
+		##extra_fields = kwargs.pop('extra')
 		super(RequestUpdateForm, self).__init__(*args, **kwargs)
-		#self.fields['status'].widget = forms.HiddenInput
+		self.fields['status'].widget = forms.HiddenInput()
+
 
 		#self.fields['status'] = 
 
