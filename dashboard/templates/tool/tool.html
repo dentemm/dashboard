@@ -226,6 +226,7 @@
   	<div id="calendareventmodal" class="modal fade"></div>
   	<div id="taskmodal" class="modal fade"></div>
   	<div id="requestmodal" class="modal fade"></div>
+  	<div id="updaterequestmodal" class="modal fade"></div>
   	<div id="rejectedrequestmodal" class="modal fade"></div>
 {% endblock %}
 
@@ -414,10 +415,7 @@
 	  	// Use jQuery matchHeight om kolommen van dezelfde hoogte te verzekeren na elk drop event
 	  	drake.on('drop', function(el, target, source, sibling) {
 	  		$('.equal-height').matchHeight();
-
 	  		url = $(el).attr('data-requesturl');
-
-	  		//console.log($(target).attr('id'));
 
 	  		switch($(target).attr('id')) {
 	  			case 'pending':
@@ -442,7 +440,7 @@
 
 	  		data = {'status': status}
 
-	  		if (status == 1) {
+	  		//if (status == 1) {
 	  		 		
 		  		$.ajax({
 		  			url: url,
@@ -451,18 +449,19 @@
 		  			success: success_handler,
 		  			error: function(xhr, ajaxOptions, thrownError) {
 		  				console.log(xhr.status);
-		  				alert(thrownError);
+		  				//alert(thrownError);
 		  			}
 		  		});
 		  		function success_handler(data) {
-		  			//console.log(data);
+		  			console.log('wat doen we nu?');
+		  			console.log(data);
 
-		  			$('#rejectedrequestmodal').html(data);
-		  			$('#rejectedrequestmodal').modal();
+		  			$('#updaterequestmodal').html(data);
+		  			$('#updaterequestmodal').modal();
 		  		}
-	  		}
+	  		//}
 
-	  		else {
+	  		/*else {
 		  		$.ajax({
 		  			url: url,
 		  			data: data,
@@ -477,7 +476,7 @@
 		  			console.log('success');
 		  			console.log(data);
 		  		}  			
-	  		}
+	  		}*/
 
 	  	});
 

@@ -43,7 +43,7 @@ class RequestUpdateForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 
-		extra_fields = kwargs.pop('extra')
+		#extra_fields = kwargs.pop('extra')
 		super(RequestUpdateForm, self).__init__(*args, **kwargs)
 
 		#self.fields['status'] = 
@@ -53,7 +53,7 @@ class RequestUpdateForm(forms.ModelForm):
 
 	class Meta:
 		model = Request
-		fields = ['status', ]
+		fields = ['rejection_reason', ]
 
 
 class RejectRequestUpdateForm(forms.ModelForm):

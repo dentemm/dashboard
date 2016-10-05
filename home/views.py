@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView, CreateView, UpdateView, View
 from django.http import HttpResponse
 from django.urls import reverse
+from django.shortcuts import render_to_response
 
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
@@ -324,15 +325,14 @@ class RequestUpdateView(UpdateView):
 
 		return ('POST', 'PUT', 'GET')
 
-	def dispatch(self, request, *args, **kwargs):
+	def get(self, request, *args, **kwargs):
 
-		self.status = request.POST.get('status', 0)
-		self.pk = kwargs['pk']
+		self.status = int(request.GET.get('status', 0))
+		print(self.status)
 
-		super(RequestUpdateView, self).dispatch(request, *args, **kwargs)
+		return super(RequestUpdateView, self).get(request, *args, **kwargs)
 
-
-	def post(self, request, *args, **kwargs):
+	'''def post(self, request, *args, **kwargs):
 
 		self.success_url = request.META.get('HTTP_REFERER')
 
@@ -347,12 +347,22 @@ class RequestUpdateView(UpdateView):
 
 		return ctx
 
+	def get_form(self, form_class=None):
+
+		#if form.instance.status == 1:
+		#	form = super(UpdateRejectRequestView, self).get_form()
+
+		form = super(RequestUpdateView, self).get_form(form_class)
+		form.instance.status = self.status
+
+		return form
+
 	def get_form_kwargs(self):
 
 		form_kwargs = super(RequestUpdateView, self).get_form_kwargs()
-		extra_kwargs = self.get_extra_form_kwargs_for_status(self.status)
+		#extra_kwargs = self.get_extra_form_kwargs_for_status(self.status)
 
-		form_kwargs.update(extra_kwargs)
+		#form_kwargs.update(extra_kwargs)
 
 		return form_kwargs
 
@@ -361,12 +371,12 @@ class RequestUpdateView(UpdateView):
 
 		data = {'extra': 'test'}
 
-		return data
+		return data'''
 
 class UpdateRejectRequestView(UpdateView):
 
 	model = Request
-	fields = ['rejection_reason']
+	fields = ['rejection_reason', ]
 	template_name = 'request/modals/rejectrequestmodal.html'
 
 	def dispatch(self, *args, **kwargs):
