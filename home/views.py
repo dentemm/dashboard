@@ -7,7 +7,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
 from .models import Task, EventPage, ToolModule, ToolPage, Request
-from .forms import TaskForm, TaskUpdateForm, RequestForm, RequestUpdateForm
+from .forms import TaskForm, TaskUpdateForm, RequestForm, RequestUpdateForm, PlanRequestUpdateForm
 
 
 #
@@ -425,8 +425,8 @@ class RejectRequestUpdateView(UpdateView):
 
 class PlanRequestUpdateView(UpdateView):
 
-	model = RequestForm
-	fields = ['planned_date',]
+	model = Request
+	form_class = PlanRequestUpdateForm
 	template_name = 'request/partials/update_request.html'
 
 	def dispatch(self, *args, **kwargs):

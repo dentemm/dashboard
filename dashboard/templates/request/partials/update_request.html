@@ -17,8 +17,11 @@
             </p>
             {% if form.rejection_reason %}
               {% render_field form.rejection_reason class+='form-control' %}
+            {% elif form.planned_date %}
+              {% render_field form.planned_date class+='form-control' %}
+            {% else %}
+              nothing to render!
             {% endif %}
-            {% render_field form.status class+='form-control' %}
           </div>
         </div>
       </div>

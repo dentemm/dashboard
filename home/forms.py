@@ -57,6 +57,15 @@ class RequestUpdateForm(forms.ModelForm):
 		model = Request
 		fields = ['status', ]
 
+class PlanRequestUpdateForm(forms.ModelForm):
+
+	def __init__(self, *args, **kwargs):
+		super(PlanRequestUpdateForm, self).__init__(*args, **kwargs)
+		self.fields['planned_date'].widget = CustomDateInput()
+
+	class Meta:
+		model = Request
+		fields = ['planned_date']
 
 class RejectRequestUpdateForm(forms.ModelForm):
 
