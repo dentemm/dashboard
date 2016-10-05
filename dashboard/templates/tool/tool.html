@@ -224,6 +224,7 @@
 
 {% block modals %}
   	<div id="calendareventmodal" class="modal fade"></div>
+  	<div id="taskmodal" class="modal fade"></div>
   	<div id="requestmodal" class="modal fade"></div>
   	<div id="rejectedrequestmodal" class="modal fade"></div>
 {% endblock %}
@@ -454,8 +455,7 @@
 		  			}
 		  		});
 		  		function success_handler(data) {
-		  			console.log('success reject');
-		  			console.log(data);
+		  			//console.log(data);
 
 		  			$('#rejectedrequestmodal').html(data);
 		  			$('#rejectedrequestmodal').modal();
@@ -475,7 +475,7 @@
 		  		});
 		  		function handler(data) {
 		  			console.log('success');
-		  			console.log(data);
+		  			//console.log(data);
 		  		}  			
 	  		}
 
@@ -513,6 +513,32 @@
 			})
 		})
 	</script>
+<!-- Add task modal -->
+	<script type="text/javascript">
+		$(function() {
+			$('#taskmodal').on('show.bs.modal', function(e){
+
+				var id = $(e.relatedTarget).data("eventid");
+
+				console.log(id);
+
+				$.ajax({
+					url: "{% url 'add-task-for-tool' tool_id=page.pk %}",
+					type: "GET",
+					success: task_handler,
+
+					error: function(xhr, ajaxOptions, thrownError) {
+						console.log(xhr.status);
+						alert(thrownError);
+					}
+				});
+				function task_handler(data) {
+					console.log('success');
+					$('#taskmodal').html(data);
+				};
+			})
+		})
+	</script>
 <!-- Add request modal -->
 	<script type="text/javascript">
 		$('#requestmodal').on('show.bs.modal', function(e){
@@ -532,61 +558,7 @@
 			};
 		})
 	</script>
-<!-- Request rejection modal -->
-	<script type="text/javascript">
-		$(function(){
-			$('#rejection-input').on('click', function(e){
 
-				e.preventDefault();
-				console.log('going to save changes');
-
-
- 				var todo_list = []
- 				var inprogress_list = []
- 				var done_list = []
-
-				$('div[data-item]').each(function(){
-
-					if($(this).attr('data-changed') == 'true' && $(this).attr('data-item') == 'task') { 
-
-						//console.log($(this).attr('data-status'));
-
-						if ($(this).attr('data-status') == 0) {
-							todo_list.push($(this).attr('data-taskid'));
-						}
-						else if ($(this).attr('data-status') == 1) {
-							inprogress_list.push($(this).attr('data-taskid'));
-						}
-						else if ($(this).attr('data-status') == 2) {
-							done_list.push($(this).attr('data-taskid'));
-						}
-					}
-				});
-
-				params = {}
-				params['todo'] = todo_list;
-				params['inprogress'] = inprogress_list;
-				params['done'] = done_list;
-
-				$.ajax({
-					url:{% url 'update-tasks-for-event' event_id=page.pk %},
-					type: "POST",
-					success: success_handler,
-					data: 
-						$.param(params)
-					,
-					error: function(xhr, ajaxOptions, thrownError) {
-						console.log(xhr.status);
-						alert(thrownError);
-					}
-				});
-				function success_handler(data) {
-					console.log('success');
-					window.location.reload();
-				};	
-			});
-		})
-	</script>
 <!-- Initialiseer Bootstrap popovers -->
 	<script type="text/javascript">
 		$(function (){

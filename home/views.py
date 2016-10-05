@@ -320,8 +320,9 @@ class UpdateRequestView(View):
 
 		return ('POST', 'PUT', 'GET')
 
-
 	def post(self, request, *args, **kwargs):
+
+		print('update request view!!!')
 
 		status = request.POST.get('status', 0)
 
@@ -358,6 +359,9 @@ class UpdateRejectRequestView(UpdateView):
 
 	def get_form(self, form_class=None):
 
+		#if form.instance.status == 1:
+		#	form = super(UpdateRejectRequestView, self).get_form()
+
 		form = super(UpdateRejectRequestView, self).get_form(form_class)
 		form.instance.status = 1
 
@@ -365,8 +369,21 @@ class UpdateRejectRequestView(UpdateView):
 
 	def post(self, request, *args, **kwargs):
 
-		print('post methode!')
-		print(self.fields)
+		'''print('post methode!')
+		print(request.POST)
+		form = self.get_form()
+		print(form)
+
+		if not form.is_valid():
+			form.instance.rejection_reason = 'noreason'
+			form.instance.status = request.POST.get('status', 2)
+
+		form.is_valid()
+
+		print('valid? %s' % form.is_valid())
+		print(form.errors)
+
+		form.save()'''
 
 		self.success_url = request.META.get('HTTP_REFERER')
 

@@ -35,3 +35,33 @@ class RequestForm(forms.ModelForm):
 	class Meta:
 		model = Request
 		fields = ['name', 'description', 'owner', 'due_date', 'importance']
+
+class RequestUpdateForm(forms.ModelForm):
+	'''
+	Test om request forms te refactoren
+	'''
+
+	def __init__(self, *args, **kwargs):
+
+		extra_fields = kwargs.pop('extra')
+		super(RequestUpdateForm, self).__init__(*args, **kwargs)
+
+		for field in extra_fields:
+			self.fields.add[field]
+
+	class Meta:
+		model = Request
+		fields = ['status', ]
+
+
+class RejectRequestUpdateFrom(forms.ModelForm):
+
+	class Meta:
+		model = Request
+		fields = ['rejection_reason', ]
+
+class RejectAcceptUpdateForm(forms.ModelForm):
+
+	class Meta:
+		model = Request
+		fields = ['status', ]
