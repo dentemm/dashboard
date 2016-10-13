@@ -57,6 +57,18 @@ class RequestUpdateForm(forms.ModelForm):
 		model = Request
 		fields = ['status', ]
 
+class RejectRequestUpdateForm(forms.ModelForm):
+
+	class Meta:
+		model = Request
+		fields = ['rejection_reason', ]
+
+class AcceptRequestUpdateForm(forms.ModelForm):
+
+	class Meta:
+		model = Request
+		fields = ['task_owner', ]
+
 class PlanRequestUpdateForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
@@ -67,11 +79,7 @@ class PlanRequestUpdateForm(forms.ModelForm):
 		model = Request
 		fields = ['planned_date', 'task_owner']
 
-class RejectRequestUpdateForm(forms.ModelForm):
 
-	class Meta:
-		model = Request
-		fields = ['rejection_reason', ]
 
 class RejectAcceptUpdateForm(forms.ModelForm):
 

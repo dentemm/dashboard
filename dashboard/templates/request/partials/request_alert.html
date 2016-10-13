@@ -1,4 +1,4 @@
-<div data-reject-request-url="{% url 'update-reject-request' request.pk %}" data-plan-request-url="{% url 'update-plan-request' request.pk %}" class="alert alert-{{request.bs_color}} m-a-xs" role="alert">
+<div data-reject-request-url="{% url 'update-reject-request' request.pk %}" data-plan-request-url="{% url 'update-plan-request' request.pk %}" data-accept-request-url="{% url 'update-accept-request' request.pk %}" class="alert alert-{{request.bs_color}} m-a-xs" role="alert">
 	<h4 class="m-a-xs">{{ request.name }} &nbsp;&nbsp;&nbsp;&nbsp; 
 		{% if request.status == 1 %} 
 			<a data-toggle="popover" data-placement="top" data-title="Rejection Reason" data-content="{{ request.rejection_reason }}" class="info pull-right"><i class="fa fa-info-circle"></i></a><i class="pull-right">Rejected&nbsp;</i> 

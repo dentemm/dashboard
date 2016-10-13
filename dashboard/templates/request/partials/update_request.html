@@ -27,7 +27,7 @@
               {% render_field form.planned_date class+='form-control m-b' %}
               {% render_field form.task_owner class+='form-control' %}
             {% else %}
-              nothing to render!
+              {% render_field form.task_owner class+='form-control' %}
             {% endif %}
           </div>
         </div>

@@ -445,6 +445,10 @@
 	  		if (status == 3) {
 	  			url = $(el).attr('data-plan-request-url');
 	  		}
+
+	  		if (status == 2) {
+	  			url = $(el).attr('data-accept-request-url');
+	  		}
 	  		 		
 	  		$.ajax({
 	  			url: url,

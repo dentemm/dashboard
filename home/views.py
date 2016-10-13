@@ -9,7 +9,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
 from .models import Task, EventPage, ToolModule, ToolPage, Request
-from .forms import TaskForm, TaskUpdateForm, RequestForm, RequestUpdateForm, PlanRequestUpdateForm
+from .forms import TaskForm, TaskUpdateForm, RequestForm, RequestUpdateForm, PlanRequestUpdateForm, AcceptRequestUpdateForm
 
 
 
@@ -366,22 +366,11 @@ class RequestUpdateView(UpdateView):
 
 		form.instance.status = self.status
 
-		#if form.instance.status == 1:
-		#	form = super(UpdateRejectRequestView, self).get_form()
-
-		#print('get form status: %s' % self.status)
-
 		return form
-
-
-		#return self.form_class(initial={'status':self.status})
 
 	def get_form_kwargs(self):
 
 		form_kwargs = super(RequestUpdateView, self).get_form_kwargs()
-		#extra_kwargs = self.get_extra_form_kwargs_for_status(self.status)
-
-		#form_kwargs.update(extra_kwargs)
 
 		return form_kwargs
 
@@ -426,6 +415,38 @@ class RejectRequestUpdateView(UpdateView):
 
 		return super(RejectRequestUpdateView, self).post(request, *args, **kwargs)
 
+class AcceptRequestUpdateView(UpdateView):
+
+	model = Request
+	form_class = AcceptRequestUpdateForm
+	template_name = 'request/partials/update_request.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		self.pk = kwargs['pk']
+		return super(AcceptRequestUpdateView, self).dispatch(*args, **kwargs)
+
+	def post(self, request, *args, **kwargs):
+
+		self.success_url = request.META.get('HTTP_REFERER')
+
+		return super(AcceptRequestUpdateView, self).post(request, *args, **kwargs)
+
+	def get_context_date(self, *args, **kwargs):
+
+		ctx = super(AcceptRequestUpdateView, self).get_context_data(*args, **kwargs)
+		request = Request.objects.get(pk=self.pk)
+		ctx['request'] = request
+		ctx['post_url'] = reverse('update-accept-request', kwargs={'pk': self.pk})
+
+		return ctx
+
+	def get_form(self, form_class=None):
+		form = super(AcceptRequestUpdateView, self).get_form(form_class)
+		form.instance.status = 2
+
+		return form
+
 class PlanRequestUpdateView(UpdateView):
 
 	model = Request
@@ -464,46 +485,20 @@ class PlanRequestUpdateView(UpdateView):
 
 		self.object = form.save()
 
-		due_datetime = self.object.planned_date + timedelta(hours=6)
-
 		#print('due datetime: %s' % due_datetime.time)
 
-
-		due_datetime = datetime.combine(self.object.planned_date, time(6))	
-
-		print('due datetime: %s' % due_datetime.time)
+		start_datetime = datetime.combine(self.object.planned_date, time(6))
+		due_datetime = datetime.combine(self.object.planned_date, time(22))	
 
 		
 		task = Task(description=self.object.description, title=self.object.name,
 				module=self.object.tool.modules.all().filter(is_main=True).first(), owner=self.object.task_owner, 
-				start_datetime=self.object.planned_date, due_datetime=due_datetime
+				start_datetime=start_datetime, due_datetime=due_datetime
 				)
 
 		task.save()
 
 		return super(PlanRequestUpdateView, self).form_valid(form)
-
-
-'''title = djangomodels.CharField(max_length=90)
-description = djangomodels.CharField(max_length=510)
-start_datetime = djangomodels.DateTimeField(blank=True, null=True)
-due_datetime = djangomodels.DateTimeField(blank=True, null=True)
-
-owner = djangomodels.ForeignKey('home.DashboardUser', blank=True, null=True, related_name='tasks')
-requisitioner = djangomodels.ForeignKey('home.DashboardUser', blank=True, null=True, related_name='requested_tasks')
-
-event = ParentalKey('home.EventPage', related_name='tasks', blank=True, null=True)
-module = djangomodels.ForeignKey('home.ToolModule', related_name='tasks', null=True, blank=True)
-
-priority = djangomodels.IntegerField(choices=TASK_PRIORITY_CHOICES, null=True, default=3)
-status = djangomodels.IntegerField(choices=TASK_STATUS_CHOICES, null=False, default=0)
-single = djangomodels.BooleanField(default=True)
-
-# Managers
-objects = djangomodels.Manager()
-loose_tasks = LooseTasksManager()'''
-
-
 	
 
 
