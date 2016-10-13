@@ -300,6 +300,36 @@ class AddEventModalView(CreateView):
 		form.instance.module = ToolModule.objects.get(tool=tool, is_main=True)
 		form.instance.depth = 4
 
+		highest = 0
+		digits = 0
+
+		for event in EventPage.objects.all():
+
+			path_last_part = event.path[-4:]
+
+			if(int(path_last_part) > highest):
+				highest = int(path_last_part)
+
+		highest = highest + 1
+
+		digits = len(str(highest))
+
+		if digits == 1:
+			last_part = '000%s' % highest
+
+		elif digits == 2:
+			last_part = '00%s' % highest
+
+		elif digits == 3:
+			last_part = '0%s' % highest
+
+		else:
+			last_part = '%s' % highest
+
+		path = '000100010001%s' % last_part
+
+		form.instance.path = path
+
 		return form
 
 	def get_context_data(self, **kwargs):
