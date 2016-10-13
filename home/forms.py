@@ -1,7 +1,7 @@
 from django import forms
 
 from .widgets import CustomDateTimeInput, CustomDateInput
-from .models import Task, Request
+from .models import Task, Request, EventPage
 
 class TaskForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
@@ -25,6 +25,13 @@ class TaskUpdateForm(forms.ModelForm):
 		model = Task
 		fields = ['owner', 'priority', 'start_datetime', 'due_datetime', 'status' ]
 
+class EventForm(forms.ModelForm):
+
+	class Meta:
+		model = EventPage
+		fields = ['name', 'description', 'responsible', 'module']
+
+
 class RequestForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
@@ -47,11 +54,6 @@ class RequestUpdateForm(forms.ModelForm):
 		super(RequestUpdateForm, self).__init__(*args, **kwargs)
 		self.fields['status'].widget = forms.HiddenInput()
 
-
-		#self.fields['status'] = 
-
-		#for field in extra_fields:
-		#	self.fields[field] = field
 
 	class Meta:
 		model = Request

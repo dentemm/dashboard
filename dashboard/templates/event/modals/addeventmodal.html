@@ -1,0 +1,39 @@
+{% load widget_tweaks %}
+
+<div class="modal-dialog">
+  <div class="modal-content">
+    <form action="{{ post_url }}" method="post">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title">New Task</h3>
+        <h6 class="m-y-0">{{ tool }}</h6>
+        {{ form.errors }}
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-xs-12">
+              {% csrf_token %}
+            <div class="row">
+              <div class="col-xs-6">
+                <b>Event name:</b>
+                {% render_field form.name class+='form-control m-b-sm' placeholder='Enter event name here' %}
+              </div> 
+              <div class="col-xs-12">
+                <b>Task description:</b>
+                {% render_field form.description class+='form-control m-b-sm' placeholder='Enter task description here' %}
+              </div>
+              <div class="col-xs-5">
+                <b>Owner:</b>
+                {% render_field form.responsible class+='form-control m-b-sm' %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-link modal-action" data-dismiss="modal">Cancel</button>
+        <input type="submit" class="btn-link modal-action submitbutton">
+      </div>
+    </form>
+  </div>
+</div>

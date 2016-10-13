@@ -34,6 +34,9 @@ urlpatterns = [
     url(r'requests/update/plan/(?P<pk>\d+)/$', home_views.PlanRequestUpdateView.as_view(), name='update-plan-request'),
     url(r'requests/updat/accapt/(?P<pk>\d+)/$', home_views.AcceptRequestUpdateView.as_view(), name='update-accept-request'),
     url(r'requests/update/(?P<pk>\d+)/$', home_views.RequestUpdateView.as_view(), name='update-request'),
+
+    # Event views
+    url(r'events/new/tool/(?P<tool_id>\d+)/$', home_views.AddEventModalView.as_view(), name='add-event-for-tool'),
     
 
 

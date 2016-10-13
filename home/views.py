@@ -10,7 +10,7 @@ from rest_framework.response import Response
 
 from .models import Task, EventPage, ToolModule, ToolPage, Request
 from .forms import TaskForm, TaskUpdateForm, RequestForm, RequestUpdateForm, PlanRequestUpdateForm, AcceptRequestUpdateForm
-
+from .forms import EventForm
 
 
 #
@@ -149,9 +149,6 @@ class AddTaskModalView(CreateView):
 			ctx['tool'] = ToolPage.objects.get(id=tool_id)
 			ctx['post_url'] = reverse('add-task-for-tool', kwargs={'tool_id': tool_id})
 
-		
-		#print(' ----- url: %s' % ctx['post_url']) 
-
 		return ctx
 
 class CalendarEventModalViewEvent(TemplateView):
@@ -267,6 +264,56 @@ class UpdateTasksForToolView(View):
 			task = Task.objects.get(pk=item)
 			task.status = status
 			task.save()
+
+#
+#
+# EVENT VIEWS
+#
+#
+class AddEventModalView(CreateView):
+
+	template_name = 'event/modals/addeventmodal.html'
+	model = EventPage
+	form_class = EventForm
+
+	tool_id = None
+	
+	def dispatch(self, request, *args, **kwargs):
+
+		# Kijk na of de kwargs een event_id of tool_id bevatten
+		tool_id = kwargs.get('tool_id', 'empty')
+
+		if tool_id != 'empty':
+			self.tool_id = int(tool_id)
+
+		return super(AddEventModalView, self).dispatch(request, *args, **kwargs)
+
+	def post(self, request, *args, **kwargs):
+
+		self.success_url = request.META.get('HTTP_REFERER')
+		return super(AddEventModalView, self).post(request, *args, **kwargs)
+
+	def get_form(self, form_class=None):
+
+		form = super(AddEventModalView, self).get_form(form_class)
+		tool = ToolPage.objects.get(id=self.tool_id)
+		form.instance.module = ToolModule.objects.get(tool=tool, is_main=True)
+		form.instance.depth = 4
+
+		return form
+
+	def get_context_data(self, **kwargs):
+
+		ctx = super(AddEventModalView, self).get_context_data(**kwargs)
+
+		tool_id = self.kwargs.get('tool_id', 'empty')
+
+
+		if tool_id != 'empty':
+			ctx['tool'] = ToolPage.objects.get(id=tool_id)
+			ctx['post_url'] = reverse('add-event-for-tool', kwargs={'tool_id': tool_id})
+
+		return ctx
 
 #
 #

@@ -130,7 +130,7 @@
 			            	<a href="#" data-toggle="modal" data-target="#taskmodal" data-tool="{{page.pk}}">Task</a>
 			            </li>
 			            <li>
-			            	<a href="#">Event</a>
+			            	<a href="#" data-toggle="modal" data-target="#eventmodal" data-tool="{{page.pk}}">Event</a>
 			            </li>
 		            </ul>
           		</div>
@@ -225,6 +225,7 @@
 {% block modals %}
   	<div id="calendareventmodal" class="modal fade"></div>
   	<div id="taskmodal" class="modal fade"></div>
+  	<div id="eventmodal" class="modal fade"></div>
   	<div id="requestmodal" class="modal fade"></div>
   	<div id="updaterequestmodal" class="modal fade"></div>
   	<div id="rejectedrequestmodal" class="modal fade"></div>
@@ -522,6 +523,31 @@
 				});
 				function task_handler(data) {
 					$('#taskmodal').html(data);
+				};
+			})
+		})
+	</script>
+<!-- Add event modal -->
+	<script type="text/javascript">
+		$(function() {
+			$('#eventmodal').on('show.bs.modal', function(e){
+
+				var id = $(e.relatedTarget).data("tool");
+
+				console.log(id);
+
+				$.ajax({
+					url: "{% url 'add-event-for-tool' tool_id=page.pk %}",
+					type: "GET",
+					success: task_handler,
+
+					error: function(xhr, ajaxOptions, thrownError) {
+						//console.log(xhr.status);
+						alert(thrownError);
+					}
+				});
+				function task_handler(data) {
+					$('#eventmodal').html(data);
 				};
 			})
 		})
