@@ -5,7 +5,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title">Rejection Reason</h3>{{ form.errors }}
+        <h3 class="modal-title">
+          {% if form.rejection_reason %}
+          Rejection Reason
+          {% elif form.planned_date %}
+          Task Planning
+          {% endif %}
+        </h3>{{ form.errors }}
         <h6 class="m-y-0">{{ request }}</h6>
       </div>
       <div class="modal-body">
@@ -18,7 +24,8 @@
             {% if form.rejection_reason %}
               {% render_field form.rejection_reason class+='form-control' %}
             {% elif form.planned_date %}
-              {% render_field form.planned_date class+='form-control' %}
+              {% render_field form.planned_date class+='form-control m-b' %}
+              {% render_field form.task_owner class+='form-control' %}
             {% else %}
               nothing to render!
             {% endif %}

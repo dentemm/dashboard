@@ -96,6 +96,7 @@ class Request(djangomodels.Model):
 	name = djangomodels.CharField(max_length=127)
 	description = djangomodels.TextField()
 	owner = djangomodels.ForeignKey('home.DashboardUser', null=True, blank=True)
+	task_owner = djangomodels.ForeignKey('home.DashboardUser', null=True, blank=True, related_name='+')
 	due_date = djangomodels.DateField(default=datetime.date.today)
 	planned_date = djangomodels.DateField(default=datetime.date.today)
 	importance = djangomodels.IntegerField(choices=REQUEST_PRIORITIES, default=0)

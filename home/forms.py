@@ -65,7 +65,7 @@ class PlanRequestUpdateForm(forms.ModelForm):
 
 	class Meta:
 		model = Request
-		fields = ['planned_date']
+		fields = ['planned_date', 'task_owner']
 
 class RejectRequestUpdateForm(forms.ModelForm):
 

@@ -1,3 +1,5 @@
+from datetime import timedelta, datetime, time
+
 from django.views.generic import TemplateView, CreateView, UpdateView, View
 from django.http import HttpResponse
 from django.urls import reverse
@@ -8,6 +10,7 @@ from rest_framework.response import Response
 
 from .models import Task, EventPage, ToolModule, ToolPage, Request
 from .forms import TaskForm, TaskUpdateForm, RequestForm, RequestUpdateForm, PlanRequestUpdateForm
+
 
 
 #
@@ -461,8 +464,19 @@ class PlanRequestUpdateView(UpdateView):
 
 		self.object = form.save()
 
+		due_datetime = self.object.planned_date + timedelta(hours=6)
+
+		#print('due datetime: %s' % due_datetime.time)
+
+
+		due_datetime = datetime.combine(self.object.planned_date, time(6))	
+
+		print('due datetime: %s' % due_datetime.time)
+
+		
 		task = Task(description=self.object.description, title=self.object.name,
-				module=self.object.tool.modules.all().filter(is_main=True).first()
+				module=self.object.tool.modules.all().filter(is_main=True).first(), owner=self.object.task_owner, 
+				start_datetime=self.object.planned_date, due_datetime=due_datetime
 				)
 
 		task.save()
